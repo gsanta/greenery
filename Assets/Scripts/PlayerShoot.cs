@@ -22,7 +22,7 @@ public class PlayerShoot : MonoBehaviour
     {
         var vectorDir = DirectionHelper.DirToVectorDir(player.moveDirection);
         var pos = transform.position;
-        Transform bulletTransform = Instantiate(bulletPrefab, (Vector2) pos + vectorDir * 3, Quaternion.identity);
+        Transform bulletTransform = Instantiate(bulletPrefab, (Vector2) pos, Quaternion.identity);
         bulletTransform.GetComponent<Bullet>().Setup(vectorDir);
     }
 }

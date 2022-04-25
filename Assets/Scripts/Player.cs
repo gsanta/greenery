@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     public Vector3 bottomLeftEdge;
     public Vector3 topRightEdge;
     public float rotation;
-    public Direction moveDirection = Direction.None;
+    public Direction moveDirection = Direction.Down;
 
     private Vector3 movement;
     private Rigidbody2D rigidBody;
@@ -61,12 +61,6 @@ public class Player : MonoBehaviour
 
     private void UpdateMoveDirection()
     {
-        if (movement.x == 0 && movement.y == 0)
-        {
-            moveDirection = Direction.None;
-            return;
-        }
-        
         if (movement.x != 0 && movement.y != 0)
         {
             if (movement.x > 0 && movement.y > 0)
@@ -106,8 +100,6 @@ public class Player : MonoBehaviour
 
     private void UpdateBlendTrees()
     {
-        bool isIdle = moveDirection == Direction.None;
-
         if (movement.x == 0 && movement.y == 0)
         {
             animator.SetBool("isMoving", false);
