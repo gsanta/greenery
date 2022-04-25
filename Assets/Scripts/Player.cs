@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
 
     private Vector3 movement;
     private Rigidbody2D rigidBody;
+    private Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,8 @@ public class Player : MonoBehaviour
         {
             instance = this;
             rigidBody = GetComponent<Rigidbody2D>();
-
+            animator = GetComponent<Animator>();
+            
             DontDestroyOnLoad(gameObject);
         }
 
@@ -35,12 +37,20 @@ public class Player : MonoBehaviour
         float horizontalMovement = Input.GetAxisRaw("Horizontal");
         float verticalMovement = Input.GetAxisRaw("Vertical");
 
-        if (horizontalMovement != 0 || verticalMovement != 0)
-        {
-            movement = new Vector2(horizontalMovement, verticalMovement);
-        }
+        movement = new Vector2(horizontalMovement, verticalMovement);
+
+        Debug.Log("horizontal movement: " + horizontalMovement);
+        // if (horizontalMovement > 0)
+        // {
+        //     transform.localScale = new Vector3(-1, 1, 1);
+        // }
+        // else if (horizontalMovement < 0)
+        // {
+        //     transform.localScale = new Vector3(1, 1, 1);
+        // }
 
         UpdateMoveDirection();
+        UpdateBlendTrees();
 
         rigidBody.velocity = new Vector2(horizontalMovement, verticalMovement) * moveSpeed;
 
@@ -91,6 +101,22 @@ public class Player : MonoBehaviour
             {
                 moveDirection = Direction.Right;
             }
+        }
+    }
+
+    private void UpdateBlendTrees()
+    {
+        bool isIdle = moveDirection == Direction.None;
+
+        if (movement.x == 0 && movement.y == 0)
+        {
+            animator.SetBool("isMoving", false);
+        }
+        else
+        {
+            animator.SetFloat("horizontalMovement", movement.x);
+            animator.SetFloat("verticalMovement", movement.y);
+            animator.SetBool("isMoving", true);
         }
     }
 }

@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        float moveSpeed = 100f;
+        float moveSpeed = 15f;
         transform.position += shootDir * moveSpeed * Time.deltaTime;
 
         float hitDetectionSize = 3f;

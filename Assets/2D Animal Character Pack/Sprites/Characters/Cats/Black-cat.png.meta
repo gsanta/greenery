@@ -441,10 +441,52 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: LegLeft2
+      rect:
+        serializedVersion: 2
+        x: 725
+        y: 53
+        width: 50
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88b1ac71bad45a94c910176d01e9fae8
+      internalID: 890820271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LegRight2
+      rect:
+        serializedVersion: 2
+        x: 847
+        y: 52
+        width: 50
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a55e75288ad61c840b7c978e09cc9453
+      internalID: 1200103370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 61798d319e73c4843857df712049014b
     internalID: 0
     vertices: []
     indices: 
@@ -462,6 +504,8 @@ TextureImporter:
       Face-happy: 21300020
       Leg2: 21300006
       Leg1: 21300004
+      LegLeft2: 890820271
+      LegRight2: 1200103370
       Weapon2: 21300026
       Arm1: 21300010
       Tail: 21300012
