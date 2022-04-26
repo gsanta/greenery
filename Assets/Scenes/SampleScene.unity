@@ -428,6 +428,7 @@ GameObject:
   - component: {fileID: 475914802}
   - component: {fileID: 475914804}
   - component: {fileID: 475914803}
+  - component: {fileID: 475914805}
   m_Layer: 0
   m_Name: Cat 3
   m_TagString: Untagged
@@ -522,6 +523,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &475914805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 475914801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a026540100d4775ba87f03876559013, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  angle: 0
+  player: {fileID: 1362594663}
 --- !u!1 &478949054
 GameObject:
   m_ObjectHideFlags: 0

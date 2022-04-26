@@ -16,7 +16,7 @@ public class Bullet : MonoBehaviour
         float moveSpeed = 15f;
         transform.position += shootDir * moveSpeed * Time.deltaTime;
 
-        float hitDetectionSize = 3f;
+        float hitDetectionSize = 1f;
         Target target = Target.GetClosest(transform.position, hitDetectionSize);
 
         if (target != null)

@@ -39,7 +39,6 @@ public class Player : MonoBehaviour
 
         movement = new Vector2(horizontalMovement, verticalMovement);
 
-        Debug.Log("horizontal movement: " + horizontalMovement);
         // if (horizontalMovement > 0)
         // {
         //     transform.localScale = new Vector3(-1, 1, 1);

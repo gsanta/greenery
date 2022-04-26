@@ -16,7 +16,6 @@ public class PlayerPush : MonoBehaviour
     private void Update()
     {
         vectorDir = DirectionHelper.DirToVectorDir(player.moveDirection);
-        Debug.Log((player.moveDirection));
         // Physics2D.queriesStartInColliders = false;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, vectorDir * transform.localScale.x, distance, boxMask);
 
