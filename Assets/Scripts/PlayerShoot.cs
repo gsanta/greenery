@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] private Transform bulletPrefab;
+    [SerializeField] private Transform bulletContainer;
     private Player player;
     private void Awake()
     {
@@ -22,7 +23,7 @@ public class PlayerShoot : MonoBehaviour
     {
         var vectorDir = DirectionHelper.DirToVectorDir(player.moveDirection);
         var pos = transform.position;
-        Transform bulletTransform = Instantiate(bulletPrefab, (Vector2) pos, Quaternion.identity);
+        Transform bulletTransform = Instantiate(bulletPrefab, (Vector2) pos, Quaternion.identity, bulletContainer);
         bulletTransform.GetComponent<Bullet>().Setup(vectorDir);
     }
 }

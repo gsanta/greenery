@@ -8,7 +8,8 @@ public class Bullet : MonoBehaviour
     {
         shootDir = dir;
         transform.eulerAngles = new Vector3(0, 0, Utilities.GetAngleFromVectorFloat(shootDir));
-        Destroy(gameObject, 5f);
+        Destroy(gameObject, 50f);
+        
     }
 
     private void Update()

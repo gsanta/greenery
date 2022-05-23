@@ -38,6 +38,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Ground Tiles
+    uniqueID: 172643561
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Dynamics
+    uniqueID: 2737900601
     locked: 0
