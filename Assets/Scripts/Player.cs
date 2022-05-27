@@ -13,6 +13,13 @@ public class Player : MonoBehaviour
     private Rigidbody2D rigidBody;
     private Animator animator;
 
+    private DrawScript drawScript;
+
+    public void Construct(DrawScript drawScript)
+    {
+        this.drawScript = drawScript;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +36,12 @@ public class Player : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
+        //InvokeRepeating("DrawPoint", 1.0f, 0.1f);
+    }
+
+    private void DrawPoint()
+    {
+        drawScript.AddPoint(transform.position);
     }
 
     // Update is called once per frame
@@ -38,15 +51,6 @@ public class Player : MonoBehaviour
         float verticalMovement = Input.GetAxisRaw("Vertical");
 
         movement = new Vector2(horizontalMovement, verticalMovement);
-
-        // if (horizontalMovement > 0)
-        // {
-        //     transform.localScale = new Vector3(-1, 1, 1);
-        // }
-        // else if (horizontalMovement < 0)
-        // {
-        //     transform.localScale = new Vector3(1, 1, 1);
-        // }
 
         UpdateMoveDirection();
         UpdateBlendTrees();
