@@ -6,13 +6,17 @@ public class Grid<TGridObject>
     public readonly int width;
     public readonly int height;
     private TGridObject[,] gridArray;
-    private float cellSize;
+    public readonly float cellSize;
+    private readonly int offsetWidth;
+    private readonly int offsetHeight;
 
-    public Grid(int width, int height, float cellSize, Func<Grid<TGridObject>, int, int, TGridObject> createGridObject)
+    public Grid(int width, int height, float cellSize, Func<Grid<TGridObject>, int, int, TGridObject> createGridObject, int offsetWidth = 0, int offsetHeight = 0)
     {
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
+        this.offsetWidth = offsetWidth;
+        this.offsetHeight = offsetHeight;
 
         gridArray = new TGridObject[width, height];
 
@@ -76,6 +80,6 @@ public class Grid<TGridObject>
 
     public Vector3 GetWorldPosition(int x, int y)
     {
-        return new Vector3(x, y) * cellSize;
+        return (new Vector3(x, y) - new Vector3(width / 2, height / 2) + new Vector3(offsetWidth, offsetHeight)) * cellSize;
     }
 }
