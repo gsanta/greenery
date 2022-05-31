@@ -23,8 +23,6 @@ public class Enemy : MonoBehaviour
         direction.Normalize();
         movement = direction;
         
-        Debug.Log(rotationVector.x + "  " + rotationVector.y);
-
         animator.SetFloat("horizontalMovement", rotationVector.x);
         animator.SetFloat("verticalMovement", rotationVector.y);
     }

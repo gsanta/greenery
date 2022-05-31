@@ -19,9 +19,9 @@ public class EnemySpawner : MonoBehaviour
         timer -= Time.deltaTime;
         if (timer <= 0f)
         {
-            Enemy enemy = Instantiate(enemyPrefab, spawnPosition.position, transform.rotation);
-            enemy.player = player;
-            timer = spawnTime;
+            // Enemy enemy = Instantiate(enemyPrefab, spawnPosition.position, transform.rotation);
+            // enemy.player = player;
+            // timer = spawnTime;
         }
     }
 }

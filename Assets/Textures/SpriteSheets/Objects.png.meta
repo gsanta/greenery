@@ -118,15 +118,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Objects_0
+      name: tree_oak
       rect:
         serializedVersion: 2
         x: 16
         y: 143
         width: 66
         height: 102
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.51200086, y: 0.17791404}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
@@ -146,7 +146,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Objects_1
+      name: stone_small
       rect:
         serializedVersion: 2
         x: 98
@@ -167,7 +167,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Objects_2
+      name: stone_big
       rect:
         serializedVersion: 2
         x: 131
@@ -188,7 +188,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Objects_3
+      name: bush_1
       rect:
         serializedVersion: 2
         x: 188
@@ -219,10 +219,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Objects_3: 313480739
-      Objects_0: -1140582033
-      Objects_2: -14518347
-      Objects_1: -2078103244
+      tree_oak: -1140582033
+      stone_big: -14518347
+      stone_small: -2078103244
+      bush_1: 313480739
   spritePackingTag: 
   pSDRemoveMatte: 0
   userData: 
