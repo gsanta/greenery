@@ -1,3 +1,4 @@
+using System;
 using Algorithms.RopeWrapping;
 using NUnit.Framework;
 using UnityEngine;
@@ -43,6 +44,62 @@ namespace Tests.EditMode.Algorithms.RopeWrapping
             
             Assert.AreEqual(points[3], leftNeighbour);
             Assert.AreEqual(points[2], rightNeighbour);
+        }
+
+        [Test]
+        public void HasSideChangedTrue()
+        {
+
+            var anchorPoint = new Vector2(0f, 5f);
+            var targetPoint = new Vector2(0f, 0f);
+            var currPoint = new Vector2(0.1f, 0f);
+            var prevCurrPoint = new Vector2(-0.1f, 0f);
+
+            var hasSideChanged = RopeWrapper.HasSideChanged(targetPoint, currPoint, prevCurrPoint, anchorPoint);
+
+            Assert.AreEqual(true, hasSideChanged);
+        }
+
+        [Test]
+        public void HasSideChangedFalse()
+        {
+
+            var anchorPoint = new Vector2(0f, 5f);
+            var targetPoint = new Vector2(0f, 0f);
+            var currPoint = new Vector2(0.1f, 0f);
+            var prevCurrPoint = new Vector2(0.2f, 0f);
+
+            var hasSideChanged = RopeWrapper.HasSideChanged(targetPoint, currPoint, prevCurrPoint, anchorPoint);
+
+            Assert.AreEqual(false, hasSideChanged);
+        }
+        
+        [Test]
+        public void HasSideChangedTrueDiagonalAnchorLine()
+        {
+
+            var anchorPoint = new Vector2(2f, 2f);
+            var targetPoint = new Vector2(4f, 4f);
+            var currPoint = new Vector2(3.5f, 4.5f);
+            var prevCurrPoint = new Vector2(4.5f, 3.5f);
+
+            var hasSideChanged = RopeWrapper.HasSideChanged(targetPoint, currPoint, prevCurrPoint, anchorPoint);
+
+            Assert.AreEqual(true, hasSideChanged);
+        }
+        
+        [Test]
+        public void HasSideChangedFalseDiagonalAnchorLine()
+        {
+
+            var anchorPoint = new Vector2(2f, 2f);
+            var targetPoint = new Vector2(4f, 4f);
+            var currPoint = new Vector2(4.5f, 3f);
+            var prevCurrPoint = new Vector2(4.5f, 3.5f);
+
+            var hasSideChanged = RopeWrapper.HasSideChanged(targetPoint, currPoint, prevCurrPoint, anchorPoint);
+
+            Assert.AreEqual(false, hasSideChanged);
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Algorithms.RopeWrapping
     {
         private Vector2 anchorPoint;
         private Vector2 currentPoint;
+        private Vector2 prevCurrentPoint;
         private List<Vector2> points;
         private List<Vector2> activePoints;
         private List<float> angles;
@@ -35,6 +36,8 @@ namespace Algorithms.RopeWrapping
         {
             this.currentPoint = currentPoint;
             activeSegment = new Segment(anchorPoint, currentPoint);
+            
+            prevCurrentPoint = currentPoint;
         }
 
         private void SetActivePoints()
@@ -63,7 +66,7 @@ namespace Algorithms.RopeWrapping
         public static (Vector2, Vector2) GetNeighbours(List<Vector2> points, Vector2 anchor, Vector2 curr)
         {
             var segment = new Segment(anchor, curr);
-            var angles = points.Select((point) => MathUtils.GetAngle(curr, point)).ToList();
+            var angles = points.Select((point) => MathUtils.GetAngle(anchor, point)).ToList();
             var angleDistances = angles.Select((angle) => MathUtils.GetAngleDistance(segment.GetAngle(), angle)).ToList();
             var leftIndex = FindMinIndex(angleDistances);
             var rightIndex = FindMaxIndex(angleDistances);
@@ -93,11 +96,27 @@ namespace Algorithms.RopeWrapping
             return pos;
         }
 
-        private static bool HasSideChanged(Side prevSide, Vector2 prevPoint, Vector2 anchorPoint, Vector2 currentPoint)
+        public static bool HasSideChanged(Vector2 targetPoint, Vector2 currentPoint, Vector2 prevCurrentPoint, Vector2 anchorPoint)
         {
-                        
+            var angleCurr = MathUtils.GetAngle(anchorPoint, currentPoint);
+            var anglePrevCurr = MathUtils.GetAngle(anchorPoint, prevCurrentPoint);
+            var angleTarget = MathUtils.GetAngle(anchorPoint, targetPoint);
+
+            var distCurr = MathUtils.GetAngleDistance(angleCurr, angleTarget);
+            var distPrevCurr = MathUtils.GetAngleDistance(anglePrevCurr, angleTarget);
+
+            var SIDE_CHANGE_THERSHOLD = Math.PI;
+            if (Mathf.Abs(distCurr - distPrevCurr) > SIDE_CHANGE_THERSHOLD)
+            {
+                return true;
+            }
+
+            return false;
         }
-        
-        private static bool GetSide(Vector2 point, Vector2 anchorPoint)
+        //
+        // private static bool GetSide(Vector2 point, Vector2 anchorPoint)
+        // {
+        //     
+        // }
     }
 }
