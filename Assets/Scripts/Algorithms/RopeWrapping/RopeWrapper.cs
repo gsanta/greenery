@@ -13,54 +13,67 @@ namespace Algorithms.RopeWrapping
     
     public class RopeWrapper
     {
-        private Vector2 anchorPoint;
-        private Vector2 currentPoint;
-        private Vector2 prevCurrentPoint;
-        private List<Vector2> points;
-        private List<Vector2> activePoints;
-        private List<float> angles;
-        private List<float> angleDistances;
-        private List<Segment> segments = new List<Segment>();
-        private Segment activeSegment;
-        private Nullable<Vector2> prevLeftNeighbour;
-        private Nullable<Vector2> prevRightNeighbour;
-        private Side leftRightEqualWhichSide = Side.Left;
+        private Vector2 _anchorPoint;
+        private Vector2 _currentPoint;
+        private Vector2 _prevCurrentPoint;
+        private readonly List<Vector2> _points;
+        private List<Vector2> _activePoints;
+        private List<float> _angles;
+        private List<float> _angleDistances;
+        private readonly List<Segment> _segments = new List<Segment>();
+        private Segment _activeSegment;
+        private Vector2? _prevLeftNeighbour;
+        private Vector2? _prevRightNeighbour;
+        private Side _leftRightEqualWhichSide = Side.Left;
         
         public RopeWrapper(Vector2 startPoint, List<Vector2> points)
         {
-            anchorPoint = startPoint;
-            this.points = points;
+            _anchorPoint = startPoint;
+            this._points = points;
+        }
+
+        public List<Segment> GetSegments()
+        {
+            return _segments;
         }
         
         public void Update(Vector2 currentPoint)
         {
-            this.currentPoint = currentPoint;
-            activeSegment = new Segment(anchorPoint, currentPoint);
+            this._currentPoint = currentPoint;
+            _activeSegment = new Segment(_anchorPoint, currentPoint);
             
-            prevCurrentPoint = currentPoint;
-        }
+            _activePoints = _points.Where((point) => MathUtils.VectorDistance(_anchorPoint, point) <= _activeSegment.GetLength()).ToList();
+            var (leftNeighbour, rightNeighbour) = GetNeighbours(_activePoints, _anchorPoint, currentPoint);
 
-        private void SetActivePoints()
-        {
-            activePoints = points.Where((point) => MathUtils.VectorDistance(anchorPoint, point) <= activeSegment.GetLength()).ToList();
-            var (leftNeighbour, rightNeighbour) = GetNeighbours(activePoints, anchorPoint, currentPoint);
-
-            if (prevLeftNeighbour == null)
+            if (_prevLeftNeighbour == null)
             {
-                prevLeftNeighbour = leftNeighbour;
-                prevRightNeighbour = rightNeighbour;
+                _prevLeftNeighbour = leftNeighbour;
+                _prevRightNeighbour = rightNeighbour;
+                _prevCurrentPoint = currentPoint;
                 return;
             }
 
-            if (!activePoints.Contains(prevLeftNeighbour.Value))
+            if (!_activePoints.Contains(_prevLeftNeighbour.Value))
             {
-                prevLeftNeighbour = leftNeighbour;
+                _prevLeftNeighbour = leftNeighbour;
             }
 
-            if (!activePoints.Contains(prevRightNeighbour.Value))
+            if (!_activePoints.Contains(_prevRightNeighbour.Value))
             {
-                prevRightNeighbour = rightNeighbour;
+                _prevRightNeighbour = rightNeighbour;
             }
+
+            if (HasSideChanged(_prevLeftNeighbour.Value, currentPoint, _prevCurrentPoint, _anchorPoint))
+            {
+                _segments.Add(new Segment(_anchorPoint, _prevLeftNeighbour.Value));
+                _anchorPoint = _prevLeftNeighbour.Value;
+            } else if (HasSideChanged(_prevRightNeighbour.Value, currentPoint, _prevCurrentPoint, _anchorPoint))
+            {
+                _segments.Add(new Segment(_anchorPoint, _prevRightNeighbour.Value));
+                _anchorPoint = _prevRightNeighbour.Value;
+            }
+            
+            _prevCurrentPoint = currentPoint;
         }
 
         public static (Vector2, Vector2) GetNeighbours(List<Vector2> points, Vector2 anchor, Vector2 curr)
@@ -105,18 +118,13 @@ namespace Algorithms.RopeWrapping
             var distCurr = MathUtils.GetAngleDistance(angleCurr, angleTarget);
             var distPrevCurr = MathUtils.GetAngleDistance(anglePrevCurr, angleTarget);
 
-            var SIDE_CHANGE_THERSHOLD = Math.PI;
-            if (Mathf.Abs(distCurr - distPrevCurr) > SIDE_CHANGE_THERSHOLD)
+            var SIDE_CHANGE_THRESHOLD = Math.PI;
+            if (Mathf.Abs(distCurr - distPrevCurr) > SIDE_CHANGE_THRESHOLD)
             {
                 return true;
             }
 
             return false;
         }
-        //
-        // private static bool GetSide(Vector2 point, Vector2 anchorPoint)
-        // {
-        //     
-        // }
     }
 }

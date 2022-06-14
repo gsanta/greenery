@@ -1,6 +1,7 @@
 using System;
 using Algorithms.RopeWrapping;
 using NUnit.Framework;
+using Types;
 using UnityEngine;
 
 namespace Tests.EditMode.Algorithms.RopeWrapping
@@ -100,6 +101,20 @@ namespace Tests.EditMode.Algorithms.RopeWrapping
             var hasSideChanged = RopeWrapper.HasSideChanged(targetPoint, currPoint, prevCurrPoint, anchorPoint);
 
             Assert.AreEqual(false, hasSideChanged);
+        }
+
+        [Test]
+        public void Updater()
+        {
+            var startPoint = new Vector2(0, 0);
+            var points = new System.Collections.Generic.List<Vector2> {new Vector2(0, 4f)};
+
+            var ropeWrapper = new RopeWrapper(startPoint, points);
+            
+            ropeWrapper.Update(new Vector2(1, 5));
+            ropeWrapper.Update(new Vector2(-1, 5));
+            Assert.AreEqual(1, ropeWrapper.GetSegments().Count);
+            Assert.AreEqual(new Segment(startPoint, new Vector2(0, 4)), ropeWrapper.GetSegments()[0]);
         }
     }
 }

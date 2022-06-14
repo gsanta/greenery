@@ -1,3 +1,4 @@
+using System;
 using Algorithms;
 using UnityEngine;
 
@@ -22,6 +23,21 @@ namespace Types
         public float GetAngle()
         {
             return MathUtils.GetAngle(start, end);
+        }
+
+        public bool Equals(Segment other)
+        {
+            return start.Equals(other.start) && end.Equals(other.end);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Segment other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(start, end);
         }
     }
 }
