@@ -22,10 +22,10 @@ namespace Tests.EditMode.Algorithms.RopeWrapping
                 new Vector2(5f, 0f)
             };
 
-            var (leftNeighbour, rightNeighbour) = RopeWrapper.GetNeighbours(points, anchor, curr);
+            var neighbours = RopeWrapper.GetNeighbours(points, anchor, curr);
             
-            Assert.AreEqual(points[2], leftNeighbour);
-            Assert.AreEqual(points[1], rightNeighbour);
+            Assert.AreEqual(points[2], neighbours.Value.Item1);
+            Assert.AreEqual(points[1], neighbours.Value.Item2);
         }
         
         [Test]
@@ -41,10 +41,10 @@ namespace Tests.EditMode.Algorithms.RopeWrapping
                 new Vector2(4f, -3f)
             };
 
-            var (leftNeighbour, rightNeighbour) = RopeWrapper.GetNeighbours(points, anchor, curr);
+            var neighbours = RopeWrapper.GetNeighbours(points, anchor, curr);
             
-            Assert.AreEqual(points[3], leftNeighbour);
-            Assert.AreEqual(points[2], rightNeighbour);
+            Assert.AreEqual(points[3], neighbours.Value.Item1);
+            Assert.AreEqual(points[2], neighbours.Value.Item2);
         }
 
         [Test]
@@ -115,6 +115,34 @@ namespace Tests.EditMode.Algorithms.RopeWrapping
             ropeWrapper.Update(new Vector2(-1, 5));
             Assert.AreEqual(1, ropeWrapper.GetSegments().Count);
             Assert.AreEqual(new Segment(startPoint, new Vector2(0, 4)), ropeWrapper.GetSegments()[0]);
+        }
+        
+        [Test]
+        public void Updater2()
+        {
+            var startPoint = new Vector2(2, 2);
+            var points = new System.Collections.Generic.List<Vector2>
+            {
+                new Vector2(0, 0),
+                new Vector2(0, 4),
+                new Vector2( 4, 0),
+                new Vector2(4, 4)
+            };
+
+            var ropeWrapper = new RopeWrapper(startPoint, points);
+            
+            ropeWrapper.Update(new Vector2(6, 2));
+            ropeWrapper.Update(new Vector2(6, 4));
+            ropeWrapper.Update(new Vector2(4, 6));
+            ropeWrapper.Update(new Vector2(0, 6));
+            ropeWrapper.Update(new Vector2(-1, 3));
+            Assert.AreEqual(new System.Collections.Generic.List<Vector2>
+            {
+                new Vector2(2, 2),
+                new Vector2(4, 4),
+                new Vector2( 0, 4),
+                new Vector2(-1, 3)
+            }, ropeWrapper.GetPoints());
         }
     }
 }

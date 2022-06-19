@@ -36,6 +36,25 @@ namespace Algorithms.RopeWrapping
         {
             return _segments;
         }
+
+        public List<Vector2> GetPoints()
+        {
+            var points = new List<Vector2>();
+
+            if (_segments.Count > 0)
+            {
+                points.Add((_segments[0].start));
+            }
+            
+            _segments.ForEach((segment) =>
+            {
+                points.Add(segment.end);
+            });
+            
+            points.Add(_currentPoint);
+
+            return points;
+        }
         
         public void Update(Vector2 currentPoint)
         {
@@ -43,41 +62,52 @@ namespace Algorithms.RopeWrapping
             _activeSegment = new Segment(_anchorPoint, currentPoint);
             
             _activePoints = _points.Where((point) => MathUtils.VectorDistance(_anchorPoint, point) <= _activeSegment.GetLength()).ToList();
-            var (leftNeighbour, rightNeighbour) = GetNeighbours(_activePoints, _anchorPoint, currentPoint);
+            var neighbours = GetNeighbours(_activePoints, _anchorPoint, currentPoint);
 
-            if (_prevLeftNeighbour == null)
+            // var (leftNeighbour, rightNeighbour) = GetNeighbours(_activePoints, _anchorPoint, currentPoint);
+
+            if (neighbours.HasValue)
             {
-                _prevLeftNeighbour = leftNeighbour;
-                _prevRightNeighbour = rightNeighbour;
-                _prevCurrentPoint = currentPoint;
-                return;
+                var (leftNeighbour, rightNeighbour) = neighbours.Value;
+                if (_prevLeftNeighbour == null)
+                {
+                    _prevLeftNeighbour = leftNeighbour;
+                    _prevRightNeighbour = rightNeighbour;
+                    _prevCurrentPoint = currentPoint;
+                    return;
+                }
+
+                if (!_activePoints.Contains(_prevLeftNeighbour.Value))
+                {
+                    _prevLeftNeighbour = leftNeighbour;
+                }
+
+                if (!_activePoints.Contains(_prevRightNeighbour.Value))
+                {
+                    _prevRightNeighbour = rightNeighbour;
+                }
+
+                if (HasSideChanged(leftNeighbour, currentPoint, _prevCurrentPoint, _anchorPoint))
+                {
+                    _segments.Add(new Segment(_anchorPoint, leftNeighbour));
+                    _anchorPoint = leftNeighbour;
+                }
+                else if (HasSideChanged(rightNeighbour, currentPoint, _prevCurrentPoint, _anchorPoint))
+                {
+                    _segments.Add(new Segment(_anchorPoint, rightNeighbour));
+                    _anchorPoint = rightNeighbour;
+                }
             }
 
-            if (!_activePoints.Contains(_prevLeftNeighbour.Value))
-            {
-                _prevLeftNeighbour = leftNeighbour;
-            }
-
-            if (!_activePoints.Contains(_prevRightNeighbour.Value))
-            {
-                _prevRightNeighbour = rightNeighbour;
-            }
-
-            if (HasSideChanged(_prevLeftNeighbour.Value, currentPoint, _prevCurrentPoint, _anchorPoint))
-            {
-                _segments.Add(new Segment(_anchorPoint, _prevLeftNeighbour.Value));
-                _anchorPoint = _prevLeftNeighbour.Value;
-            } else if (HasSideChanged(_prevRightNeighbour.Value, currentPoint, _prevCurrentPoint, _anchorPoint))
-            {
-                _segments.Add(new Segment(_anchorPoint, _prevRightNeighbour.Value));
-                _anchorPoint = _prevRightNeighbour.Value;
-            }
-            
             _prevCurrentPoint = currentPoint;
         }
 
-        public static (Vector2, Vector2) GetNeighbours(List<Vector2> points, Vector2 anchor, Vector2 curr)
+        public static (Vector2, Vector2)? GetNeighbours(List<Vector2> points, Vector2 anchor, Vector2 curr)
         {
+            if (points.Count == 0)
+            {
+                return null;
+            }
             var segment = new Segment(anchor, curr);
             var angles = points.Select((point) => MathUtils.GetAngle(anchor, point)).ToList();
             var angleDistances = angles.Select((angle) => MathUtils.GetAngleDistance(segment.GetAngle(), angle)).ToList();

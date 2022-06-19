@@ -36,13 +36,15 @@ public class Player : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
-        //InvokeRepeating("DrawPoint", 1.0f, 0.1f);
+        drawScript.StartDraw(transform.position);
+        // InvokeRepeating("DrawPoint", 1.0f, 0.1f);
     }
 
-    private void DrawPoint()
-    {
-        drawScript.AddPoint(transform.position);
-    }
+    // private void DrawPoint()
+    // {
+    //     drawScript.UpdateDraw(transform.position);
+    //     // drawScript.AddPoint(transform.position);
+    // }
 
     // Update is called once per frame
     void Update()
@@ -60,6 +62,8 @@ public class Player : MonoBehaviour
         Vector3 mousePosition = Utilities.GetMouseWorldPosition();
         Vector3 aimDirection = (mousePosition - transform.position).normalized;
         rotation = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+        
+        drawScript.UpdateDraw(transform.position);
     }
 
     private void UpdateMoveDirection()
