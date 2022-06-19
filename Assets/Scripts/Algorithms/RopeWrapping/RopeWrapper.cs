@@ -1,26 +1,29 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Types;
 using UnityEngine;
 
 namespace Algorithms.RopeWrapping
 {
-    enum Side {
+    public enum Side {
         Left,
         Right
     }
     
     public class RopeWrapper
     {
+        private Vector2 _startPoint;
         private Vector2 _anchorPoint;
+        private List<Vector2> _prevAnchorPoints = new();
         private Vector2 _currentPoint;
         private Vector2 _prevCurrentPoint;
         private readonly List<Vector2> _points;
         private List<Vector2> _activePoints;
         private List<float> _angles;
         private List<float> _angleDistances;
-        private readonly List<Segment> _segments = new List<Segment>();
+        private readonly List<Segment> _segments = new();
         private Segment _activeSegment;
         private Vector2? _prevLeftNeighbour;
         private Vector2? _prevRightNeighbour;
@@ -28,6 +31,7 @@ namespace Algorithms.RopeWrapping
         
         public RopeWrapper(Vector2 startPoint, List<Vector2> points)
         {
+            _startPoint = startPoint;
             _anchorPoint = startPoint;
             this._points = points;
         }
@@ -45,6 +49,10 @@ namespace Algorithms.RopeWrapping
             {
                 points.Add((_segments[0].start));
             }
+            else
+            {
+                points.Add(_startPoint);
+            }
             
             _segments.ForEach((segment) =>
             {
@@ -58,7 +66,7 @@ namespace Algorithms.RopeWrapping
         
         public void Update(Vector2 currentPoint)
         {
-            this._currentPoint = currentPoint;
+            _currentPoint = currentPoint;
             _activeSegment = new Segment(_anchorPoint, currentPoint);
             
             _activePoints = _points.Where((point) => MathUtils.VectorDistance(_anchorPoint, point) <= _activeSegment.GetLength()).ToList();
@@ -87,19 +95,58 @@ namespace Algorithms.RopeWrapping
                     _prevRightNeighbour = rightNeighbour;
                 }
 
-                if (HasSideChanged(leftNeighbour, currentPoint, _prevCurrentPoint, _anchorPoint))
+                if (!CheckBackTrack(leftNeighbour, rightNeighbour))
                 {
-                    _segments.Add(new Segment(_anchorPoint, leftNeighbour));
-                    _anchorPoint = leftNeighbour;
+                    if (HasSideChanged(leftNeighbour, currentPoint, _prevCurrentPoint, _anchorPoint))
+                    {
+                        _segments.Add(new Segment(_anchorPoint, leftNeighbour));
+                        _prevAnchorPoints.Add(_anchorPoint);
+                        _anchorPoint = leftNeighbour;
+                    }
+                    else if (HasSideChanged(rightNeighbour, currentPoint, _prevCurrentPoint, _anchorPoint))
+                    {
+                        _segments.Add(new Segment(_anchorPoint, rightNeighbour));
+                        _prevAnchorPoints.Add(_anchorPoint);
+                        _anchorPoint = rightNeighbour;
+                    }
                 }
-                else if (HasSideChanged(rightNeighbour, currentPoint, _prevCurrentPoint, _anchorPoint))
-                {
-                    _segments.Add(new Segment(_anchorPoint, rightNeighbour));
-                    _anchorPoint = rightNeighbour;
-                }
+
             }
 
             _prevCurrentPoint = currentPoint;
+        }
+
+        // public static bool ShouldBackTrack(Vector2 neighbour, List<Segment> segments)
+        // {
+        //     if (segments.Count == 0)
+        //     {
+        //         return false;
+        //     }
+        //     
+        //     if (segments.Last().end == neighbour)
+        //     {
+        //         return true;
+        //     }
+        //
+        //     return false;
+        // }
+        
+        private bool CheckBackTrack(Vector2 leftNeighbour, Vector2 rightNeighbour)
+        {
+            if (_prevAnchorPoints.Count == 0 || _segments.Count == 0)
+            {
+                return false;
+            }
+            
+            if (HasSideChanged(_anchorPoint, _currentPoint, _prevCurrentPoint, _prevAnchorPoints.Last()))
+            {
+                _anchorPoint = _prevAnchorPoints.Last();
+                _prevAnchorPoints.Remove(_prevAnchorPoints.Last());
+                _segments.Remove(_segments.Last());
+                return true;
+            }
+
+            return false;
         }
 
         public static (Vector2, Vector2)? GetNeighbours(List<Vector2> points, Vector2 anchor, Vector2 curr)

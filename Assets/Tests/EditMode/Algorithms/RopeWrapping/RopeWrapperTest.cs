@@ -144,5 +144,91 @@ namespace Tests.EditMode.Algorithms.RopeWrapping
                 new Vector2(-1, 3)
             }, ropeWrapper.GetPoints());
         }
+
+        [Test]
+        public void UpdaterWithOnlyStartAndCurrentPoint()
+        {
+            var startPoint = new Vector2(2, 2);
+            var ropeWrapper = new RopeWrapper(startPoint, new());
+            ropeWrapper.Update(new Vector2(4, 4));
+            Assert.AreEqual(new System.Collections.Generic.List<Vector2>
+            {
+                new Vector2(2, 2),
+                new Vector2(4, 4),
+            }, ropeWrapper.GetPoints());
+        }
+
+        [Test]
+        public void UpdaterWithBackTrack()
+        {
+            var startPoint = new Vector2(2, 2);
+            var points = new System.Collections.Generic.List<Vector2>
+            {
+                new Vector2(0, 0),
+                new Vector2(0, 4),
+                new Vector2( 4, 0),
+                new Vector2(4, 4)
+            };
+
+            var ropeWrapper = new RopeWrapper(startPoint, points);
+            
+            ropeWrapper.Update(new Vector2(6, 2));
+            ropeWrapper.Update(new Vector2(6, 4));
+            ropeWrapper.Update(new Vector2(4, 6));
+            ropeWrapper.Update(new Vector2(0, 6));
+            ropeWrapper.Update(new Vector2(-1, 3));
+            ropeWrapper.Update(new Vector2(-1, 5));
+            Assert.AreEqual(new System.Collections.Generic.List<Vector2>
+            {
+                new Vector2(2, 2),
+                new Vector2(4, 4),
+                new Vector2(-1, 5)
+            }, ropeWrapper.GetPoints());
+        }
+        
+        [Test]
+        public void UpdaterWithBackTrackBackAndForth()
+        {
+            var startPoint = new Vector2(2, 2);
+            var points = new System.Collections.Generic.List<Vector2>
+            {
+                new Vector2(4, 4)
+            };
+            var ropeWrapper = new RopeWrapper(startPoint, points);
+            ropeWrapper.Update(new Vector2(5, 2));
+            ropeWrapper.Update(new Vector2(2, 5));
+
+            Assert.AreEqual(new System.Collections.Generic.List<Vector2>
+            {
+                new Vector2(2, 2),
+                new Vector2(4, 4),
+                new Vector2(2, 5),
+            }, ropeWrapper.GetPoints());
+            
+            ropeWrapper.Update(new Vector2(5, 2));
+            
+            Assert.AreEqual(new System.Collections.Generic.List<Vector2>
+            {
+                new Vector2(2, 2),
+                new Vector2(5, 2),
+            }, ropeWrapper.GetPoints());
+            
+            ropeWrapper.Update(new Vector2(2, 5));
+            
+            Assert.AreEqual(new System.Collections.Generic.List<Vector2>
+            {
+                new Vector2(2, 2),
+                new Vector2(4, 4),
+                new Vector2(2, 5),
+            }, ropeWrapper.GetPoints());
+            
+            ropeWrapper.Update(new Vector2(5, 2));
+            
+            Assert.AreEqual(new System.Collections.Generic.List<Vector2>
+            {
+                new Vector2(2, 2),
+                new Vector2(5, 2),
+            }, ropeWrapper.GetPoints());
+        }
     }
 }
