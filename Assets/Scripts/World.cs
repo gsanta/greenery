@@ -1,4 +1,5 @@
 
+using Grid;
 using UnityEngine;
 
 public class World
@@ -13,7 +14,7 @@ public class World
         this.grid = grid;
         this.gridRatio = gridRatio;
         this.originPosition = originPosition;
-        worldSize = new Vector3(grid.width * gridRatio, grid.height * gridRatio, 0);
+        worldSize = new Vector3(grid.Width * gridRatio, grid.Height * gridRatio, 0);
     }
 
     public Vector3 GetWorldPosition(int x, int y)

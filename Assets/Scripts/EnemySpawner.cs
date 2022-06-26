@@ -3,25 +3,31 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public float spawnTime = 5f;
+    [SerializeField] private float spawnTime = 5f;
+    [SerializeField] private bool isDisabled = false;
     public Enemy enemyPrefab;
     public Transform player;
     public Transform spawnPosition;
-    private float timer;
+    private float _timer;
 
     private void Start()
     {
-        timer = spawnTime;
+        _timer = spawnTime;
     }
 
     private void Update()
     {
-        timer -= Time.deltaTime;
-        if (timer <= 0f)
+        if (isDisabled)
         {
-            // Enemy enemy = Instantiate(enemyPrefab, spawnPosition.position, transform.rotation);
-            // enemy.player = player;
-            // timer = spawnTime;
+            return;
+        }
+        
+        _timer -= Time.deltaTime;
+        if (_timer <= 0f)
+        {
+            Enemy enemy = Instantiate(enemyPrefab, spawnPosition.position, transform.rotation);
+            enemy.player = player;
+            _timer = spawnTime;
         }
     }
 }

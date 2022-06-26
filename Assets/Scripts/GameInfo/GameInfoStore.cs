@@ -27,12 +27,12 @@ namespace GameInfo
             }
         }
 
-        public void UpdateCurrentBallLength(float remainingLength)
+        public void UpdateCurrentBallLength(float length)
         {
             if (currentBall)
             {
-                currentBall._remainingLength = remainingLength;
-                remainingLengthText.text = Mathf.Round(remainingLength).ToString();
+                currentBall.remainingLength = Mathf.Max(currentBall.length - length, 0f);
+                remainingLengthText.text = Mathf.Round(currentBall.remainingLength).ToString();
             }
         }
 

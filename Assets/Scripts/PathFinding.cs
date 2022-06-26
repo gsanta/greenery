@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Grid;
 using UnityEngine;
 
 public class PathFinding
@@ -23,9 +24,9 @@ public class PathFinding
         openList = new List<PathNode> { startNode };
         closedList = new List<PathNode>();
 
-        for (int x = 0; x < grid.width; x++)
+        for (int x = 0; x < grid.Width; x++)
         {
-            for (int y = 0; y < grid.height; y++)
+            for (int y = 0; y < grid.Height; y++)
             {
                 PathNode pathNode = grid.GetGridObject(x, y);
                 pathNode.gCost = int.MaxValue;
@@ -95,13 +96,13 @@ public class PathFinding
                 neighbourList.Add(GetNode(currentNode.x - 1, currentNode.y - 1));
             }
 
-            if (currentNode.y + 1 < grid.height)
+            if (currentNode.y + 1 < grid.Height)
             {
                 neighbourList.Add(GetNode(currentNode.x - 1, currentNode.y + 1));
             }
         }
 
-        if (currentNode.x + 1 < grid.width)
+        if (currentNode.x + 1 < grid.Width)
         {
             neighbourList.Add(GetNode(currentNode.x + 1, currentNode.y));
 
@@ -110,7 +111,7 @@ public class PathFinding
                 neighbourList.Add(GetNode(currentNode.x + 1, currentNode.y - 1));
             }
 
-            if (currentNode.y + 1 < grid.height)
+            if (currentNode.y + 1 < grid.Height)
             {
                 neighbourList.Add(GetNode(currentNode.x + 1, currentNode.y + 1));
             }
@@ -121,7 +122,7 @@ public class PathFinding
             neighbourList.Add(GetNode(currentNode.x, currentNode.y - 1));
         }
 
-        if (currentNode.y + 1 < grid.height)
+        if (currentNode.y + 1 < grid.Height)
         {
             neighbourList.Add(GetNode(currentNode.x, currentNode.y + 1));
         }
