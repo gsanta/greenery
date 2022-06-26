@@ -33,6 +33,11 @@ namespace Items
             return closest;
         }
 
+        public void RemoveItem(T item)
+        {
+            _items.Remove(item);
+        }
+
         public void AddItem(T item)
         {
             this._items.Add(item);

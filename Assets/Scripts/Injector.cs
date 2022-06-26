@@ -1,14 +1,13 @@
-﻿using Items;
+﻿using GameInfo;
+using Items;
 using Players;
 using UnityEngine;
 
 public class Injector : MonoBehaviour
 {
-    [SerializeField]
-    private DrawScript drawScript;
+    [SerializeField] private GameInfoStore gameInfoStore;
 
-    [SerializeField]
-    private Player player;
+    [SerializeField] private Player player;
 
     [SerializeField] private BallSpawner ballSpawner;
 
@@ -16,8 +15,8 @@ public class Injector : MonoBehaviour
 
     private void Awake()
     {
-        player.Construct(drawScript);
-        player.GetComponent<ItemPickup>().Construct(_ballStore);
+        player.GetComponent<ItemPickup>().Construct(_ballStore, gameInfoStore);
+        player.GetComponent<LineDrawer>().Construct(gameInfoStore);
         ballSpawner.Construct(_ballStore);
     }
 }

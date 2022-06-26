@@ -1,4 +1,5 @@
 using System;
+using GameInfo;
 using Items;
 using UnityEngine;
 
@@ -7,18 +8,26 @@ namespace Players
     public class ItemPickup : MonoBehaviour
     {
         private ItemStore<Ball> _ballStore;
+        private GameInfoStore _gameInfoStore;
         
-        public void Construct(ItemStore<Ball> ballStore)
+        public void Construct(ItemStore<Ball> ballStore, GameInfoStore gameInfoStore)
         {
             _ballStore = ballStore;
+            _gameInfoStore = gameInfoStore;
         }
         
         private void Update()
         {   
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetKeyDown("e"))
             {
                 var closest = _ballStore.GetClosest(transform.position, 1f);
-                Destroy(closest.gameObject);
+                if (closest)
+                {
+                    _ballStore.RemoveItem(closest);
+                    Destroy(closest.gameObject);
+                    
+                    _gameInfoStore.CreateBall();
+                }
             }
         }
     }

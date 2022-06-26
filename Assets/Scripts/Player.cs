@@ -1,3 +1,4 @@
+using Players;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -12,13 +13,6 @@ public class Player : MonoBehaviour
     private Vector3 movement;
     private Rigidbody2D rigidBody;
     private Animator animator;
-
-    private DrawScript drawScript;
-
-    public void Construct(DrawScript drawScript)
-    {
-        this.drawScript = drawScript;
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -36,14 +30,13 @@ public class Player : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
-        drawScript.StartDraw(transform.position);
         // InvokeRepeating("DrawPoint", 1.0f, 0.1f);
     }
 
     // private void DrawPoint()
     // {
-    //     drawScript.UpdateDraw(transform.position);
-    //     // drawScript.AddPoint(transform.position);
+    //     lineDrawer.UpdateDraw(transform.position);
+    //     // lineDrawer.AddPoint(transform.position);
     // }
 
     // Update is called once per frame
@@ -62,8 +55,6 @@ public class Player : MonoBehaviour
         Vector3 mousePosition = Utilities.GetMouseWorldPosition();
         Vector3 aimDirection = (mousePosition - transform.position).normalized;
         rotation = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
-        
-        drawScript.UpdateDraw(transform.position);
     }
 
     private void UpdateMoveDirection()

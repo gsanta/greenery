@@ -71,9 +71,7 @@ namespace Algorithms.RopeWrapping
             
             _activePoints = _points.Where((point) => MathUtils.VectorDistance(_anchorPoint, point) <= _activeSegment.GetLength()).ToList();
             var neighbours = GetNeighbours(_activePoints, _anchorPoint, currentPoint);
-
-            // var (leftNeighbour, rightNeighbour) = GetNeighbours(_activePoints, _anchorPoint, currentPoint);
-
+            
             if (neighbours.HasValue)
             {
                 var (leftNeighbour, rightNeighbour) = neighbours.Value;
@@ -116,21 +114,6 @@ namespace Algorithms.RopeWrapping
             _prevCurrentPoint = currentPoint;
         }
 
-        // public static bool ShouldBackTrack(Vector2 neighbour, List<Segment> segments)
-        // {
-        //     if (segments.Count == 0)
-        //     {
-        //         return false;
-        //     }
-        //     
-        //     if (segments.Last().end == neighbour)
-        //     {
-        //         return true;
-        //     }
-        //
-        //     return false;
-        // }
-        
         private bool CheckBackTrack(Vector2 leftNeighbour, Vector2 rightNeighbour)
         {
             if (_prevAnchorPoints.Count == 0 || _segments.Count == 0)
