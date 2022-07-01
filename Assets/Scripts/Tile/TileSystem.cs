@@ -1,4 +1,5 @@
 using System;
+using Players;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -6,14 +7,19 @@ namespace Tile
 {
     public class TileSystem : MonoBehaviour
     {
-        private Tilemap tilemap;
-        [SerializeField] private Transform player;
-        
+        private Tilemap _tilemap;
+        private PlayerStore _playerStore;
+
+        public void Construct(PlayerStore playerStore)
+        {
+            _playerStore = playerStore;
+        }
+
         private void Start()
         {
-            tilemap = GetComponent<Tilemap>();
-            BoundsInt bounds = tilemap.cellBounds;
-            TileBase[] tiles = tilemap.GetTilesBlock(bounds);
+            _tilemap = GetComponent<Tilemap>();
+            BoundsInt bounds = _tilemap.cellBounds;
+            TileBase[] tiles = _tilemap.GetTilesBlock(bounds);
             Debug.Log("hello");
 
             InvokeRepeating("CurrentTile", 1.0f, 0.1f);
@@ -21,8 +27,8 @@ namespace Tile
 
         private void CurrentTile()
         {
-            var cellPosition = tilemap.WorldToCell(player.position);
-            var cell = tilemap.GetTile(cellPosition);
+            var cellPosition = _tilemap.WorldToCell(_playerStore.GetActivePlayer().transform.position);
+            var cell = _tilemap.GetTile(cellPosition);
 
             if (cell != null)
             {

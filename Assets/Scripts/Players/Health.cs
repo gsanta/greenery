@@ -7,18 +7,24 @@ namespace Players
     {
         [SerializeField] private int maxHealth = 100;
         [SerializeField] private int currentHealth;
-        [SerializeField] private HealthBar healthBar;
+
+        private HealthBar _healthBar;
+
+        public void Construct(HealthBar healthBar)
+        {
+            _healthBar = healthBar;
+        }
         
         private void Start()
         {
             currentHealth = maxHealth;
-            healthBar.SetMaxHealth(maxHealth);
+            _healthBar.SetMaxHealth(maxHealth);
         }
 
         public void TakeDamage(int damage)
         {
             currentHealth -= damage;
-            healthBar.SetHealth(currentHealth);
+            _healthBar.SetHealth(currentHealth);
         }
     }
 }

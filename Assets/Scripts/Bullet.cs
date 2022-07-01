@@ -1,28 +1,28 @@
 using System;
+using Players;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private Vector3 shootDir;
+    private Vector3 _shootDir;
     public void Setup(Vector3 dir)
     {
-        shootDir = dir;
-        transform.eulerAngles = new Vector3(0, 0, Utilities.GetAngleFromVectorFloat(shootDir));
+        _shootDir = dir;
+        transform.eulerAngles = new Vector3(0, 0, Utilities.GetAngleFromVectorFloat(_shootDir));
         Destroy(gameObject, 50f);
-        
     }
 
     private void Update()
     {
-        float moveSpeed = 15f;
-        transform.position += shootDir * moveSpeed * Time.deltaTime;
+        const float moveSpeed = 15f;
+        transform.position += _shootDir * moveSpeed * Time.deltaTime;
 
-        float hitDetectionSize = 1f;
-        Target target = Target.GetClosest(transform.position, hitDetectionSize);
+        const float hitDetectionSize = 1f;
+        var target = PlayerTarget.GetClosest(transform.position, hitDetectionSize);
 
         if (target != null)
         {
-            Target.RemoveTarget(target);
+            PlayerTarget.RemoveTarget(target);
             Destroy(target.gameObject);
         }
     }
