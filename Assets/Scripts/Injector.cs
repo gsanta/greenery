@@ -2,6 +2,7 @@
 using GameInfo;
 using GUI;
 using Items;
+using Items.Bullet;
 using Players;
 using Tile;
 using UnityEngine;
@@ -10,7 +11,7 @@ public class Injector : MonoBehaviour
 {
     [SerializeField] private TileSystem tileSystem;
     
-    [SerializeField] private EnemySpawner enemySpawner;
+    [SerializeField] private EnemyFactory enemyFactory;
     
     [SerializeField] private GameInfoStore gameInfoStore;
 
@@ -19,7 +20,9 @@ public class Injector : MonoBehaviour
     [SerializeField] private PlayerFactory playerFactory;
 
     [SerializeField] private HealthBar healthBar;
-    
+
+    [SerializeField] private BulletFactory bulletFactory;
+
     private PlayerStore _playerStore;
     
     private EnemyStore _enemyStore;
@@ -29,9 +32,10 @@ public class Injector : MonoBehaviour
     private void Awake()
     {
         _playerStore = new PlayerStore();
+        _enemyStore = new EnemyStore();
         tileSystem.Construct(_playerStore);
-        enemySpawner.Construct(_enemyStore, _playerStore);
-        playerFactory.Construct(_playerStore, _ballStore, gameInfoStore, healthBar);
+        enemyFactory.Construct(_enemyStore, _playerStore, bulletFactory);
+        playerFactory.Construct(_playerStore, _enemyStore, _ballStore, gameInfoStore, healthBar, bulletFactory);
         playerFactory.Create();
         ballSpawner.Construct(_ballStore);
     }

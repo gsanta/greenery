@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 1991849656282922608}
   - component: {fileID: 1991849656282922615}
   - component: {fileID: 1991849656282922609}
-  - component: {fileID: 1991849656282922611}
+  - component: {fileID: 3523659517743009186}
   - component: {fileID: 1991849656282922610}
   m_Layer: 0
-  m_Name: Cat 3
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1991849656282922608
 SpriteRenderer:
@@ -120,9 +120,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a026540100d4775ba87f03876559013, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   moveSpeed: 5
---- !u!114 &1991849656282922611
+--- !u!114 &3523659517743009186
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,7 +130,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1991849656282922613}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5c2a7b41b21485a935f77e65b5fc55f, type: 3}
+  m_Script: {fileID: 11500000, guid: 09081a348f6742529dd5f56e89a2fd42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!50 &1991849656282922610

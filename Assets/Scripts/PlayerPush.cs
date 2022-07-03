@@ -1,11 +1,16 @@
+using Characters.Players;
 using UnityEngine;
 
 public class PlayerPush : MonoBehaviour
 {
     public float distance = 1.5f;
+    
     public float pushForce = 10f;
+    
     public LayerMask boxMask;
+    
     private Player player;
+    
     private Vector3 vectorDir = Vector2.right;
     
     private void Awake()
@@ -15,7 +20,7 @@ public class PlayerPush : MonoBehaviour
 
     private void Update()
     {
-        vectorDir = DirectionHelper.DirToVectorDir(player.moveDirection);
+        vectorDir = DirectionHelper.DirToVectorDir(player.GetMoveDirection());
         // Physics2D.queriesStartInColliders = false;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, vectorDir * transform.localScale.x, distance, boxMask);
 
