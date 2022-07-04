@@ -1,4 +1,5 @@
-﻿using Characters.Enemies;
+﻿using Characters.Avatar;
+using Characters.Enemies;
 using Characters.Players;
 using GameInfo;
 using GUI;
@@ -24,6 +25,10 @@ public class Injector : MonoBehaviour
 
     [SerializeField] private BulletFactory bulletFactory;
 
+    [SerializeField] private AvatarFactory avatarFactory;
+    
+    private AvatarStore _avatarStore;
+
     private PlayerStore _playerStore;
     
     private EnemyStore _enemyStore;
@@ -39,5 +44,10 @@ public class Injector : MonoBehaviour
         playerFactory.Construct(_playerStore, _enemyStore, _ballStore, gameInfoStore, healthBar, bulletFactory);
         playerFactory.Create();
         ballSpawner.Construct(_ballStore);
+
+        _avatarStore = new AvatarStore();
+        avatarFactory.Construct(_avatarStore);
+        avatarFactory.Create();
+        avatarFactory.Create();
     }
 }
