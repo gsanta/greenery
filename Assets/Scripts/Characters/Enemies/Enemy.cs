@@ -1,5 +1,7 @@
 using System;
+using Characters.Common;
 using Characters.Helpers;
+using Characters.Players;
 using Players;
 using UnityEngine;
 
@@ -17,7 +19,11 @@ namespace Characters.Enemies
         
         private PlayerStore _playerStore;
 
+        private EnemyStore _enemyStore;
+
         private Shooting _shooting;
+
+        private Health _health;
         
         private static readonly int HorizontalMovement = Animator.StringToHash("horizontalMovement");
         
@@ -25,14 +31,16 @@ namespace Characters.Enemies
 
         private Direction _moveDirection = Direction.Down;
 
-        public void Construct(PlayerStore playerStore)
+        public void Construct(EnemyStore enemyStore, PlayerStore playerStore)
         {
             _playerStore = playerStore;
+            _enemyStore = enemyStore;
         }
 
         private void Start()
         {
             _shooting = GetComponent<Shooting>();
+            _health = GetComponent<Health>();
             _animator = GetComponent<Animator>();
             _rb = GetComponent<Rigidbody2D>();
             InvokeRepeating(nameof(Shoot), 0, 2);
@@ -81,6 +89,17 @@ namespace Characters.Enemies
         public GameObject GetGameObjet()
         {
             return gameObject;
+        }
+        
+        public Health GetHealth()
+        {
+            return _health;
+        }
+
+        public void Die()
+        {
+            _enemyStore.Remove(this);
+            Destroy(gameObject);
         }
     }
 }

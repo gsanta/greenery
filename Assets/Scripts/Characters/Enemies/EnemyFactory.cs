@@ -1,3 +1,5 @@
+using Characters.Common;
+using Characters.Players;
 using Items.Bullet;
 using Players;
 using UnityEngine;
@@ -45,8 +47,9 @@ namespace Characters.Enemies
             if (!(_timer <= 0f)) return;
 
             var enemy = Instantiate(enemyPrefab, spawnPosition.position, transform.rotation);
-            enemy.Construct(_playerStore);
+            enemy.Construct(_enemyStore, _playerStore);
             enemy.GetComponent<Shooting>().Construct(enemy, _bulletFactory, _playerStore);
+            enemy.GetComponent<Health>().Construct(enemy, 100, null);
             _enemyStore.Add(enemy);
             _timer = spawnTime;
         }

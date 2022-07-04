@@ -1,6 +1,5 @@
 using Characters;
 using Characters.Helpers;
-using Players;
 using UnityEngine;
 
 namespace Items.Bullet
@@ -8,8 +7,11 @@ namespace Items.Bullet
     public class Bullet : MonoBehaviour
     {
         private Vector3 _shootDir;
+        
         private ICharacterStore<ICharacter> _characterStore;
-    
+
+        private bool _isUsed = false;
+        
         public void Construct(ICharacterStore<ICharacter> characterStore)
         {
             _characterStore = characterStore;
@@ -27,14 +29,28 @@ namespace Items.Bullet
             const float moveSpeed = 15f;
             transform.position += _shootDir * moveSpeed * Time.deltaTime;
 
+            if (!_isUsed)
+            {
+                HitTarget();
+            }
+        }
+
+        private void HitTarget()
+        {
             const float hitDetectionSize = 1f;
             var target = TargetHelper.GetClosest(_characterStore.GetAll(), transform.position, hitDetectionSize);
 
             if (target != null)
             {
-                _characterStore.Remove(target);
-                Destroy(target.GetGameObjet());
+                target.GetHealth().HitByBullet();
+                Invoke(nameof(DestroyBullet), 0.1f);
+                _isUsed = true;
             }
+        }
+
+        private void DestroyBullet()
+        {
+            Destroy(gameObject);
         }
     }
 }

@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using Characters;
-using Characters.Players;
 
-namespace Players
+namespace Characters.Players
 {
     public class PlayerStore : ICharacterStore<ICharacter>
     {

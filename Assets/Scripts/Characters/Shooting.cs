@@ -22,6 +22,7 @@ namespace Characters
         public void Shoot()
         {
             var shootingDir = DirectionHelper.DirToVectorDir(_character.GetMoveDirection());
+            Debug.Log(_character.GetMoveDirection());
             var pos = transform.position;
             _bulletFactory.Create(_targetStore, pos, shootingDir);
         }

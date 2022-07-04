@@ -1,4 +1,5 @@
 using Characters;
+using Characters.Common;
 using Characters.Enemies;
 using Characters.Players;
 using GameInfo;
@@ -44,7 +45,7 @@ namespace Players
             var player = Instantiate(playerPrefab, playerSpawnPosition.position, transform.rotation, playerList);
             player.GetComponent<ItemPickup>().Construct(_ballStore, _gameInfoStore);
             player.GetComponent<LineDrawer>().Construct(_gameInfoStore);
-            player.GetComponent<Health>().Construct(_healthBar);
+            player.GetComponent<Health>().Construct(player, 100, _healthBar);
             player.GetComponent<Shooting>().Construct(player.GetComponent<Player>(), _bulletFactory, _enemyStore);
             _playerStore.Add(player);
             return player;

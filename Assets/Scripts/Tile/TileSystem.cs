@@ -1,4 +1,5 @@
 using System;
+using Characters.Players;
 using Players;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -20,8 +21,6 @@ namespace Tile
             _tilemap = GetComponent<Tilemap>();
             BoundsInt bounds = _tilemap.cellBounds;
             TileBase[] tiles = _tilemap.GetTilesBlock(bounds);
-            Debug.Log("hello");
-
             InvokeRepeating("CurrentTile", 1.0f, 0.1f);
         }
 
@@ -32,7 +31,7 @@ namespace Tile
 
             if (cell != null)
             {
-                Debug.Log(("cell name is + " + cell.name));
+                // Debug.Log(("cell name is + " + cell.name));
             }
         }
     }

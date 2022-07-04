@@ -1,3 +1,4 @@
+using Characters.Common;
 using Characters.Helpers;
 using UnityEngine;
 
@@ -18,10 +19,13 @@ namespace Characters.Players
         private Animator _animator;
 
         private Shooting _shooting;
+
+        private Health _health;
         
         void Start()
         {
             _shooting = GetComponent<Shooting>();
+            _health = GetComponent<Health>();
             
             if (_instance != null && _instance != this)
             {
@@ -84,6 +88,16 @@ namespace Characters.Players
         public GameObject GetGameObjet()
         {
             return gameObject;
+        }
+
+        public Health GetHealth()
+        {
+            return _health;
+        }
+        
+        public void Die()
+        {
+            Debug.Log("player is dead");
         }
     }
 }

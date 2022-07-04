@@ -13,22 +13,25 @@ public enum Direction
     LeftDown,
 }
 
-public class DirectionHelper
+public static class DirectionHelper
 {
+    private static readonly Vector2 LeftDown = new Vector2(-1, -1).normalized;
+    private static readonly Vector2 LeftUp = new Vector2(-1, 1).normalized;
+    private static readonly Vector2 RightDown = new Vector2(1, -1).normalized;
+    private static readonly Vector2 RightUp = new Vector2(1, 1).normalized;
     public static Vector2 DirToVectorDir(Direction dir)
     {
-        switch (dir)
+        return dir switch
         {
-            case Direction.Up:
-                return Vector2.up;
-            case Direction.Right:
-                return Vector2.right;
-            case Direction.Down:
-                return Vector2.down;
-            case Direction.Left:
-                return Vector2.left;
-            default:
-                return Vector2.right;
-        }
+            Direction.Up => Vector2.up,
+            Direction.Right => Vector2.right,
+            Direction.Down => Vector2.down,
+            Direction.Left => Vector2.left,
+            Direction.LeftDown => LeftDown,
+            Direction.LeftUp => LeftUp,
+            Direction.RightDown => RightDown,
+            Direction.RightUp => RightUp,
+            _ => Vector2.right
+        };
     }
 }

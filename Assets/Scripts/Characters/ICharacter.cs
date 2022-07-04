@@ -1,3 +1,4 @@
+using Characters.Common;
 using UnityEngine;
 
 namespace Characters
@@ -9,5 +10,9 @@ namespace Characters
         Vector3 GetPosition();
 
         GameObject GetGameObjet();
+
+        Health GetHealth();
+
+        void Die();
     }
 }

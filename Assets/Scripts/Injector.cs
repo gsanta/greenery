@@ -1,4 +1,5 @@
 ﻿using Characters.Enemies;
+using Characters.Players;
 using GameInfo;
 using GUI;
 using Items;
