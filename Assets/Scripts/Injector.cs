@@ -2,9 +2,11 @@
 using Characters.Enemies;
 using Characters.Players;
 using GameInfo;
+using GameLogic;
 using GUI;
 using Items;
 using Items.Bullet;
+using Items.EnterArea;
 using Players;
 using Tile;
 using UnityEngine;
@@ -14,6 +16,8 @@ public class Injector : MonoBehaviour
     [SerializeField] private TileSystem tileSystem;
     
     [SerializeField] private EnemyFactory enemyFactory;
+
+    [SerializeField] private EnemySpawner enemySpawner;
     
     [SerializeField] private GameInfoStore gameInfoStore;
 
@@ -26,6 +30,14 @@ public class Injector : MonoBehaviour
     [SerializeField] private BulletFactory bulletFactory;
 
     [SerializeField] private AvatarFactory avatarFactory;
+
+    [SerializeField] private GameManager gameManager;
+
+    [SerializeField] private EnterAreaStore enterAreaStore;
+
+    //GUI
+
+    [SerializeField] private StartGamePanel startGamePanel;
     
     private AvatarStore _avatarStore;
 
@@ -41,13 +53,16 @@ public class Injector : MonoBehaviour
         _enemyStore = new EnemyStore();
         tileSystem.Construct(_playerStore);
         enemyFactory.Construct(_enemyStore, _playerStore, bulletFactory);
+        enemySpawner.Construct(enemyFactory);
         playerFactory.Construct(_playerStore, _enemyStore, _ballStore, gameInfoStore, healthBar, bulletFactory);
-        playerFactory.Create();
         ballSpawner.Construct(_ballStore);
 
         _avatarStore = new AvatarStore();
         avatarFactory.Construct(_avatarStore);
         avatarFactory.Create();
         avatarFactory.Create();
+        
+        gameManager.Construct(enterAreaStore, playerFactory, enemySpawner);
+        startGamePanel.Construct(gameManager);
     }
 }

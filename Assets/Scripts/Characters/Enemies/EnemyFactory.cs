@@ -1,17 +1,12 @@
 using Characters.Common;
 using Characters.Players;
 using Items.Bullet;
-using Players;
 using UnityEngine;
 
 namespace Characters.Enemies
 {
     public class EnemyFactory : MonoBehaviour
     {
-        [SerializeField] private float spawnTime = 5f;
-
-        [SerializeField] private bool isDisabled;
-
         public Enemy enemyPrefab;
 
         public Transform spawnPosition;
@@ -31,27 +26,13 @@ namespace Characters.Enemies
             _bulletFactory = bulletFactory;
         }
 
-        private void Start()
+        public void Create()
         {
-            _timer = spawnTime;
-        }
-
-        private void Update()
-        {
-            if (isDisabled)
-            {
-                return;
-            }
-
-            _timer -= Time.deltaTime;
-            if (!(_timer <= 0f)) return;
-
             var enemy = Instantiate(enemyPrefab, spawnPosition.position, transform.rotation);
             enemy.Construct(_enemyStore, _playerStore);
             enemy.GetComponent<Shooting>().Construct(enemy, _bulletFactory, _playerStore);
             enemy.GetComponent<Health>().Construct(enemy, 100, null);
             _enemyStore.Add(enemy);
-            _timer = spawnTime;
         }
     }
 }

@@ -18,9 +18,7 @@ namespace Characters.Avatar
         public void Create()
         {
             var avatar = Instantiate(avatarPrefab, avatarContainer);
-            _avatarStore.AddAvatar(avatar);
-            
-            
+            _avatarStore.AddAvatar(avatar);    
         }
     }
 }

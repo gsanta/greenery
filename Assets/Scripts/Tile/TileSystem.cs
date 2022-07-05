@@ -26,13 +26,13 @@ namespace Tile
 
         private void CurrentTile()
         {
-            var cellPosition = _tilemap.WorldToCell(_playerStore.GetActivePlayer().transform.position);
-            var cell = _tilemap.GetTile(cellPosition);
-
-            if (cell != null)
-            {
-                // Debug.Log(("cell name is + " + cell.name));
-            }
+            // var cellPosition = _tilemap.WorldToCell(_playerStore.GetActivePlayer().transform.position);
+            // var cell = _tilemap.GetTile(cellPosition);
+            //
+            // if (cell != null)
+            // {
+            //     // Debug.Log(("cell name is + " + cell.name));
+            // }
         }
     }
 }

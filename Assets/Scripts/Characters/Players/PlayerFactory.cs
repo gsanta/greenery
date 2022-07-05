@@ -40,9 +40,9 @@ namespace Players
             _bulletFactory = bulletFactory;
         }
 
-        public Player Create()
+        public Player Create(Vector3 position)
         {
-            var player = Instantiate(playerPrefab, playerSpawnPosition.position, transform.rotation, playerList);
+            var player = Instantiate(playerPrefab, position, transform.rotation, playerList);
             player.GetComponent<ItemPickup>().Construct(_ballStore, _gameInfoStore);
             player.GetComponent<LineDrawer>().Construct(_gameInfoStore);
             player.GetComponent<Health>().Construct(player, 100, _healthBar);
