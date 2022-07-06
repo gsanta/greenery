@@ -1,5 +1,6 @@
 using GameLogic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GUI
 {
@@ -15,6 +16,7 @@ namespace GUI
         public void StartGame()
         {
             _gameManager.StartGame();
+            SceneManager.LoadScene("Game");
         }
     }
 }

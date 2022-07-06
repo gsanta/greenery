@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Characters.Players
 {
-    public class PlayerStore : ICharacterStore<ICharacter>
+    public class PlayerStore : MonoBehaviour, ICharacterStore<ICharacter>
     {
         private readonly List<Player> _players = new();
 
@@ -10,7 +11,6 @@ namespace Characters.Players
         {
             return _players.ConvertAll<ICharacter>(player => player);
         }
-
 
         public void Add(ICharacter player)
         {
@@ -25,6 +25,14 @@ namespace Characters.Players
         public Player GetActivePlayer()
         {
             return _players[0];
+        }
+
+        public void DestroyAll()
+        {
+            foreach (var player in _players)
+            {
+                Destroy(player);
+            }
         }
     }
 }

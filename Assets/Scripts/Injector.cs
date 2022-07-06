@@ -7,7 +7,7 @@ using GUI;
 using Items;
 using Items.Bullet;
 using Items.EnterArea;
-using Players;
+using Scene;
 using Tile;
 using UnityEngine;
 
@@ -35,26 +35,28 @@ public class Injector : MonoBehaviour
 
     [SerializeField] private EnterAreaStore enterAreaStore;
 
+    [SerializeField] private FollowCamera followCamera;
+
     //GUI
 
     [SerializeField] private StartGamePanel startGamePanel;
+
+    [SerializeField] private PanelManager panelManager;
+    
+    [SerializeField] private EnemyStore enemyStore;
+    
+    [SerializeField] private PlayerStore playerStore;
     
     private AvatarStore _avatarStore;
 
-    private PlayerStore _playerStore;
-    
-    private EnemyStore _enemyStore;
-    
     private readonly ItemStore<Ball> _ballStore = new();
 
     private void Awake()
     {
-        _playerStore = new PlayerStore();
-        _enemyStore = new EnemyStore();
-        tileSystem.Construct(_playerStore);
-        enemyFactory.Construct(_enemyStore, _playerStore, bulletFactory);
+        tileSystem.Construct(playerStore);
+        enemyFactory.Construct(enemyStore, playerStore, bulletFactory, gameManager);
         enemySpawner.Construct(enemyFactory);
-        playerFactory.Construct(_playerStore, _enemyStore, _ballStore, gameInfoStore, healthBar, bulletFactory);
+        playerFactory.Construct(playerStore, enemyStore, _ballStore, gameInfoStore, healthBar, bulletFactory, gameManager);
         ballSpawner.Construct(_ballStore);
 
         _avatarStore = new AvatarStore();
@@ -62,7 +64,11 @@ public class Injector : MonoBehaviour
         avatarFactory.Create();
         avatarFactory.Create();
         
-        gameManager.Construct(enterAreaStore, playerFactory, enemySpawner);
+        enterAreaStore.Construct(gameManager);
+        
+        gameManager.Construct(enterAreaStore, playerFactory, enemySpawner, followCamera, panelManager);
         startGamePanel.Construct(gameManager);
+
+        panelManager.startGamePanel = startGamePanel;
     }
 }

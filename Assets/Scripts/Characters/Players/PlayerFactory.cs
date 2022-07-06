@@ -1,14 +1,14 @@
-using Characters;
 using Characters.Common;
 using Characters.Enemies;
-using Characters.Players;
 using GameInfo;
+using GameLogic;
 using GUI;
 using Items;
 using Items.Bullet;
+using Players;
 using UnityEngine;
 
-namespace Players
+namespace Characters.Players
 {
     public class PlayerFactory : MonoBehaviour
     {
@@ -29,8 +29,10 @@ namespace Players
         private HealthBar _healthBar;
         
         private BulletFactory _bulletFactory;
+
+        private GameManager _gameManager;
         
-        public void Construct(PlayerStore playerStore, EnemyStore enemyStore, ItemStore<Ball> ballStore, GameInfoStore gameInfoStore, HealthBar healthBar, BulletFactory bulletFactory)
+        public void Construct(PlayerStore playerStore, EnemyStore enemyStore, ItemStore<Ball> ballStore, GameInfoStore gameInfoStore, HealthBar healthBar, BulletFactory bulletFactory, GameManager gameManager)
         {
             _playerStore = playerStore;
             _enemyStore = enemyStore;
@@ -38,11 +40,13 @@ namespace Players
             _gameInfoStore = gameInfoStore;
             _healthBar = healthBar;
             _bulletFactory = bulletFactory;
+            _gameManager = gameManager;
         }
 
         public Player Create(Vector3 position)
         {
             var player = Instantiate(playerPrefab, position, transform.rotation, playerList);
+            player.Construct(_gameManager);
             player.GetComponent<ItemPickup>().Construct(_ballStore, _gameInfoStore);
             player.GetComponent<LineDrawer>().Construct(_gameInfoStore);
             player.GetComponent<Health>().Construct(player, 100, _healthBar);

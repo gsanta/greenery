@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Characters.Enemies
 {
-    public class EnemyStore : ICharacterStore<ICharacter>
+    public class EnemyStore : MonoBehaviour, ICharacterStore<ICharacter>
     {
         private readonly List<Enemy> _enemies = new();
 
@@ -19,6 +20,14 @@ namespace Characters.Enemies
         public void Remove(ICharacter enemy)
         {
             _enemies.Remove((Enemy) enemy);
+        }
+
+        public void DestroyAll()
+        {
+            foreach (var enemy in _enemies)
+            {
+                Destroy(enemy);
+            }
         }
     }
 }

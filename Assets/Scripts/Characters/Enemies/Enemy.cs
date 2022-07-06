@@ -2,6 +2,7 @@ using System;
 using Characters.Common;
 using Characters.Helpers;
 using Characters.Players;
+using GameLogic;
 using Players;
 using UnityEngine;
 
@@ -21,6 +22,8 @@ namespace Characters.Enemies
 
         private EnemyStore _enemyStore;
 
+        private GameManager _gameManager;
+
         private Shooting _shooting;
 
         private Health _health;
@@ -31,10 +34,13 @@ namespace Characters.Enemies
 
         private Direction _moveDirection = Direction.Down;
 
-        public void Construct(EnemyStore enemyStore, PlayerStore playerStore)
+        private bool _isActive = false;
+
+        public void Construct(EnemyStore enemyStore, PlayerStore playerStore, GameManager gameManager)
         {
             _playerStore = playerStore;
             _enemyStore = enemyStore;
+            _gameManager = gameManager;
         }
 
         private void Start()
@@ -48,6 +54,13 @@ namespace Characters.Enemies
 
         private void Update()
         {
+            UpdateActive();
+            
+            if (!_isActive)
+            {
+                return;
+            }
+            
             var player = _playerStore.GetActivePlayer();
             var direction = player.transform.position - transform.position;
             var radians = Mathf.Atan2(direction.y, direction.x);
@@ -59,6 +72,22 @@ namespace Characters.Enemies
         
             _animator.SetFloat(HorizontalMovement, rotationVector.x);
             _animator.SetFloat(VerticalMovement, rotationVector.y);
+        }
+
+        private void UpdateActive()
+        {
+            if (!_gameManager.IsGameStarted())
+            {
+                if (_isActive)
+                {
+                    _isActive = false;
+                    CancelInvoke(nameof(Shoot));
+                }
+            }
+            else
+            {
+                _isActive = true;
+            }
         }
 
         private void Shoot()

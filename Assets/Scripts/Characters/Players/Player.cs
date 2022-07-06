@@ -1,5 +1,6 @@
 using Characters.Common;
 using Characters.Helpers;
+using GameLogic;
 using UnityEngine;
 
 namespace Characters.Players
@@ -9,6 +10,8 @@ namespace Characters.Players
         private static Player _instance;
         
         public float moveSpeed = 5f;
+
+        private GameManager _gameManager;
         
         private Direction _moveDirection = Direction.Down;
 
@@ -21,6 +24,13 @@ namespace Characters.Players
         private Shooting _shooting;
 
         private Health _health;
+
+        private bool _isActive;
+
+        public void Construct(GameManager gameManager)
+        {
+            _gameManager = gameManager;
+        }
         
         void Start()
         {
@@ -43,6 +53,13 @@ namespace Characters.Players
         
         void Update()
         {
+            UpdateActive();
+
+            if (!_isActive)
+            {
+                return;
+            }
+            
             var horizontalMovement = Input.GetAxisRaw("Horizontal");
             var verticalMovement = Input.GetAxisRaw("Vertical");
 
@@ -59,6 +76,11 @@ namespace Characters.Players
             {
                 _shooting.Shoot();
             }
+        }
+        
+        private void UpdateActive()
+        {
+            _isActive = _gameManager.IsGameStarted();
         }
         
         private void UpdateBlendTrees()
