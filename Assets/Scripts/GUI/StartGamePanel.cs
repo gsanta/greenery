@@ -6,16 +6,8 @@ namespace GUI
 {
     public class StartGamePanel : MonoBehaviour
     {
-        private GameManager _gameManager;
-        
-        public void Construct(GameManager gameManager)
+        public void StartGame(int pass)
         {
-            _gameManager = gameManager;
-        }
-
-        public void StartGame()
-        {
-            _gameManager.StartGame();
             SceneManager.LoadScene("Game");
         }
     }

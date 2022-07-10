@@ -855,7 +855,7 @@ MonoBehaviour:
       - m_Target: {fileID: 613197725}
         m_TargetAssemblyTypeName: GUI.StartGamePanel, Scripts
         m_MethodName: StartGame
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

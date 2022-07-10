@@ -2,9 +2,9 @@ using Characters.Enemies;
 using Characters.Players;
 using GUI;
 using Items.EnterArea;
-using Players;
 using Scene;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GameLogic
 {
@@ -37,7 +37,7 @@ namespace GameLogic
             return _isGameStarted;
         }
         
-        public void StartGame()
+        private void Start()
         {
             var enterArea = _enterAreaStore.ChooseEnterArea();
             var player = _playerFactory.Create(enterArea.transform.position);
@@ -50,8 +50,10 @@ namespace GameLogic
 
         public void EndGame()
         {
-            _panelManager.startGamePanel.gameObject.SetActive(true);
-            _isGameStarted = false;
+            // _panelManager.startGamePanel.gameObject.SetActive(true);
+            SceneManager.LoadScene("Menu");
+            // _isGameStarted = false;
+            
         }
     }
 }

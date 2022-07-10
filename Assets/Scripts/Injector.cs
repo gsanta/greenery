@@ -67,7 +67,6 @@ public class Injector : MonoBehaviour
         enterAreaStore.Construct(gameManager);
         
         gameManager.Construct(enterAreaStore, playerFactory, enemySpawner, followCamera, panelManager);
-        startGamePanel.Construct(gameManager);
 
         panelManager.startGamePanel = startGamePanel;
     }
