@@ -7,8 +7,7 @@ namespace Grid
 
         [SerializeField] private int width;
         [SerializeField] private int height;
-        [SerializeField] private int offsetWidth = 0;
-        [SerializeField] private int offsetHeight = 0;
+        [SerializeField] private Vector3 worldOffset = new Vector3(0, 0, 0);
         [SerializeField] private float cellSize;
         [SerializeField] private bool isShowDebug;
 
@@ -21,7 +20,7 @@ namespace Grid
 
         private void Awake()
         {
-            _grid = new Grid<int>(width, height, cellSize, (Grid<int> g, int x, int y) => 1, offsetWidth, offsetHeight);
+            _grid = new Grid<int>(width, height, cellSize, worldOffset, (Grid<int> g, int x, int y) => 1);
             _gridVisualizer = new GridVisualizer<int>(_grid);
 
             if (isShowDebug)

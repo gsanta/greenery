@@ -3,7 +3,6 @@ using Characters.Common;
 using Characters.Helpers;
 using Characters.Players;
 using GameLogic;
-using Players;
 using UnityEngine;
 
 namespace Characters.Enemies

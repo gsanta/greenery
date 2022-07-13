@@ -9,16 +9,14 @@ namespace Grid
         public readonly int Height;
         private readonly TGridObject[,] _gridArray;
         public readonly float CellSize;
-        private readonly int _offsetWidth;
-        private readonly int _offsetHeight;
+        private readonly Vector3 _worldOffset;
 
-        public Grid(int width, int height, float cellSize, Func<Grid<TGridObject>, int, int, TGridObject> createGridObject, int offsetWidth = 0, int offsetHeight = 0)
+        public Grid(int width, int height, float cellSize, Vector3 worldOffset, Func<Grid<TGridObject>, int, int, TGridObject> createGridObject)
         {
             Width = width;
             Height = height;
             CellSize = cellSize;
-            _offsetWidth = offsetWidth;
-            _offsetHeight = offsetHeight;
+            _worldOffset = worldOffset;
 
             _gridArray = new TGridObject[width, height];
 
@@ -80,8 +78,7 @@ namespace Grid
 
         public Vector3 GetWorldPosition(int x, int y)
         {
-            return (new Vector3(x, y) - new Vector3(Width / 2f, Height / 2f) + new Vector3(_offsetWidth, _offsetHeight)) *
-                   CellSize;
+            return (new Vector3(x, y) - new Vector3(Width / 2f, Height / 2f)) * CellSize + _worldOffset;
         }
     }
 }
