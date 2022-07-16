@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Grid;
+using AI.GridSystem;
 using UnityEngine;
 
 public class PathFinding
@@ -13,7 +13,7 @@ public class PathFinding
 
     public PathFinding(int width, int height)
     {
-        grid = new Grid<PathNode>(width, height, 2f, new Vector3(0, 0, 0), (Grid<PathNode> grid, int x, int y) => new PathNode(grid, x, y));
+        grid = new Grid<PathNode>(width, height, (Grid<PathNode> grid, int x, int y) => new PathNode(grid, x, y), 2f);
     }
 
     public List<PathNode> FindPath(int startX, int startY, int endX, int endY)

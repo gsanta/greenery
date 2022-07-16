@@ -1,8 +1,7 @@
 using System;
-using Algorithms;
 using UnityEngine;
 
-namespace Types
+namespace Algorithms
 {
     public struct Segment
     {

@@ -4,7 +4,8 @@ namespace Characters
 {
     public interface IMoveAble
     {
-        Vector3 GetPosition();
-        void SetTarget(Vector3 position);
+        Vector2 GetPosition();
+        void SetMovement(Vector2 movement);
+        Vector2 GetMovement();
     }
 }

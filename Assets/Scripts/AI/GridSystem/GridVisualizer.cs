@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Grid
+namespace AI.GridSystem
 {
     public class GridVisualizer<T>
     {

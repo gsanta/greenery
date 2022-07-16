@@ -1,7 +1,6 @@
-using System;
+using Algorithms;
 using Algorithms.RopeWrapping;
 using NUnit.Framework;
-using Types;
 using UnityEngine;
 
 namespace Tests.EditMode.Algorithms.RopeWrapping

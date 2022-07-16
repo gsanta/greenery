@@ -1,4 +1,4 @@
-using Grid;
+using AI.GridSystem;
 
 public class PathNode
 {

@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 
-namespace Grid
+namespace AI.GridSystem
 {
     class GridComponent : MonoBehaviour
     {
 
         [SerializeField] private int width;
         [SerializeField] private int height;
-        [SerializeField] private Vector3 worldOffset = new Vector3(0, 0, 0);
         [SerializeField] private float cellSize;
         [SerializeField] private bool isShowDebug;
 
@@ -20,7 +19,7 @@ namespace Grid
 
         private void Awake()
         {
-            _grid = new Grid<int>(width, height, cellSize, worldOffset, (Grid<int> g, int x, int y) => 1);
+            _grid = new Grid<int>(width, height, (Grid<int> g, int x, int y) => 1, cellSize);
             _gridVisualizer = new GridVisualizer<int>(_grid);
 
             if (isShowDebug)

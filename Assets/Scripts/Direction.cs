@@ -1,4 +1,5 @@
 
+using AI;
 using UnityEngine;
 
 public enum Direction
@@ -19,7 +20,7 @@ public static class DirectionHelper
     private static readonly Vector2 LeftUp = new Vector2(-1, 1).normalized;
     private static readonly Vector2 RightDown = new Vector2(1, -1).normalized;
     private static readonly Vector2 RightUp = new Vector2(1, 1).normalized;
-    public static Vector2 DirToVectorDir(Direction dir)
+    public static Vector2 DirToVector(Direction dir)
     {
         return dir switch
         {
@@ -32,6 +33,22 @@ public static class DirectionHelper
             Direction.RightDown => RightDown,
             Direction.RightUp => RightUp,
             _ => Vector2.right
+        };
+    }
+    
+    public static IntPosition DirToIntDirection(Direction dir)
+    {
+        return dir switch
+        {
+            Direction.Up => IntPosition.Up,
+            Direction.Right => IntPosition.Right,
+            Direction.Down => IntPosition.Down,
+            Direction.Left => IntPosition.Left,
+            Direction.LeftDown => IntPosition.LeftDown,
+            Direction.LeftUp => IntPosition.LeftUp,
+            Direction.RightDown => IntPosition.RightDown,
+            Direction.RightUp => IntPosition.RightUp,
+            _ => IntPosition.Right
         };
     }
 }

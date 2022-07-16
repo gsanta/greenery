@@ -1,5 +1,4 @@
-
-using Grid;
+using AI.GridSystem;
 using UnityEngine;
 
 public class World

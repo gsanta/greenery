@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Characters.Enemies
 {
-    public class Enemy : MonoBehaviour, ICharacter
+    public class Enemy : MonoBehaviour, ICharacter, IMoveAble
     {
         public float moveSpeed = 5f;
         
@@ -109,16 +109,26 @@ namespace Characters.Enemies
             return _moveDirection;
         }
 
-        public Vector3 GetPosition()
+        Vector3 ICharacter.GetPosition()
+        {
+            return GetPosition();
+        }
+
+        public void SetMovement(Vector2 movement)
+        {
+            _movement = movement;
+        }
+
+        public Vector2 GetMovement()
+        {
+            return _movement;
+        }
+
+        public Vector2 GetPosition()
         {
             return transform.position;
         }
 
-        public GameObject GetGameObjet()
-        {
-            return gameObject;
-        }
-        
         public Health GetHealth()
         {
             return _health;

@@ -9,8 +9,6 @@ namespace Characters
 
         Vector3 GetPosition();
 
-        GameObject GetGameObjet();
-
         Health GetHealth();
 
         void Die();
