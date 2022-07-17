@@ -38,14 +38,14 @@ namespace Tests.EditMode.AI.Player
         [Test]
         public void UpdateState_MovesTowardsTarget()
         {
-            var grid = new Grid<PathNode>(10, 10, (Grid<PathNode> grid, int x, int y) => new PathNode(grid, x, y), 1.0f);
-            var movable = new MoveAble(new Vector2(0, 0));
+            // var grid = new Grid<PathNode>(10, 10, (Grid<PathNode> grid, int x, int y) => new PathNode(grid, x, y), 1.0f);
+            // var movable = new MoveAble(new Vector2(0, 0));
 
-            var steeringState = new SteeringState(grid, movable);
-            
-            steeringState.Activate();
+            // var steeringState = new SteeringState(grid, movable);
+            //
+            // steeringState.Activate();
 
-            movable.GetMovement();
+            // movable.GetMovement();
         }
     }
 }

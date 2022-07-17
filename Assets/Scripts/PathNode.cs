@@ -2,31 +2,29 @@ using AI.GridSystem;
 
 public class PathNode
 {
-    private Grid<PathNode> grid;
-    public int x;
-    public int y;
+    public readonly int X;
+    public readonly int Y;
 
-    public int gCost;
-    public int hCost;
-    public int fCost;
+    public int GCost;
+    public int HCost;
+    public int FCost;
 
-    public bool isWalkable = true;
-    public PathNode cameFromNode;
+    public bool IsWalkable = true;
+    public PathNode CameFromNode;
 
-    public PathNode(Grid<PathNode> grid, int x, int y)
+    public PathNode(int x, int y)
     {
-        this.grid = grid;
-        this.x = x;
-        this.y = y;
+        X = x;
+        Y = y;
     }
 
     public void CalculateFCost()
     {
-        fCost = gCost + hCost;
+        FCost = GCost + HCost;
     }
 
     public override string ToString()
     {
-        return x + ", " + y;
+        return X + ", " + Y;
     }
 }
