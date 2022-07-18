@@ -117,5 +117,173 @@ namespace Tests.EditMode.AI.GridSystem
             Assert.AreEqual(x, 0);
             Assert.AreEqual(y, 0);
         }
+        
+        [Test]
+        public void LeftNeighbour_OddWidthGrid_XMin1Node_ReturnsXMin2Node()
+        {
+            var grid = new Grid<GridNode>(5, 4, (g, gx, gy) => new GridNode(gx, gy));
+
+            var leftNeighbour = grid.LeftNeighbour(-1, 0);
+            
+            Assert.AreEqual(-2, leftNeighbour.x);
+            Assert.AreEqual(0, leftNeighbour.y);
+        }
+        
+        [Test]
+        public void LeftNeighbour_OddWidthGrid_XNub2Node_ReturnsNull()
+        {
+            var grid = new Grid<GridNode>(5, 4, (g, gx, gy) => new GridNode(gx, gy));
+
+            var leftNeighbour = grid.LeftNeighbour(-2, 0);
+            
+            Assert.IsNull(leftNeighbour);
+        }
+        
+        [Test]
+        public void LeftNeighbour_EvenWidthGrid_NotLeftMostNode_ReturnsLeftNode()
+        {
+            var grid = new Grid<GridNode>(4, 4, (g, gx, gy) => new GridNode(gx, gy));
+
+            var leftNeighbour = grid.LeftNeighbour(-1, 0);
+            
+            Assert.AreEqual(-2, leftNeighbour.x);
+            Assert.AreEqual(0, leftNeighbour.y);
+        }
+        
+        [Test]
+        public void LeftNeighbour_EvenWidthGrid_LeftMostNode_ReturnsNull()
+        {
+            var grid = new Grid<GridNode>(4, 4, (g, gx, gy) => new GridNode(gx, gy));
+
+            var leftNeighbour = grid.LeftNeighbour(-2, 0);
+            
+            Assert.IsNull(leftNeighbour);
+        }
+        
+        [Test]
+        public void RightNeighbour_OddWidthGrid_NotRightMostNode_ReturnsRightNode()
+        {
+            var grid = new Grid<GridNode>(5, 4, (g, gx, gy) => new GridNode(gx, gy));
+
+            var rightNeighbour = grid.RightNeighbour(1, 0);
+            
+            Assert.AreEqual(2, rightNeighbour.x);
+            Assert.AreEqual(0, rightNeighbour.y);
+        }
+        
+        [Test]
+        public void RightNeighbour_OddWidthGrid_RightMostNode_ReturnsNull()
+        {
+            var grid = new Grid<GridNode>(5, 4, (g, gx, gy) => new GridNode(gx, gy));
+
+            var rightNeighbour = grid.RightNeighbour(2, 0);
+            
+            Assert.IsNull(rightNeighbour);
+        }
+        
+        [Test]
+        public void RightNeighbour_EvenWidthGrid_NotRightMostNode_ReturnsRightNode()
+        {
+            var grid = new Grid<GridNode>(4, 4, (g, gx, gy) => new GridNode(gx, gy));
+
+            var rightNeighbour = grid.RightNeighbour(0, 0);
+            
+            Assert.AreEqual(1, rightNeighbour.x);
+            Assert.AreEqual(0, rightNeighbour.y);
+        }
+        
+        [Test]
+        public void RightNeighbour_EvenWidthGrid_RightMostNode_ReturnsNull()
+        {
+            var grid = new Grid<GridNode>(4, 4, (g, gx, gy) => new GridNode(gx, gy));
+
+            var rightNeighbour = grid.RightNeighbour(1, 0);
+            
+            Assert.IsNull(rightNeighbour);
+        }
+        
+        [Test]
+        public void TopNeighbour_OddHeightGrid_NotTopMostNode_ReturnsTopNode()
+        {
+            var grid = new Grid<GridNode>(4, 5, (g, gx, gy) => new GridNode(gx, gy));
+
+            var topNeighbour = grid.TopNeighbour(1, 1);
+            
+            Assert.AreEqual(2, topNeighbour.y);
+            Assert.AreEqual(1, topNeighbour.x);
+        }
+        
+        [Test]
+        public void TopNeighbour_OddHeightGrid_TopMostNode_ReturnsNull()
+        {
+            var grid = new Grid<GridNode>(4, 5, (g, gx, gy) => new GridNode(gx, gy));
+
+            var topNeighbour = grid.TopNeighbour(1, 2);
+            
+            Assert.IsNull(topNeighbour);
+        }
+        
+        [Test]
+        public void TopNeighbour_EvenHeightGrid_NotTopMostNode_ReturnsTopNode()
+        {
+            var grid = new Grid<GridNode>(4, 4, (g, gx, gy) => new GridNode(gx, gy));
+
+            var topNeighbour = grid.TopNeighbour(1, 0);
+            
+            Assert.AreEqual(1, topNeighbour.y);
+            Assert.AreEqual(1, topNeighbour.x);
+        }
+        
+        [Test]
+        public void TopNeighbour_EvenHeightGrid_TopMostNode_ReturnsNull()
+        {
+            var grid = new Grid<GridNode>(4, 4, (g, gx, gy) => new GridNode(gx, gy));
+
+            var topNeighbour = grid.TopNeighbour(1, 1);
+            
+            Assert.IsNull(topNeighbour);
+        }
+        
+        [Test]
+        public void BottomNeighbour_OddHeightGrid_NotBottomMostNode_ReturnsBottomNode()
+        {
+            var grid = new Grid<GridNode>(5, 5, (g, gx, gy) => new GridNode(gx, gy));
+        
+            var bottomNeighbour = grid.BottomNeighbour(2, -1);
+            
+            Assert.AreEqual(-2, bottomNeighbour.y);
+            Assert.AreEqual(2, bottomNeighbour.x);        
+        }
+        
+        [Test]
+        public void BottomNeighbour_OddHeightGrid_BottomMostNode_ReturnsNull()
+        {
+            var grid = new Grid<GridNode>(5, 5, (g, gx, gy) => new GridNode(gx, gy));
+        
+            var bottomNeighbour = grid.BottomNeighbour(2, -2);
+            
+            Assert.IsNull(bottomNeighbour);
+        }
+        
+        [Test]
+        public void BottomNeighbour_EvenHeightGrid_NotBottomMostNode_ReturnsBottomNode()
+        {
+            var grid = new Grid<GridNode>(5, 4, (g, gx, gy) => new GridNode(gx, gy));
+        
+            var bottomNeighbour = grid.BottomNeighbour(2, -1);
+            
+            Assert.AreEqual(-2, bottomNeighbour.y);
+            Assert.AreEqual(2, bottomNeighbour.x);        
+        }
+        
+        [Test]
+        public void BottomNeighbour_EvenHeightGrid_BottomMostNode_ReturnsNull()
+        {
+            var grid = new Grid<GridNode>(5, 4, (g, gx, gy) => new GridNode(gx, gy));
+        
+            var bottomNeighbour = grid.BottomNeighbour(2, -2);
+            
+            Assert.IsNull(bottomNeighbour);
+        }
     }
 }
