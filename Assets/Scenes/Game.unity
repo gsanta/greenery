@@ -1087,7 +1087,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.6747404, y: 1}
+    m_SensorSize: {x: 1.6955017, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -2471,12 +2471,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f1cdb6cac47823498296f6d415acd5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 23
+  width: 30
   height: 12
-  offsetWidth: -3
-  offsetHeight: 0
   cellSize: 1
-  isShowDebug: 0
+  isShowDebug: 1
 --- !u!1 &740874116
 GameObject:
   m_ObjectHideFlags: 0
@@ -3600,6 +3598,7 @@ MonoBehaviour:
   panelManager: {fileID: 1989683898}
   enemyStore: {fileID: 1216971964}
   playerStore: {fileID: 1251377880}
+  gridComponent: {fileID: 737299087}
 --- !u!4 &1290496103
 Transform:
   m_ObjectHideFlags: 0

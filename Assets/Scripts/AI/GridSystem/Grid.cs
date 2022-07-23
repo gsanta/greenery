@@ -13,10 +13,10 @@ namespace AI.GridSystem
         private readonly Vector2 _offset;
         private readonly Vector2 _worldOffset;
 
-        private readonly int _minX;
-        private readonly int _maxX;
-        private readonly int _minY;
-        private readonly int _maxY;
+        public readonly int MinX;
+        public readonly int MaxX;
+        public readonly int MinY;
+        public readonly int MaxY;
 
         public Grid(int width, int height, Func<Grid<TGridObject>, int, int, TGridObject> createGridObject, float cellSize = 1.0f)
         {
@@ -31,10 +31,10 @@ namespace AI.GridSystem
             if (height % 2 == 1)
                 _offset.y = 0.5f * CellSize;
             
-            _minX = -(Width / 2);
-            _maxX = Width % 2 == 1 ? Width / 2 : Width / 2 - 1;
-            _minY = -(Height / 2);
-            _maxY = Height % 2 == 1 ? Height / 2 : Height / 2 - 1;
+            MinX = -(Width / 2);
+            MaxX = Width % 2 == 1 ? Width / 2 : Width / 2 - 1;
+            MinY = -(Height / 2);
+            MaxY = Height % 2 == 1 ? Height / 2 : Height / 2 - 1;
 
             InitGridArray(createGridObject);
         }
@@ -49,7 +49,7 @@ namespace AI.GridSystem
             return _gridArray;
         }
 
-        public TGridObject GetGridObject(int x, int y)
+        public TGridObject GetNode(int x, int y)
         {
             var index = ToArrayIndex(x, y);
             if (index < 0 || index > _gridArray.Length - 1)
@@ -58,8 +58,14 @@ namespace AI.GridSystem
             }
             return _gridArray[ToArrayIndex(x, y)];
         }
+        
+        public Vector3 GetWorldPosition(int x, int y, float worldZ)
+        {
+            var worldPos = GetWorldPosition(x, y);
+            return new Vector3(x, y, worldZ);
+        }
 
-        public Vector3 GetWorldPosition(int x, int y)
+        public Vector2 GetWorldPosition(int x, int y)
         {
             return new Vector2(x, y) * CellSize + _halfCell;
         }
@@ -75,33 +81,33 @@ namespace AI.GridSystem
         {
             y += 1;
 
-            return GetGridObject(x, y);
+            return GetNode(x, y);
         }
         
         public TGridObject BottomNeighbour(int x, int y)
         {
             y -= 1;
 
-            return GetGridObject(x, y);
+            return GetNode(x, y);
         }
         
         public TGridObject LeftNeighbour(int x, int y)
         {
             x -= 1;
 
-            return GetGridObject(x, y);
+            return GetNode(x, y);
         }
         
         public TGridObject RightNeighbour(int x, int y)
         {
             x += 1;
 
-            return GetGridObject(x, y);
+            return GetNode(x, y);
         }
 
         private bool IsWithinGrid(int gridX, int gridY)
         {
-            return gridX >= _minX && gridX <= _maxX && gridY >= _minY && gridY <= _maxY;
+            return gridX >= MinX && gridX <= MaxX && gridY >= MinY && gridY <= MaxY;
         }
 
         private int ToArrayIndex(int gridX, int gridY)

@@ -1,3 +1,6 @@
+using AI.GridSystem;
+using AI.pathFinding;
+using AI.Player;
 using Characters.Common;
 using Characters.Players;
 using GameLogic;
@@ -22,12 +25,15 @@ namespace Characters.Enemies
 
         private GameManager _gameManager;
 
-        public void Construct(EnemyStore enemyStore, PlayerStore playerStore, BulletFactory bulletFactory, GameManager gameManager)
+        private GridComponent _gridComponent;
+
+        public void Construct(EnemyStore enemyStore, PlayerStore playerStore, BulletFactory bulletFactory, GameManager gameManager, GridComponent gridComponent)
         {
             _enemyStore = enemyStore;
             _playerStore = playerStore;
             _bulletFactory = bulletFactory;
             _gameManager = gameManager;
+            _gridComponent = gridComponent;
         }
 
         public void Create()
@@ -36,6 +42,13 @@ namespace Characters.Enemies
             enemy.Construct(_enemyStore, _playerStore, _gameManager);
             enemy.GetComponent<Shooting>().Construct(enemy, _bulletFactory, _playerStore);
             enemy.GetComponent<Health>().Construct(enemy, 100, null);
+            var pathMovement = enemy.GetComponent<PathMovement>();
+            pathMovement.Construct(_gridComponent.GetPathFinding(), _gridComponent);
+
+            var roamingState = new RoamingState(_gridComponent.GetGrid(), enemy, pathMovement);
+            enemy.SetRoamingState(roamingState);
+
+            
             _enemyStore.Add(enemy);
         }
     }

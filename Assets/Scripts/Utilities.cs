@@ -10,6 +10,11 @@ public class Utilities
         return new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad));
     }
 
+    public static Vector2 GetRandomDir()
+    {
+        return new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+    }
+
     public static Vector3 GetMouseWorldPosition()
     {
         Vector3 vec = GetMouseWorldPositionWithZ(Input.mousePosition, Camera.main);

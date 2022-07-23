@@ -1,4 +1,5 @@
 using System;
+using AI.Player;
 using Characters.Common;
 using Characters.Helpers;
 using Characters.Players;
@@ -35,11 +36,19 @@ namespace Characters.Enemies
 
         private bool _isActive = false;
 
+        private RoamingState _roamingState;
+        
         public void Construct(EnemyStore enemyStore, PlayerStore playerStore, GameManager gameManager)
         {
             _playerStore = playerStore;
             _enemyStore = enemyStore;
             _gameManager = gameManager;
+        }
+
+        public void SetRoamingState(RoamingState roamingState)
+        {
+            _roamingState = roamingState;
+            _roamingState.Start();
         }
 
         private void Start()
@@ -69,8 +78,10 @@ namespace Characters.Enemies
             
             _moveDirection = MovementHelper.UpdateMoveDirection(_movement, _moveDirection);
         
-            _animator.SetFloat(HorizontalMovement, rotationVector.x);
-            _animator.SetFloat(VerticalMovement, rotationVector.y);
+            // _animator.SetFloat(HorizontalMovement, rotationVector.x);
+            // _animator.SetFloat(VerticalMovement, rotationVector.y);
+
+            _roamingState?.UpdateState();
         }
 
         private void UpdateActive()
@@ -94,10 +105,10 @@ namespace Characters.Enemies
             _shooting.Shoot();
         }
 
-        private void LateUpdate()
-        {
-            MoveCharacter(_movement);
-        }
+        // private void LateUpdate()
+        // {
+        //     MoveCharacter(_movement);
+        // }
 
         private void MoveCharacter(Vector2 direction)
         {

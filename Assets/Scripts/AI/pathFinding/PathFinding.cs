@@ -19,6 +19,23 @@ namespace AI.pathFinding
             _grid = grid;
         }
 
+        public List<Vector2> FindPath(Vector2 startWorldPosition, Vector2 endWorldPosition)
+        {
+            var (startX, startY) = _grid.GetGridPosition(startWorldPosition);
+            var (endX, endY) = _grid.GetGridPosition(endWorldPosition);
+            var startNode = _grid.GetNode(startX, startY);
+            var endNode = _grid.GetNode(endX, endY);
+
+            if (startNode == null || endNode == null)
+            {
+                return null;
+            }
+            
+            var path = FindPath(startNode, endNode);
+
+            return path?.Select((node) => _grid.GetWorldPosition(node.X, node.Y)).ToList();
+        }
+
         public List<PathNode> FindPath(PathNode startNode, PathNode endNode)
         {
             _openList = new List<PathNode> { startNode };
@@ -103,7 +120,7 @@ namespace AI.pathFinding
 
         private PathNode GetNode(int x, int y)
         {
-            return _grid.GetGridObject(x, y);
+            return _grid.GetNode(x, y);
         }
 
         private List<PathNode> CalculatePath(PathNode endNode)

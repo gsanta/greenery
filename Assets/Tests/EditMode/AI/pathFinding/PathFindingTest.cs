@@ -13,13 +13,13 @@ namespace Tests.EditMode.AI.pathFinding
         public void FindPath_ValidPathExists_ReturnsPath()
         {
             var grid = new Grid<PathNode>(4, 5, (grid, x, y) => new PathNode(x, y), 2f);
-            grid.GetGridObject(-1, -1).IsWalkable = false;
-            grid.GetGridObject(-1, -2).IsWalkable = false;
-            grid.GetGridObject(0, 1).IsWalkable = false;
-            grid.GetGridObject(0, 2).IsWalkable = false;
+            grid.GetNode(-1, -1).IsWalkable = false;
+            grid.GetNode(-1, -2).IsWalkable = false;
+            grid.GetNode(0, 1).IsWalkable = false;
+            grid.GetNode(0, 2).IsWalkable = false;
             
-            var startNode = grid.GetGridObject(-2, -2);
-            var endNode = grid.GetGridObject(1, 2);
+            var startNode = grid.GetNode(-2, -2);
+            var endNode = grid.GetNode(1, 2);
             
             var pathFinding = new PathFinding(grid);
             var path = pathFinding.FindPath(startNode, endNode);
@@ -56,14 +56,14 @@ namespace Tests.EditMode.AI.pathFinding
         public void FindPath_NoValidPath_ReturnsNull()
         {
             var grid = new Grid<PathNode>(4, 5, (grid, x, y) => new PathNode(x, y), 2f);
-            grid.GetGridObject(-1, -1).IsWalkable = false;
-            grid.GetGridObject(-1, -2).IsWalkable = false;
-            grid.GetGridObject(-1, 0).IsWalkable = false;
-            grid.GetGridObject(0, 1).IsWalkable = false;
-            grid.GetGridObject(0, 2).IsWalkable = false;
+            grid.GetNode(-1, -1).IsWalkable = false;
+            grid.GetNode(-1, -2).IsWalkable = false;
+            grid.GetNode(-1, 0).IsWalkable = false;
+            grid.GetNode(0, 1).IsWalkable = false;
+            grid.GetNode(0, 2).IsWalkable = false;
             
-            var startNode = grid.GetGridObject(-2, -2);
-            var endNode = grid.GetGridObject(1, 2);
+            var startNode = grid.GetNode(-2, -2);
+            var endNode = grid.GetNode(1, 2);
             
             var pathFinding = new PathFinding(grid);
             var path = pathFinding.FindPath(startNode, endNode);
