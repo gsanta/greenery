@@ -30,8 +30,7 @@ namespace AI.Player
         public void UpdateState()
         {
             _pathMovement.MoveTo(_roamPosition);
-            const float reachedPositionDistance = 1f;
-            if (Vector2.Distance(_moveAble.GetPosition(), _roamPosition) < reachedPositionDistance)
+            if (_pathMovement.IsTargetReached)
             {
                 _roamPosition = GetRoamingPosition();
             }
@@ -39,7 +38,7 @@ namespace AI.Player
 
         private Vector2 GetRoamingPosition()
         {
-            return _startingPosition + Utilities.GetRandomDir() * Random.Range(5f, 20f);
+            return _startingPosition + Utilities.GetRandomDir() * Random.Range(5f, 5f);
         }
     }
 }

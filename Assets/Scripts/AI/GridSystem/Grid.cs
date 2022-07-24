@@ -3,102 +3,97 @@ using UnityEngine;
 
 namespace AI.GridSystem
 {
-    public class Grid<TGridObject> where TGridObject : class
+    public class Grid<TNode> where TNode : class
     {
         public readonly int Width;
         public readonly int Height;
         public readonly float CellSize;
-        private TGridObject[] _gridArray;
-        private readonly Vector2 _halfCell;
-        private readonly Vector2 _offset;
+        private TNode[] _gridArray;
+        private readonly Vector2 _halfCellSize;
         private readonly Vector2 _worldOffset;
 
-        public readonly int MinX;
-        public readonly int MaxX;
-        public readonly int MinY;
-        public readonly int MaxY;
+        public static Grid<TNode> CreateFromWorldSize(Vector2 xExtent, Vector2 yExtent , Func<Grid<TNode>, int, int, TNode> createGridObject, float cellSize = 1.0f)
+        {
+            var worldWidth = Mathf.Abs(xExtent.x - xExtent.y);
+            var worldMinX = xExtent.x;
+            var worldHeight = Mathf.Abs(yExtent.x - yExtent.y);
+            var worldMinY = yExtent.x;
+        
+            var gridWidth = (int) (worldWidth / cellSize) + 1;
+            var gridHeight = (int) (worldHeight / cellSize) + 1;
 
-        public Grid(int width, int height, Func<Grid<TGridObject>, int, int, TGridObject> createGridObject, float cellSize = 1.0f)
+            return new Grid<TNode>(gridWidth, gridHeight, createGridObject, cellSize,
+                new Vector2(worldMinX, worldMinY));
+        }
+
+        public Grid(int width, int height, Func<Grid<TNode>, int, int, TNode> createGridObject, float cellSize = 1.0f, Vector2 worldOffset = default)
         {
             Width = width;
             Height = height;
             CellSize = cellSize;
-            _halfCell = new Vector2(CellSize / 2.0f, CellSize / 2.0f);
-            
-            if (width % 2 == 1)
-                _offset.x = 0.5f * CellSize;
-
-            if (height % 2 == 1)
-                _offset.y = 0.5f * CellSize;
-            
-            MinX = -(Width / 2);
-            MaxX = Width % 2 == 1 ? Width / 2 : Width / 2 - 1;
-            MinY = -(Height / 2);
-            MaxY = Height % 2 == 1 ? Height / 2 : Height / 2 - 1;
+            _worldOffset = worldOffset;
+            _halfCellSize = new Vector2(CellSize / 2.0f, CellSize / 2.0f);
 
             InitGridArray(createGridObject);
         }
 
-        public void SetValue(int x, int y, TGridObject value)
-        {
-            _gridArray[ToArrayIndex(x, y)] = value;
-        }
-
-        public TGridObject[] GetAllNodes()
+        public TNode[] GetAllNodes()
         {
             return _gridArray;
         }
 
-        public TGridObject GetNode(int x, int y)
+        public TNode GetNode(int x, int y)
         {
             var index = ToArrayIndex(x, y);
             if (index < 0 || index > _gridArray.Length - 1)
             {
                 return null;
             }
-            return _gridArray[ToArrayIndex(x, y)];
+            return _gridArray[index];
         }
         
         public Vector3 GetWorldPosition(int x, int y, float worldZ)
         {
             var worldPos = GetWorldPosition(x, y);
-            return new Vector3(x, y, worldZ);
+            return new Vector3(worldPos.x, worldPos.y, worldZ);
         }
 
         public Vector2 GetWorldPosition(int x, int y)
         {
-            return new Vector2(x, y) * CellSize + _halfCell;
+            return new Vector2(x, y) * CellSize + _worldOffset  + _halfCellSize;
         }
 
         public (int, int) GetGridPosition(Vector2 worldPosition)
         {
-            var vec = (worldPosition + _offset) / CellSize;
-
-            return ((int) vec.x, (int) vec.y);
+            var vec = (worldPosition - _worldOffset) / CellSize;
+            var x = (int) Mathf.Floor(vec.x);
+            var y = (int) Mathf.Floor(vec.y);
+            
+            return !IsWithinGrid(x, y) ? (-1, -1) : (x, y);
         }
 
-        public TGridObject TopNeighbour(int x, int y)
+        public TNode TopNeighbour(int x, int y)
         {
             y += 1;
 
             return GetNode(x, y);
         }
         
-        public TGridObject BottomNeighbour(int x, int y)
+        public TNode BottomNeighbour(int x, int y)
         {
             y -= 1;
 
             return GetNode(x, y);
         }
         
-        public TGridObject LeftNeighbour(int x, int y)
+        public TNode LeftNeighbour(int x, int y)
         {
             x -= 1;
 
             return GetNode(x, y);
         }
         
-        public TGridObject RightNeighbour(int x, int y)
+        public TNode RightNeighbour(int x, int y)
         {
             x += 1;
 
@@ -107,7 +102,7 @@ namespace AI.GridSystem
 
         private bool IsWithinGrid(int gridX, int gridY)
         {
-            return gridX >= MinX && gridX <= MaxX && gridY >= MinY && gridY <= MaxY;
+            return gridX >= 0 && gridX < Width && gridY >= 0 && gridY < Height;
         }
 
         private int ToArrayIndex(int gridX, int gridY)
@@ -116,30 +111,19 @@ namespace AI.GridSystem
             {
                 return -1;
             }
-            
-            var x = gridX + Width / 2;
-            var y = Height / 2 - gridY;
 
-            if (Height % 2 == 0)
-            {
-                y -= 1;
-            }
-
-            return y * Width + x;
+            return gridY * Width + gridX;
         }
 
-        private void InitGridArray(Func<Grid<TGridObject>, int, int, TGridObject> createGridObject)
+        private void InitGridArray(Func<Grid<TNode>, int, int, TNode> createGridObject)
         {
-            var xOffset = Width / 2;
-            var yOffset = Height % 2 == 0 ? Height / 2 - 1 : Height / 2;
-            
-            _gridArray = new TGridObject[Width * Height];
+            _gridArray = new TNode[Width * Height];
             for (var i = 0; i < Width * Height; i++)
             {
                 var x = i % Width;
                 var y = i / Width;
                 
-                _gridArray[i] = createGridObject(this, x - xOffset, yOffset - y);
+                _gridArray[i] = createGridObject(this, x, y);
             }
         }
     }

@@ -10,7 +10,7 @@ namespace AI.pathFinding
         
         private int _currentPathIndex = 0;
 
-        private const float Speed = 5f;
+        private const float Speed = 2f;
 
         private PathFinding _pathFinding;
         
@@ -20,12 +20,17 @@ namespace AI.pathFinding
 
         private Animator _animator;
 
-        private GridComponent _gridComponent;
+        private GridInitializer _gridInitializer;
 
-        public void Construct(PathFinding pathFinding, GridComponent gridComponent)
+        private Vector2 _targetPosition;
+        
+        public bool IsTargetReached { get; private set; }
+
+        public void Construct(PathFinding pathFinding, GridInitializer gridInitializer)
         {
             _pathFinding = pathFinding;
-            _gridComponent = gridComponent;
+            _gridInitializer = gridInitializer;
+            IsTargetReached = false;
         }
 
         private void Start()
@@ -39,7 +44,7 @@ namespace AI.pathFinding
             {
                 var position = (Vector2) transform.position;
                 var targetPosition = _pathVectorList[_currentPathIndex];
-                if (Vector2.Distance(position, targetPosition) > 1f)
+                if (Vector2.Distance(position, targetPosition) > 0.2f)
                 {
                     var moveDir = (targetPosition - (Vector2) position).normalized;
                     transform.position = position + moveDir * Speed * Time.deltaTime; 
@@ -52,6 +57,7 @@ namespace AI.pathFinding
                     if (_currentPathIndex >= _pathVectorList.Count)
                     {
                         _pathVectorList = null;
+                        IsTargetReached = true;
                         _animator.SetFloat(HorizontalMovement, 0);
                         _animator.SetFloat(VerticalMovement, 0);
                     }
@@ -66,10 +72,22 @@ namespace AI.pathFinding
         
         public void MoveTo(Vector2 targetPosition)
         {
+            if (_targetPosition != targetPosition)
+            {
+                SetTargetPosition(targetPosition);
+            }
+            
+            HandleMovement();
+        }
+
+        private void SetTargetPosition(Vector2 targetPosition)
+        {
+            IsTargetReached = false;
+            _targetPosition = targetPosition;
             _currentPathIndex = 0;
             _pathVectorList = _pathFinding.FindPath(transform.position, targetPosition);
 
-            if (_pathVectorList != null && _pathVectorList.Count > 1)
+            if (_pathVectorList is {Count: > 1})
             {
                 _pathVectorList.RemoveAt(0);
             }

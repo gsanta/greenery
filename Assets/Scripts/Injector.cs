@@ -49,7 +49,7 @@ public class Injector : MonoBehaviour
     [SerializeField] private PlayerStore playerStore;
 
     // Grid
-    [SerializeField] private GridComponent gridComponent;
+    [SerializeField] private GridInitializer gridInitializer;
     
     private AvatarStore _avatarStore;
 
@@ -58,7 +58,7 @@ public class Injector : MonoBehaviour
     private void Awake()
     {
         tileSystem.Construct(playerStore);
-        enemyFactory.Construct(enemyStore, playerStore, bulletFactory, gameManager, gridComponent);
+        enemyFactory.Construct(enemyStore, playerStore, bulletFactory, gameManager, gridInitializer);
         enemySpawner.Construct(enemyFactory);
         playerFactory.Construct(playerStore, enemyStore, _ballStore, gameInfoStore, healthBar, bulletFactory, gameManager);
         ballSpawner.Construct(_ballStore);

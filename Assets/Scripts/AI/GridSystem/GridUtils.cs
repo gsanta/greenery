@@ -7,8 +7,8 @@ namespace AI.GridSystem
 
         public static Vector2 GetRandomPosition<T>(Grid<T> grid) where T : class
         {
-            var x = Random.Range(grid.MinX, grid.MaxX);
-            var y = Random.Range(grid.MinY, grid.MaxY);
+            var x = Random.Range(0, grid.Width);
+            var y = Random.Range(0, grid.Height);
 
             return grid.GetWorldPosition(x, y);
         }

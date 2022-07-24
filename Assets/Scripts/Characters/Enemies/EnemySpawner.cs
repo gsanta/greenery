@@ -20,20 +20,21 @@ namespace Characters.Enemies
         public void SetEnabled(bool isEnabled)
         {
             _isEnabled = isEnabled;
+            _enemyFactory.Create();
         }
         
         private void Update()
         {
-            if (!_isEnabled)
-            {
-                return;
-            }
-
-            _timer -= Time.deltaTime;
-            if (!(_timer <= 0f)) return;
-            
-            _enemyFactory.Create();
-            _timer = spawnTime;
+            // if (!_isEnabled)
+            // {
+            //     return;
+            // }
+            //
+            // _timer -= Time.deltaTime;
+            // if (!(_timer <= 0f)) return;
+            //
+            // _enemyFactory.Create();
+            // _timer = spawnTime;
         }
     }
 }

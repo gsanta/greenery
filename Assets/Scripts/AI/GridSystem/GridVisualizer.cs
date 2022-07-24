@@ -14,9 +14,9 @@ namespace AI.GridSystem
 
         public void Show()
         {
-            for (var x = grid.MinX; x < grid.MaxX; x++)
+            for (var x = 0; x < grid.Width; x++)
             {
-                for (var y = grid.MinY; y < grid.MaxY; y++)
+                for (var y = 0; y < grid.Height; y++)
                 {
                     Utilities.CreateWorldText(0.ToString(), null, grid.GetWorldPosition(x, y, _zWorldPos) + new Vector3(grid.CellSize, grid.CellSize) * .5f, 5, Color.white, TextAnchor.MiddleCenter);
                     Debug.DrawLine(grid.GetWorldPosition(x, y), grid.GetWorldPosition(x, y + 1, _zWorldPos), Color.white, 100f);

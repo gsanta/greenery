@@ -25,15 +25,15 @@ namespace Characters.Enemies
 
         private GameManager _gameManager;
 
-        private GridComponent _gridComponent;
+        private GridInitializer _gridInitializer;
 
-        public void Construct(EnemyStore enemyStore, PlayerStore playerStore, BulletFactory bulletFactory, GameManager gameManager, GridComponent gridComponent)
+        public void Construct(EnemyStore enemyStore, PlayerStore playerStore, BulletFactory bulletFactory, GameManager gameManager, GridInitializer gridInitializer)
         {
             _enemyStore = enemyStore;
             _playerStore = playerStore;
             _bulletFactory = bulletFactory;
             _gameManager = gameManager;
-            _gridComponent = gridComponent;
+            _gridInitializer = gridInitializer;
         }
 
         public void Create()
@@ -43,9 +43,9 @@ namespace Characters.Enemies
             enemy.GetComponent<Shooting>().Construct(enemy, _bulletFactory, _playerStore);
             enemy.GetComponent<Health>().Construct(enemy, 100, null);
             var pathMovement = enemy.GetComponent<PathMovement>();
-            pathMovement.Construct(_gridComponent.GetPathFinding(), _gridComponent);
+            pathMovement.Construct(_gridInitializer.GetPathFinding(), _gridInitializer);
 
-            var roamingState = new RoamingState(_gridComponent.GetGrid(), enemy, pathMovement);
+            var roamingState = new RoamingState(_gridInitializer.GetGrid(), enemy, pathMovement);
             enemy.SetRoamingState(roamingState);
 
             
