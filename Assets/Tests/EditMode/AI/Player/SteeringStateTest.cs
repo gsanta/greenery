@@ -1,5 +1,3 @@
-using AI.GridSystem;
-using AI.Player;
 using Characters;
 using NUnit.Framework;
 using UnityEngine;

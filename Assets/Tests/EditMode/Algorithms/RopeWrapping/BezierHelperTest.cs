@@ -1,4 +1,4 @@
-using Algorithms.RopeWrapping;
+using Character.feature.rope;
 using NUnit.Framework;
 using UnityEngine;
 

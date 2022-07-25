@@ -1,6 +1,5 @@
 using System;
-using Characters.Players;
-using Players;
+using Character.player;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 

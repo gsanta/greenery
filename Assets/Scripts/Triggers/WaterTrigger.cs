@@ -1,6 +1,5 @@
+using Character.player;
 using Characters.Common;
-using Characters.Players;
-using Players;
 using UnityEngine;
 
 namespace Triggers

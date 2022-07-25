@@ -1,5 +1,3 @@
-using AI.GridSystem;
-
 public class PathNode
 {
     public readonly int X;

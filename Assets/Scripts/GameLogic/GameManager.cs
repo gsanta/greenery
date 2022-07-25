@@ -1,5 +1,5 @@
+using Character.player;
 using Characters.Enemies;
-using Characters.Players;
 using GUI;
 using Items.EnterArea;
 using Scene;

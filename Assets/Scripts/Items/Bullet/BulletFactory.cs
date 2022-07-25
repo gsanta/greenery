@@ -1,5 +1,4 @@
 using Characters;
-using Players;
 using UnityEngine;
 
 namespace Items.Bullet

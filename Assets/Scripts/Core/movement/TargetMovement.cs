@@ -1,3 +1,4 @@
+using Character.utils;
 using Characters;
 using Characters.Helpers;
 using UnityEngine;
@@ -23,7 +24,7 @@ namespace Core.movement
             direction.Normalize();
             _movement = direction;
             
-            _moveDirection = MovementHelper.UpdateMoveDirection(_movement, _moveDirection);
+            _moveDirection = MovementUtil.UpdateMoveDirection(_movement, _moveDirection);
         }
 
         public void SetTarget(Vector2 target)

@@ -1,4 +1,4 @@
-using AI.GridSystem;
+using AI.grid;
 using NUnit.Framework;
 using UnityEngine;
 
