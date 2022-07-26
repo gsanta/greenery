@@ -1,13 +1,16 @@
 using AI.grid;
 using AI.grid.path;
-using AI.state.character.states;
+using AI.state.character;
+using Character.ability.abilities.shoot;
 using Character.player;
+using Characters;
 using Characters.Common;
+using Characters.Enemies;
 using GameLogic;
 using Items.Bullet;
 using UnityEngine;
 
-namespace Characters.Enemies
+namespace Character.enemy
 {
     public class EnemyFactory : MonoBehaviour
     {
@@ -27,13 +30,16 @@ namespace Characters.Enemies
 
         private GridModule _gridModule;
 
-        public void Construct(EnemyStore enemyStore, PlayerStore playerStore, BulletFactory bulletFactory, GameManager gameManager, GridModule gridModule)
+        private StateFactory _stateFactory;
+
+        public void Construct(EnemyStore enemyStore, PlayerStore playerStore, BulletFactory bulletFactory, GameManager gameManager, GridModule gridModule, StateFactory stateFactory)
         {
             _enemyStore = enemyStore;
             _playerStore = playerStore;
             _bulletFactory = bulletFactory;
             _gameManager = gameManager;
             _gridModule = gridModule;
+            _stateFactory = stateFactory;
         }
 
         public void Create()
@@ -45,9 +51,10 @@ namespace Characters.Enemies
             var pathMovement = enemy.GetComponent<PathMovement>();
             pathMovement.Construct(_gridModule.PathFinding);
 
-            var roamingState = new RoamingState(_gridModule.Grid, enemy, pathMovement);
-            enemy.SetRoamingState(roamingState);
-
+            var roamingState = _stateFactory.CreateRoamingState(enemy, enemy.gameObject);
+            enemy.StateHandler.AddState(roamingState, true);
+            var chasingState = _stateFactory.CreateChasingState(enemy, enemy.gameObject);
+            enemy.StateHandler.AddState(chasingState);
             
             _enemyStore.Add(enemy);
         }

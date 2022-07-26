@@ -1,3 +1,4 @@
+using Character;
 using Character.utils;
 using Characters;
 using Characters.Helpers;
@@ -11,16 +12,16 @@ namespace Core.movement
         private Vector2 _movement;
         private Vector2 _target;
 
-        private readonly IMoveAble _moveAble;
+        private readonly ICharacter _character;
         
-        public TargetMovement(IMoveAble moveAble)
+        public TargetMovement(ICharacter character)
         {
-            _moveAble = moveAble;
+            _character = character;
         }
 
         public void Update()
         {
-            var direction = _target - _moveAble.GetPosition();
+            var direction = _target - _character.GetPosition();
             direction.Normalize();
             _movement = direction;
             
@@ -34,7 +35,7 @@ namespace Core.movement
 
         public Vector2 GetPosition()
         {
-            return _moveAble.GetPosition();
+            return _character.GetPosition();
         }
     }
 }

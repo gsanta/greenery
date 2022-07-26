@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Character;
+using Character.enemy;
 using UnityEngine;
 
 namespace Characters.Enemies

@@ -1,24 +1,29 @@
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace AI.state.character
 {
     public class StateHandler
     {
         private readonly List<ICharacterState> _states = new();
-        private ICharacterState _activeState;
+        [CanBeNull] public ICharacterState ActiveState { get; private set; }
         
-        public void AddState(ICharacterState state)
+        public void AddState(ICharacterState state, bool isActive = false)
         {
             _states.Add(state);
+            if (isActive)
+            {
+                SetActiveState(state.GetStateType());
+            }
         }
 
         public void SetActiveState(CharacterStateType type)
         {
             var state = _states.Find((element) => element.GetStateType() == type);
 
-            _activeState = state ?? throw new InvalidOperationException("State not found: " + type);
-            _activeState.StartState();
+            ActiveState = state ?? throw new InvalidOperationException("State not found: " + type);
+            ActiveState.StartState();
         }
     }
 }

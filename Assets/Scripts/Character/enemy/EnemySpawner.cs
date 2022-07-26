@@ -1,3 +1,4 @@
+using Character.enemy;
 using UnityEngine;
 
 namespace Characters.Enemies

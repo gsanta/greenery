@@ -1,3 +1,5 @@
+using AI.state.character;
+using Character.ability.abilities.shoot;
 using Character.utils;
 using Characters;
 using Characters.Common;
@@ -6,11 +8,13 @@ using UnityEngine;
 
 namespace Character.player
 {
-    public class Player : MonoBehaviour, ICharacter, IMoveAble
+    public class Player : MonoBehaviour, ICharacter
     {
         private static Player _instance;
         
         public float moveSpeed = 5f;
+        
+        public StateHandler StateHandler { get; private set; }
 
         private GameManager _gameManager;
         
@@ -31,6 +35,7 @@ namespace Character.player
         public void Construct(GameManager gameManager)
         {
             _gameManager = gameManager;
+            StateHandler = new StateHandler();
         }
         
         void Start()
@@ -116,11 +121,6 @@ namespace Character.player
         public Vector2 GetMovement()
         {
             throw new System.NotImplementedException();
-        }
-
-        public GameObject GetGameObjet()
-        {
-            return gameObject;
         }
 
         public Health GetHealth()

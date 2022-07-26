@@ -1,15 +1,38 @@
+using Characters;
 using Items.Bullet;
 using UnityEngine;
 
-namespace Characters
+namespace Character.ability.abilities.shoot
 {
-    public class Shooting : MonoBehaviour
+    public class Shooting : MonoBehaviour, IAbility
     {
+        public AbilityType AbilityType { get; } = AbilityType.Shoot;
+
         private ICharacter _character;
         
         private BulletFactory _bulletFactory;
 
         private ICharacterStore<ICharacter> _targetStore;
+
+        private bool _isAbilityActive = false;
+        
+        public bool IsAbilityActive
+        {
+            get => _isAbilityActive;
+            set
+            {
+                _isAbilityActive = value;
+
+                if (value)
+                {
+                    InvokeRepeating(nameof(Shoot), 0, 2);
+                }
+                else
+                {
+                    CancelInvoke(nameof(Shoot));
+                }
+            }
+        }
 
         public void Construct(ICharacter character, BulletFactory bulletFactory, ICharacterStore<ICharacter> targetStore)
         {
@@ -25,5 +48,7 @@ namespace Characters
             var pos = transform.position;
             _bulletFactory.Create(_targetStore, pos, shootingDir);
         }
+        
+        
     }
 }

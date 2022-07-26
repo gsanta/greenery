@@ -1,30 +1,33 @@
 using AI.grid.path;
-using Characters;
+using Character;
+using Character.player;
 using UnityEngine;
 
 namespace AI.state.character.states
 {
     public class ChasingState : MonoBehaviour, ICharacterState
     {
+        private const float TimerMax = 2.0f;
+
         private const CharacterStateType StateType = CharacterStateType.ChasingState;
 
-        private Vector2 _startingPosition;
+        private Vector2 _targetPosition;
         
-        private Vector2 _roamPosition;
+        private ICharacter _character;
         
-        private readonly IMoveAble _moveAble;
-        
-        private readonly PathMovement _pathMovement;
+        private PathMovement _pathMovement;
 
-        private readonly StateHandler _stateHandler;
+        private PlayerStore _playerStore;
+        
+        public float targetTime = TimerMax;
 
-        public ChasingState(StateHandler stateHandler, IMoveAble moveAble, PathMovement pathMovement)
+        public void Construct(ICharacter character, PathMovement pathMovement, PlayerStore playerStore)
         {
-            _stateHandler = stateHandler;
-            _moveAble = moveAble;
+            _character = character;
             _pathMovement = pathMovement;
+            _playerStore = playerStore;
             
-            _stateHandler.AddState(this);
+            _character.StateHandler.AddState(this);
         }
 
         public CharacterStateType GetStateType()
@@ -34,12 +37,29 @@ namespace AI.state.character.states
 
         public void StartState()
         {
-            _startingPosition = _moveAble.GetPosition();
-            _roamPosition = GetRoamingPosition();     
+            UpdateTarget();
         }
 
         public void UpdateState()
         {
+            _pathMovement.MoveTo(_targetPosition);
+            UpdateTimer();
+        }
+
+        private void UpdateTimer()
+        {
+            targetTime -= Time.deltaTime;
+ 
+            if (targetTime <= 0.0f)
+            {
+                UpdateTarget();
+            }
+        }
+
+        private void UpdateTarget()
+        {
+            targetTime = TimerMax;
+            _targetPosition = _playerStore.GetActivePlayer().GetPosition();
         }
     }
 }

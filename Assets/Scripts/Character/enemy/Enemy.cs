@@ -1,15 +1,19 @@
 using System;
+using System.Collections.Generic;
+using AI.state.character;
 using AI.state.character.states;
+using Character.ability;
+using Character.ability.abilities.shoot;
 using Character.player;
 using Character.utils;
 using Characters.Common;
-using Characters.Helpers;
+using Characters.Enemies;
 using GameLogic;
 using UnityEngine;
 
-namespace Characters.Enemies
+namespace Character.enemy
 {
-    public class Enemy : MonoBehaviour, ICharacter, IMoveAble
+    public class Enemy : MonoBehaviour, ICharacter
     {
         public float moveSpeed = 5f;
         
@@ -24,9 +28,7 @@ namespace Characters.Enemies
         private EnemyStore _enemyStore;
 
         private GameManager _gameManager;
-
-        private Shooting _shooting;
-
+        
         private Health _health;
         
         private static readonly int HorizontalMovement = Animator.StringToHash("horizontalMovement");
@@ -38,27 +40,26 @@ namespace Characters.Enemies
         private bool _isActive = false;
 
         private RoamingState _roamingState;
+
+        private List<IAbility> _abilities = new();
+        
+        public StateHandler StateHandler { get; private set; } 
         
         public void Construct(EnemyStore enemyStore, PlayerStore playerStore, GameManager gameManager)
         {
             _playerStore = playerStore;
             _enemyStore = enemyStore;
             _gameManager = gameManager;
-        }
 
-        public void SetRoamingState(RoamingState roamingState)
-        {
-            _roamingState = roamingState;
-            _roamingState.Start();
+            StateHandler = new StateHandler();
+            _abilities.Add(GetComponent<Shooting>());
         }
 
         private void Start()
         {
-            _shooting = GetComponent<Shooting>();
             _health = GetComponent<Health>();
             _animator = GetComponent<Animator>();
             _rb = GetComponent<Rigidbody2D>();
-            InvokeRepeating(nameof(Shoot), 0, 2);
         }
 
         private void Update()
@@ -82,7 +83,7 @@ namespace Characters.Enemies
             // _animator.SetFloat(HorizontalMovement, rotationVector.x);
             // _animator.SetFloat(VerticalMovement, rotationVector.y);
 
-            _roamingState?.Update();
+            StateHandler.ActiveState?.UpdateState();
         }
 
         private void UpdateActive()
@@ -92,18 +93,12 @@ namespace Characters.Enemies
                 if (_isActive)
                 {
                     _isActive = false;
-                    CancelInvoke(nameof(Shoot));
                 }
             }
             else
             {
                 _isActive = true;
             }
-        }
-
-        private void Shoot()
-        {
-            _shooting.Shoot();
         }
 
         // private void LateUpdate()

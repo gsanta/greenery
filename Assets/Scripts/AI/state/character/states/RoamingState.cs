@@ -1,4 +1,5 @@
 using AI.grid.path;
+using Character;
 using Character.player;
 using Characters;
 using UnityEngine;
@@ -13,22 +14,19 @@ namespace AI.state.character.states
         
         private Vector2 _roamPosition;
         
-        private readonly IMoveAble _moveAble;
+        private readonly ICharacter _character;
         
         private readonly PathMovement _pathMovement;
         
         private PlayerStore _playerStore;
 
-        private readonly StateHandler _stateHandler;
-        
-        public RoamingState(StateHandler stateHandler, IMoveAble moveAble, PathMovement pathMovement, PlayerStore playerStore)
+        public RoamingState(ICharacter character, PathMovement pathMovement, PlayerStore playerStore)
         {
-            _moveAble = moveAble;
+            _character = character;
             _pathMovement = pathMovement;
             _playerStore = playerStore;
 
-            _stateHandler = stateHandler;
-            _stateHandler.AddState(this);
+            character.StateHandler.AddState(this);
         }
         
         public CharacterStateType GetStateType()
@@ -38,7 +36,7 @@ namespace AI.state.character.states
 
         public void StartState()
         {
-            _startingPosition = _moveAble.GetPosition();
+            _startingPosition = _character.GetPosition();
             _roamPosition = GetRoamingPosition();
         }
 
@@ -49,6 +47,8 @@ namespace AI.state.character.states
             {
                 _roamPosition = GetRoamingPosition();
             }
+
+            CheckTarget();
         }
 
         private Vector2 GetRoamingPosition()
@@ -58,11 +58,11 @@ namespace AI.state.character.states
 
         private void CheckTarget()
         {
-            const float targetRange = 50f;
+            const float targetRange = 5f;
             var player = _playerStore.GetActivePlayer();
-            if (Vector2.Distance(_moveAble.GetPosition(), player.GetPosition()) < targetRange)
+            if (Vector2.Distance(_character.GetPosition(), player.GetPosition()) < targetRange)
             {
-                _stateHandler.SetActiveState(CharacterStateType.ChasingState);
+                _character.StateHandler.SetActiveState(CharacterStateType.ChasingState);
             }
         }
     }
