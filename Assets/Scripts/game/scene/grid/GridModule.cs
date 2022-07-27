@@ -1,33 +1,30 @@
 using game.scene.grid.path;
+using game.scene.tile;
 
 namespace game.scene.grid
 {
     public class GridModule
     {
-        public Grid<PathNode> Grid { get; private set; }
-        
-        public GridVisualizer<PathNode> GridVisualizer { get; }
+        private Grid<PathNode> Grid { get; set; }
+
+        private GridVisualizer<PathNode> GridVisualizer { get; }
         
         public PathFinding PathFinding { get; }
+        
+        private GridFactory _gridFactory { get; }
 
-        public GridModule(GridSetup gridSetup)
+        public GridModule(GridSetup gridSetup, TileModule tileModule)
         {
-            InitGrid(gridSetup);
+            _gridFactory = new GridFactory(tileModule, gridSetup);
+            Grid = _gridFactory.CreateGrid();
             GridVisualizer = new GridVisualizer<PathNode>(Grid);
-            PathFinding = new PathFinding(Grid); 
+            PathFinding = new PathFinding(Grid);
+
             
             if (gridSetup.isShowDebug)
             {
                 GridVisualizer.Show();
             }
-        }
-
-        private void InitGrid(GridSetup gridSetup)
-        {
-            var topLeftPos = gridSetup.topLeft.position;
-            var bottomRightPos = gridSetup.bottomRight.position;
-            var cellSize = gridSetup.cellSize;
-            Grid = Grid<PathNode>.CreateFromWorldSize(topLeftPos, bottomRightPos, (g, x, y) => new PathNode(x, y), cellSize);
         }
     }
 }

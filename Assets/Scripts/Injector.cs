@@ -50,7 +50,13 @@ public class Injector : MonoBehaviour
 
     // Grid
     [SerializeField] private GridSetup gridSetup;
+    
     private GridModule _gridModule;
+    
+    // Tile
+    [SerializeField] private TileMapBase tileMapBase;
+
+    private TileModule _tileModule;
     
     // State
     [SerializeField] private StateFactory stateFactory;
@@ -62,8 +68,11 @@ public class Injector : MonoBehaviour
     private void Awake()
     {
         stateFactory.Construct(playerStore);
+        
         tileSystem.Construct(playerStore);
-        _gridModule = new GridModule(gridSetup);
+        _tileModule = new TileModule(tileMapBase);
+        
+        _gridModule = new GridModule(gridSetup, _tileModule);
         enemyFactory.Construct(enemyStore, playerStore, bulletFactory, gameManager, _gridModule, stateFactory);
         enemySpawner.Construct(enemyFactory);
         playerFactory.Construct(playerStore, enemyStore, _ballStore, gameInfoStore, healthBar, bulletFactory, gameManager);

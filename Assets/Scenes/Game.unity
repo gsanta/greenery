@@ -1087,7 +1087,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.6955017, y: 1}
+    m_SensorSize: {x: 1.6782007, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -3601,6 +3601,7 @@ MonoBehaviour:
   enemyStore: {fileID: 1216971964}
   playerStore: {fileID: 1251377880}
   gridSetup: {fileID: 737299087}
+  tileMapBase: {fileID: 0}
   stateFactory: {fileID: 1483562611}
 --- !u!4 &1290496103
 Transform:
@@ -4064,6 +4065,7 @@ GameObject:
   - component: {fileID: 1487538477}
   - component: {fileID: 1487538479}
   - component: {fileID: 1487538478}
+  - component: {fileID: 1487538480}
   m_Layer: 0
   m_Name: Tilemap_base
   m_TagString: Untagged
@@ -8141,6 +8143,18 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &1487538480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487538476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59b8757c44484c7ca8ca975069cbc508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1554105321
 GameObject:
   m_ObjectHideFlags: 0
