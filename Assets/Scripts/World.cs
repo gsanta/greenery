@@ -1,5 +1,4 @@
-using AI.grid;
-using Scene.grid;
+using game.scene.grid;
 using UnityEngine;
 
 public class World

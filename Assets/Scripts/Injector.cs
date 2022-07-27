@@ -1,16 +1,15 @@
-﻿using Character.characters.enemy;
-using Character.characters.player;
-using Character.state;
-using Characters.Avatar;
-using GameInfo;
-using GameLogic;
+﻿using game;
+using game.character.characters.enemy;
+using game.character.characters.player;
+using game.character.state;
+using game.item;
+using game.item.bullet;
+using game.scene;
+using game.scene.area;
+using game.scene.grid;
+using game.scene.tile;
 using GUI;
-using Items;
-using Items.Bullet;
-using Items.EnterArea;
-using Scene;
-using Scene.grid;
-using Tile;
+using gui.avatar;
 using UnityEngine;
 
 public class Injector : MonoBehaviour

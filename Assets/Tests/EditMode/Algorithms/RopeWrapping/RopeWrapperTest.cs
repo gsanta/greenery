@@ -1,4 +1,4 @@
-using Character.feature.rope;
+using game.character.ability.rope;
 using NUnit.Framework;
 using UnityEngine;
 using Utils.math;

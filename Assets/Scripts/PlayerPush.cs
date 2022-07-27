@@ -1,4 +1,4 @@
-using Character.characters.player;
+using game.character.characters.player;
 using UnityEngine;
 
 public class PlayerPush : MonoBehaviour
