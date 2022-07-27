@@ -1,9 +1,7 @@
-﻿using AI.grid;
-using AI.state.character;
-using Character.enemy;
-using Character.player;
+﻿using Character.characters.enemy;
+using Character.characters.player;
+using Character.state;
 using Characters.Avatar;
-using Characters.Enemies;
 using GameInfo;
 using GameLogic;
 using GUI;
@@ -11,6 +9,7 @@ using Items;
 using Items.Bullet;
 using Items.EnterArea;
 using Scene;
+using Scene.grid;
 using Tile;
 using UnityEngine;
 

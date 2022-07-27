@@ -1,4 +1,4 @@
-using Character.player;
+using Character.characters.player;
 using Cinemachine;
 using UnityEngine;
 

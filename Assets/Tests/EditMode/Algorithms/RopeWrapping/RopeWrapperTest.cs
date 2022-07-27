@@ -1,7 +1,7 @@
-using Algorithms;
 using Character.feature.rope;
 using NUnit.Framework;
 using UnityEngine;
+using Utils.math;
 
 namespace Tests.EditMode.Algorithms.RopeWrapping
 {

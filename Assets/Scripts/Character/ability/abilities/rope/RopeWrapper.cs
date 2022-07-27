@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Algorithms;
 using UnityEngine;
+using Utils.math;
 
 namespace Character.feature.rope
 {

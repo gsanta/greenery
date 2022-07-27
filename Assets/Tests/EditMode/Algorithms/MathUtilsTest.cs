@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Algorithms;
 using NUnit.Framework;
 using UnityEngine;
+using Utils.math;
 
 namespace Tests.EditMode.Algorithms
 {

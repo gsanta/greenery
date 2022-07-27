@@ -1,5 +1,6 @@
 using AI.grid;
 using NUnit.Framework;
+using Scene.grid;
 using UnityEngine;
 
 namespace Tests.EditMode.AI.GridSystem

@@ -1,9 +1,7 @@
 
-using System;
-using System.Linq;
-using AI.grid;
-using AI.grid.path;
 using NUnit.Framework;
+using Scene.grid;
+using Scene.grid.path;
 
 namespace Tests.EditMode.AI.pathFinding
 {

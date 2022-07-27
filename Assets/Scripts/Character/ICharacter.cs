@@ -1,4 +1,6 @@
 using AI.state.character;
+using Character.ability;
+using Character.state;
 using Characters.Common;
 using UnityEngine;
 
@@ -8,7 +10,9 @@ namespace Character
     {
         Direction GetMoveDirection();
         
-        StateHandler StateHandler { get; }
+        StateHandler States { get; }
+        
+        AbilityHandler Abilities { get; }
 
         Health GetHealth();
 

@@ -16,7 +16,7 @@ namespace Character.ability.abilities.shoot
 
         private bool _isAbilityActive = false;
         
-        public bool IsAbilityActive
+        public bool IsActive
         {
             get => _isAbilityActive;
             set
@@ -48,7 +48,5 @@ namespace Character.ability.abilities.shoot
             var pos = transform.position;
             _bulletFactory.Create(_targetStore, pos, shootingDir);
         }
-        
-        
     }
 }
