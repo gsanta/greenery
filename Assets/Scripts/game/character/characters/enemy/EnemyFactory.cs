@@ -24,17 +24,14 @@ namespace game.character.characters.enemy
 
         private GameManager _gameManager;
 
-        private GridSystem _gridSystem;
-
         private StateFactory _stateFactory;
 
-        public void Construct(EnemyStore enemyStore, PlayerStore playerStore, BulletFactory bulletFactory, GameManager gameManager, GridSystem gridSystem, StateFactory stateFactory)
+        public void Construct(EnemyStore enemyStore, PlayerStore playerStore, BulletFactory bulletFactory, GameManager gameManager, StateFactory stateFactory)
         {
             _enemyStore = enemyStore;
             _playerStore = playerStore;
             _bulletFactory = bulletFactory;
             _gameManager = gameManager;
-            _gridSystem = gridSystem;
             _stateFactory = stateFactory;
         }
 
@@ -47,7 +44,7 @@ namespace game.character.characters.enemy
             enemy.GetComponent<Shooting>().Construct(enemy, _bulletFactory, _playerStore);
             enemy.GetComponent<Health>().Construct(enemy, 100, null);
             var pathMovement = enemy.GetComponent<PathMovement>();
-            pathMovement.Construct(_gridSystem.PathFinding);
+            pathMovement.Construct(level.GridSystem.PathFinding);
 
             var roamingState = _stateFactory.CreateRoamingState(enemy, enemy.gameObject);
             enemy.States.AddState(roamingState, true);

@@ -7,19 +7,20 @@ using game.item.bullet;
 using game.scene;
 using game.scene.area;
 using game.scene.grid;
+using game.scene.level;
 using GUI;
 using gui.avatar;
 using UnityEngine;
 
 public class Injector : MonoBehaviour
 {
+    public static Injector Instance;
+    
     [SerializeField] private EnemyFactory enemyFactory;
 
     [SerializeField] private EnemySpawner enemySpawner;
     
     [SerializeField] private GameInfoStore gameInfoStore;
-
-    [SerializeField] private BallSpawner ballSpawner;
 
     [SerializeField] private PlayerFactory playerFactory;
 
@@ -46,11 +47,9 @@ public class Injector : MonoBehaviour
     [SerializeField] private PlayerStore playerStore;
     
     // Scene
-    [SerializeField] private SceneHandler _sceneHandler;
-
-    [SerializeField] private GridSetup gridSetup;
+    [SerializeField] private LevelLoader levelLoader;
     
-    private GridSystem _gridSystem;
+    [SerializeField] private GridSetup gridSetup;
     
     // State
     [SerializeField] private StateFactory stateFactory;
@@ -61,13 +60,13 @@ public class Injector : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
+        
         stateFactory.Construct(playerStore);
         
-        enemyFactory.Construct(enemyStore, playerStore, bulletFactory, gameManager, _gridSystem, stateFactory);
+        enemyFactory.Construct(enemyStore, playerStore, bulletFactory, gameManager, stateFactory);
         enemySpawner.Construct(enemyFactory);
         playerFactory.Construct(playerStore, enemyStore, _ballStore, gameInfoStore, healthBar, bulletFactory, gameManager);
-        ballSpawner.Construct(_ballStore);
-        
 
         _avatarStore = new AvatarStore();
         avatarFactory.Construct(_avatarStore);
@@ -80,6 +79,12 @@ public class Injector : MonoBehaviour
 
         panelManager.startGamePanel = startGamePanel;
         
-        _sceneHandler.LoadScene();
+        levelLoader.Construct(playerStore);
+        levelLoader.LoadLevel("Level");
+    }
+
+    public void InjectLevel(Level level)
+    {
+        level.Construct(enemySpawner, playerStore, levelLoader);
     }
 }

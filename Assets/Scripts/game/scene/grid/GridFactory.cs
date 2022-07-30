@@ -14,9 +14,9 @@ namespace game.scene.grid
 
         public Grid<PathNode> CreateGrid()
         {
-            var topLeft = _level.TopLeft();
-            var bottomRight = _level.BottomRight();
-            var cellSize = _level.CellSize();
+            var topLeft = _level.TopLeft;
+            var bottomRight = _level.BottomRight;
+            var cellSize = _level.CellSize;
             
             return Grid<PathNode>.CreateFromWorldSize(topLeft, bottomRight, (g, x, y) =>
             {

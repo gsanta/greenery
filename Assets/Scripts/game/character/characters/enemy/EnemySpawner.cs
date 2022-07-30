@@ -20,7 +20,7 @@ namespace game.character.characters.enemy
 
         public void Spawn(Level level)
         {
-            _enemyFactory.Create(level);
+            // _enemyFactory.Create(level);
         }
         
         private void Update()
