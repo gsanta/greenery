@@ -1,3 +1,4 @@
+using game.scene.level;
 using UnityEngine;
 
 namespace game.character.characters.enemy
@@ -17,10 +18,9 @@ namespace game.character.characters.enemy
             _enemyFactory = enemyFactory;
         }
 
-        public void SetEnabled(bool isEnabled)
+        public void Spawn(Level level)
         {
-            _isEnabled = isEnabled;
-            _enemyFactory.Create();
+            _enemyFactory.Create(level);
         }
         
         private void Update()

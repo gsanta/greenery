@@ -2,11 +2,11 @@
 
 namespace game.scene.grid
 {
-    public class GridVisualizer<T> where T : class
+    public class GridVisualizer
     {
-        private readonly Grid<T> _grid;
+        private readonly Grid<PathNode> _grid;
 
-        public GridVisualizer(Grid<T> grid)
+        public GridVisualizer(Grid<PathNode> grid)
         {
             _grid = grid;
         }
@@ -21,7 +21,8 @@ namespace game.scene.grid
                     var pos = _grid.GetWorldPosition(x, y) - halfCellSize;
                     var right = _grid.GetWorldPosition(x + 1, y) - halfCellSize;
                     var bottom = _grid.GetWorldPosition(x, y + 1) - halfCellSize;
-                    Utilities.CreateWorldText(0.ToString(), null, _grid.GetWorldPosition(x, y), 5, Color.white, TextAnchor.MiddleCenter);
+                    var node = _grid.GetNode(x, y);
+                    Utilities.CreateWorldText( node.IsWalkable  ? 0.ToString() : 1.ToString(), null, _grid.GetWorldPosition(x, y), 5, Color.white, TextAnchor.MiddleCenter);
                     Debug.DrawLine(pos, bottom, Color.blue, 100f);
                     Debug.DrawLine(pos, right, Color.blue, 100f);
                 }

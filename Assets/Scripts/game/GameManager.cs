@@ -41,7 +41,6 @@ namespace game
         {
             var enterArea = _enterAreaStore.ChooseEnterArea();
             var player = _playerFactory.Create(enterArea.transform.position);
-            _enemySpawner.SetEnabled(true);
             _followCamera.SetTarget(player);
             _panelManager.startGamePanel.gameObject.SetActive(false);
 

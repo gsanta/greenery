@@ -7,15 +7,12 @@ using game.item.bullet;
 using game.scene;
 using game.scene.area;
 using game.scene.grid;
-using game.scene.tile;
 using GUI;
 using gui.avatar;
 using UnityEngine;
 
 public class Injector : MonoBehaviour
 {
-    [SerializeField] private TileSystem tileSystem;
-    
     [SerializeField] private EnemyFactory enemyFactory;
 
     [SerializeField] private EnemySpawner enemySpawner;
@@ -47,16 +44,13 @@ public class Injector : MonoBehaviour
     [SerializeField] private EnemyStore enemyStore;
     
     [SerializeField] private PlayerStore playerStore;
+    
+    // Scene
+    [SerializeField] private SceneHandler _sceneHandler;
 
-    // Grid
     [SerializeField] private GridSetup gridSetup;
     
-    private GridModule _gridModule;
-    
-    // Tile
-    [SerializeField] private TileMapBase tileMapBase;
-
-    private TileModule _tileModule;
+    private GridSystem _gridSystem;
     
     // State
     [SerializeField] private StateFactory stateFactory;
@@ -69,11 +63,7 @@ public class Injector : MonoBehaviour
     {
         stateFactory.Construct(playerStore);
         
-        tileSystem.Construct(playerStore);
-        _tileModule = new TileModule(tileMapBase);
-        
-        _gridModule = new GridModule(gridSetup, _tileModule);
-        enemyFactory.Construct(enemyStore, playerStore, bulletFactory, gameManager, _gridModule, stateFactory);
+        enemyFactory.Construct(enemyStore, playerStore, bulletFactory, gameManager, _gridSystem, stateFactory);
         enemySpawner.Construct(enemyFactory);
         playerFactory.Construct(playerStore, enemyStore, _ballStore, gameInfoStore, healthBar, bulletFactory, gameManager);
         ballSpawner.Construct(_ballStore);
@@ -89,5 +79,7 @@ public class Injector : MonoBehaviour
         gameManager.Construct(enterAreaStore, playerFactory, enemySpawner, followCamera, panelManager);
 
         panelManager.startGamePanel = startGamePanel;
+        
+        _sceneHandler.LoadScene();
     }
 }

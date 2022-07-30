@@ -5,6 +5,7 @@ using game.character.state;
 using game.item.bullet;
 using game.scene.grid;
 using game.scene.grid.path;
+using game.scene.level;
 using UnityEngine;
 
 namespace game.character.characters.enemy
@@ -12,8 +13,6 @@ namespace game.character.characters.enemy
     public class EnemyFactory : MonoBehaviour
     {
         public Enemy enemyPrefab;
-
-        public Transform spawnPosition;
 
         private float _timer;
 
@@ -25,28 +24,30 @@ namespace game.character.characters.enemy
 
         private GameManager _gameManager;
 
-        private GridModule _gridModule;
+        private GridSystem _gridSystem;
 
         private StateFactory _stateFactory;
 
-        public void Construct(EnemyStore enemyStore, PlayerStore playerStore, BulletFactory bulletFactory, GameManager gameManager, GridModule gridModule, StateFactory stateFactory)
+        public void Construct(EnemyStore enemyStore, PlayerStore playerStore, BulletFactory bulletFactory, GameManager gameManager, GridSystem gridSystem, StateFactory stateFactory)
         {
             _enemyStore = enemyStore;
             _playerStore = playerStore;
             _bulletFactory = bulletFactory;
             _gameManager = gameManager;
-            _gridModule = gridModule;
+            _gridSystem = gridSystem;
             _stateFactory = stateFactory;
         }
 
-        public void Create()
+        public void Create(Level level)
         {
-            var enemy = Instantiate(enemyPrefab, spawnPosition.position, transform.rotation);
+            var spawnPosGrid = level.LevelUtils.GetRandomGrid();
+            var spawnPosWorld = level.GridSystem.Grid.GetWorldPosition(spawnPosGrid.x, spawnPosGrid.y);
+            var enemy = Instantiate(enemyPrefab, spawnPosWorld, transform.rotation);
             enemy.Construct(_enemyStore, _playerStore, _gameManager);
             enemy.GetComponent<Shooting>().Construct(enemy, _bulletFactory, _playerStore);
             enemy.GetComponent<Health>().Construct(enemy, 100, null);
             var pathMovement = enemy.GetComponent<PathMovement>();
-            pathMovement.Construct(_gridModule.PathFinding);
+            pathMovement.Construct(_gridSystem.PathFinding);
 
             var roamingState = _stateFactory.CreateRoamingState(enemy, enemy.gameObject);
             enemy.States.AddState(roamingState, true);

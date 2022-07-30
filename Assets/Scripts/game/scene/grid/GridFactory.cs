@@ -1,29 +1,31 @@
-using game.scene.tile;
+using game.scene.level;
 using UnityEngine;
 
 namespace game.scene.grid
 {
     public class GridFactory
     {
-        private TileModule _tileModule;
+        private Level _level;
 
-        private GridSetup _gridSetup;
-
-        public GridFactory(TileModule tileModule, GridSetup gridSetup)
+        public GridFactory(Level level)
         {
-            _tileModule = tileModule;
-            _gridSetup = gridSetup;
+            _level = level;
         }
 
         public Grid<PathNode> CreateGrid()
         {
-            var topLeftPos = _gridSetup.topLeft.position;
-            var bottomRightPos = _gridSetup.bottomRight.position;
-            var cellSize = _gridSetup.cellSize;
-            return Grid<PathNode>.CreateFromWorldSize(topLeftPos, bottomRightPos, (g, x, y) =>
+            var topLeft = _level.TopLeft();
+            var bottomRight = _level.BottomRight();
+            var cellSize = _level.CellSize();
+            
+            return Grid<PathNode>.CreateFromWorldSize(topLeft, bottomRight, (g, x, y) =>
             {
-                var isWalkable = _tileModule.TileMapBase.IsWalkable(new Vector2Int(x, y));
-                return new PathNode(x, y);
+                var isWalkable = _level.IsWalkable(new Vector2Int(x, y));
+                
+                return new PathNode(x, y)
+                {
+                    IsWalkable = isWalkable
+                };
             }, cellSize);
         }
     }

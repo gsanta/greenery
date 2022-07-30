@@ -1,27 +1,27 @@
 using game.scene.grid.path;
+using game.scene.level;
 using game.scene.tile;
 
 namespace game.scene.grid
 {
-    public class GridModule
+    public class GridSystem
     {
-        private Grid<PathNode> Grid { get; set; }
+        public Grid<PathNode> Grid { get; set; }
 
-        private GridVisualizer<PathNode> GridVisualizer { get; }
+        private GridVisualizer GridVisualizer { get; }
         
         public PathFinding PathFinding { get; }
         
         private GridFactory _gridFactory { get; }
 
-        public GridModule(GridSetup gridSetup, TileModule tileModule)
+        public GridSystem(Level level)
         {
-            _gridFactory = new GridFactory(tileModule, gridSetup);
+            _gridFactory = new GridFactory(level);
             Grid = _gridFactory.CreateGrid();
-            GridVisualizer = new GridVisualizer<PathNode>(Grid);
+            GridVisualizer = new GridVisualizer(Grid);
             PathFinding = new PathFinding(Grid);
-
             
-            if (gridSetup.isShowDebug)
+            if (true)
             {
                 GridVisualizer.Show();
             }
