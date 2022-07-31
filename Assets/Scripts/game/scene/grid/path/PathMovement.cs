@@ -27,13 +27,9 @@ namespace game.scene.grid.path
         {
             _pathFinding = pathFinding;
             IsTargetReached = false;
-        }
-
-        private void Start()
-        {
             _animator = GetComponent<Animator>();
         }
-
+        
         private void HandleMovement()
         {
             if (_pathVectorList != null)

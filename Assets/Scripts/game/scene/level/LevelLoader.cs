@@ -64,7 +64,12 @@ namespace game.scene.level
 
         private void RemoveLevel(LevelName levelName)
         {
-            SceneManager.UnloadSceneAsync(Levels.LevelNameMap[levelName]);
+            var level = _levels.Find((level) => level.levelName == levelName);
+            if (level)
+            {
+                SceneManager.UnloadSceneAsync(Levels.LevelNameMap[levelName]);
+                _levels.Remove(level);
+            }
         }
     }
 }

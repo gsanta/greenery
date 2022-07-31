@@ -50,6 +50,7 @@ namespace game.character.characters.enemy
             enemy.States.AddState(roamingState, true);
             var chasingState = _stateFactory.CreateChasingState(enemy, enemy.gameObject);
             enemy.States.AddState(chasingState);
+            enemy.LevelName = level.levelName;
             
             _enemyStore.Add(enemy);
         }

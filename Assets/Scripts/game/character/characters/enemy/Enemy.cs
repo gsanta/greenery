@@ -5,6 +5,7 @@ using game.character.ability.shoot;
 using game.character.characters.player;
 using game.character.state;
 using game.character.utils;
+using game.scene.level;
 using UnityEngine;
 
 namespace game.character.characters.enemy
@@ -38,6 +39,8 @@ namespace game.character.characters.enemy
         public StateHandler States { get; private set; } 
         
         public AbilityHandler Abilities { get; private set; }
+        
+        public LevelName LevelName { set; get; }
         
         public void Construct(EnemyStore enemyStore, PlayerStore playerStore, GameManager gameManager)
         {

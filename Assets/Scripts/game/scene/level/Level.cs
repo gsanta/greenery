@@ -21,7 +21,7 @@ namespace game.scene.level
         
         private Vector2Int _offset;
 
-        private EnemySpawner _enemySpawner;
+        private EnemyFactory _enemyFactory;
 
         private PlayerStore _playerStore;
 
@@ -35,9 +35,9 @@ namespace game.scene.level
 
         private LevelLoader _levelLoader;
 
-        public void Construct(EnemySpawner enemySpawner, PlayerStore playerStore, LevelLoader levelLoader)
+        public void Construct(EnemyFactory enemyFactory, PlayerStore playerStore, LevelLoader levelLoader)
         {
-            _enemySpawner = enemySpawner;
+            _enemyFactory = enemyFactory;
             _playerStore = playerStore;
             _levelLoader = levelLoader;
             
@@ -60,18 +60,18 @@ namespace game.scene.level
             var minBounds = tilemapGround.localBounds.min;
             _offset = new Vector2Int((int) minBounds.x, (int) minBounds.y);
 
-            GridSystem = new GridSystem(this);
-            LevelUtils = new LevelUtils(GridSystem);
-            
             TopLeft = TilemapUtils.TopLeft(tilemapGround);
             BottomRight = TilemapUtils.BottomRight(tilemapGround);
             CellSize = TilemapUtils.CellSize(tilemapGround);
             Center = new Vector2((TopLeft.x + BottomRight.x) / 2, (TopLeft.y + BottomRight.y) / 2);
+            
+            GridSystem = new GridSystem(this);
+            LevelUtils = new LevelUtils(GridSystem);
         }
 
         private void Start()
         {
-            _enemySpawner.Spawn(this);
+            _enemyFactory.Create(this);
         }
 
         public bool IsWalkable(Vector2Int pos)

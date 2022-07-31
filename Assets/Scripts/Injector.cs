@@ -85,6 +85,6 @@ public class Injector : MonoBehaviour
 
     public void InjectLevel(Level level)
     {
-        level.Construct(enemySpawner, playerStore, levelLoader);
+        level.Construct(enemyFactory, playerStore, levelLoader);
     }
 }
