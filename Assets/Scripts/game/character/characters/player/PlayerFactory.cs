@@ -1,5 +1,6 @@
 using game.character.ability.health;
 using game.character.ability.shoot;
+using game.character.ability.shoot.target;
 using game.character.characters.enemy;
 using game.item;
 using game.item.bullet;
@@ -48,7 +49,9 @@ namespace game.character.characters.player
             player.GetComponent<ItemPickup>().Construct(_ballStore, _gameInfoStore);
             player.GetComponent<LineDrawer>().Construct(_gameInfoStore);
             player.GetComponent<Health>().Construct(player, 100, _healthBar);
-            player.GetComponent<Shooting>().Construct(player.GetComponent<Player>(), _bulletFactory, _enemyStore);
+
+            var shootTarget = new ShootAtCursor(player);
+            player.GetComponent<Shooting>().Construct(player.GetComponent<Player>(), _bulletFactory, _enemyStore, shootTarget);
             _playerStore.Add(player);
             return player;
         }

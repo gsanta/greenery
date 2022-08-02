@@ -21,7 +21,7 @@ namespace game.scene.grid
             GridVisualizer = new GridVisualizer(Grid);
             PathFinding = new PathFinding(Grid);
             
-            if (true)
+            if (false)
             {
                 GridVisualizer.Show();
             }

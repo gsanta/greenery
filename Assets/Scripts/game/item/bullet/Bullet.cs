@@ -6,13 +6,16 @@ namespace game.item.bullet
     public class Bullet : MonoBehaviour
     {
         private Vector3 _shootDir;
+
+        private float _speed;
         
         private ICharacterStore<ICharacter> _characterStore;
 
         private bool _isUsed = false;
-        
-        public void Construct(ICharacterStore<ICharacter> characterStore)
+
+        public void Construct(float speed, ICharacterStore<ICharacter> characterStore)
         {
+            _speed = speed;
             _characterStore = characterStore;
         }
     
@@ -25,8 +28,7 @@ namespace game.item.bullet
 
         private void Update()
         {
-            const float moveSpeed = 15f;
-            transform.position += _shootDir * moveSpeed * Time.deltaTime;
+            transform.position += _shootDir * _speed * Time.deltaTime;
 
             if (!_isUsed)
             {

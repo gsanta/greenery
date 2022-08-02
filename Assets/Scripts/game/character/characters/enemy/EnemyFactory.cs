@@ -1,5 +1,6 @@
 using game.character.ability.health;
 using game.character.ability.shoot;
+using game.character.ability.shoot.target;
 using game.character.characters.player;
 using game.character.state;
 using game.item.bullet;
@@ -41,7 +42,12 @@ namespace game.character.characters.enemy
             var spawnPosWorld = level.GridSystem.Grid.GetWorldPosition(spawnPosGrid.x, spawnPosGrid.y);
             var enemy = Instantiate(enemyPrefab, spawnPosWorld, transform.rotation);
             enemy.Construct(_enemyStore, _playerStore, _gameManager);
-            enemy.GetComponent<Shooting>().Construct(enemy, _bulletFactory, _playerStore);
+
+            var shooting = enemy.GetComponent<Shooting>();
+            shooting.Speed = 8f;
+            var shootTarget = new ShootAtPlayer(enemy, _playerStore);
+            shooting.Construct(enemy, _bulletFactory, _playerStore, shootTarget);
+            
             enemy.GetComponent<Health>().Construct(enemy, 100, null);
             var pathMovement = enemy.GetComponent<PathMovement>();
             pathMovement.Construct(level.GridSystem.PathFinding);
