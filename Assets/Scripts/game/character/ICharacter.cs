@@ -22,5 +22,7 @@ namespace game.character
         void SetMovement(Vector2 movement);
         
         Vector2 GetMovement();
+
+        GameObject GetGameObject();
     }
 }

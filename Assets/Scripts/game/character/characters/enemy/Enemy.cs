@@ -139,5 +139,10 @@ namespace game.character.characters.enemy
             _enemyStore.Remove(this);
             Destroy(gameObject);
         }
+
+        public GameObject GetGameObject()
+        {
+            return gameObject;
+        }
     }
 }

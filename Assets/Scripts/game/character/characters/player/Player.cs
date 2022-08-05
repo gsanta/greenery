@@ -132,5 +132,10 @@ namespace game.character.characters.player
         {
             Debug.Log("player is dead");
         }
+
+        public GameObject GetGameObject()
+        {
+            return gameObject;
+        }
     }
 }

@@ -52,7 +52,7 @@ namespace game.character.ability.shoot
         {
             var target = _shootTarget.GetTarget();
             var pos = transform.position;
-            _bulletFactory.Create(pos, target, _speed, _targetStore);
+            _bulletFactory.Create(_character, pos, target, _speed);
         }
     }
 }
