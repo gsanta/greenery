@@ -32,6 +32,8 @@ namespace game.scene.grid.path
             
             var path = FindPath(startNode, endNode);
 
+            path.ForEach(node => node.WalkCounter++);
+
             return path?.Select((node) => _grid.GetWorldPosition(node.X, node.Y)).ToList();
         }
 

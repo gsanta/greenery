@@ -50,6 +50,8 @@ public class Injector : MonoBehaviour
     [SerializeField] private LevelLoader levelLoader;
     
     [SerializeField] private GridSetup gridSetup;
+
+    [SerializeField] private GridVisualizer gridVisualizer;
     
     // State
     [SerializeField] private StateFactory stateFactory;
@@ -86,5 +88,8 @@ public class Injector : MonoBehaviour
     public void InjectLevel(Level level)
     {
         level.Construct(enemyFactory, playerStore, levelLoader);
+        var gridSystem = new GridSystem(gridVisualizer);
+        level.GridSystem = gridSystem;
+        gridVisualizer.GridSystem = gridSystem;
     }
 }

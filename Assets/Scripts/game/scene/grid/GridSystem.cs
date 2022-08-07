@@ -8,23 +8,23 @@ namespace game.scene.grid
     {
         public Grid<PathNode> Grid { get; set; }
 
-        private GridVisualizer GridVisualizer { get; }
+        public GridVisualizer GridVisualizer { get; private set; }
         
-        public PathFinding PathFinding { get; }
+        public PathFinding PathFinding { get; private set; }
         
-        private GridFactory _gridFactory { get; }
+        private GridFactory _gridFactory { get; set; }
 
-        public GridSystem(Level level)
+        public GridSystem(GridVisualizer gridVisualizer)
+        {
+
+            GridVisualizer = gridVisualizer;
+        }
+
+        public void Setup(Level level)
         {
             _gridFactory = new GridFactory(level);
             Grid = _gridFactory.CreateGrid();
-            GridVisualizer = new GridVisualizer(Grid);
             PathFinding = new PathFinding(Grid);
-            
-            if (false)
-            {
-                GridVisualizer.Show();
-            }
         }
     }
 }

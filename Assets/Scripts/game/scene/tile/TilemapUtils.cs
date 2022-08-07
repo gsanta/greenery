@@ -12,7 +12,7 @@ namespace game.scene.tile
             var maxBounds = localBounds.max;
             var pos = tilemap.GetCellCenterWorld(new Vector3Int((int) minBounds.x, (int)maxBounds.y, 0));
             var cellSize = CellSize(tilemap);
-            return new Vector3(pos.x - cellSize, pos.y + cellSize);
+            return new Vector3(minBounds.x, maxBounds.y);
         }
 
         public static Vector3 BottomRight(Tilemap tilemap)
@@ -22,7 +22,7 @@ namespace game.scene.tile
             var maxBounds = localBounds.max;
             var pos = tilemap.GetCellCenterWorld(new Vector3Int((int) maxBounds.x, (int) minBounds.y, 0));
             var cellSize = CellSize(tilemap);
-            return new Vector3(pos.x + cellSize, pos.y - cellSize);
+            return new Vector3(maxBounds.x, minBounds.y);
         }
 
         public static float CellSize(Tilemap tilemap)

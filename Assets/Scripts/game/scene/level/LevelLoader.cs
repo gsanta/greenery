@@ -55,11 +55,11 @@ namespace game.scene.level
 
         private void ApplyNewLevel(LevelName newLevel)
         {
-            if (!_levels.Find((level) => level.levelName == newLevel) && !_loadingLevels.Contains(newLevel))
-            {
-                LoadLevel(Levels.LevelNameMap[newLevel]);
-                _loadingLevels.Add(newLevel);
-            }
+            //if (!_levels.Find((level) => level.levelName == newLevel) && !_loadingLevels.Contains(newLevel))
+            //{
+            //    LoadLevel(Levels.LevelNameMap[newLevel]);
+            //    _loadingLevels.Add(newLevel);
+            //}
         }
 
         private void RemoveLevel(LevelName levelName)

@@ -60,7 +60,7 @@ namespace game.scene.grid
 
         public Vector2 GetWorldPosition(int x, int y)
         {
-            return new Vector2(x, y) * CellSize + _worldOffset  + _halfCellSize;
+            return new Vector2(x, y) * CellSize + _worldOffset;
         }
 
         public (int, int) GetGridPosition(Vector2 worldPosition)

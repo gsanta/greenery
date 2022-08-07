@@ -13,8 +13,8 @@ namespace Tests.EditMode.AI.GridSystem
             var grid = new Grid<GridNode>(10, 8, (Grid<GridNode> g, int gx, int gy) => new GridNode(gx, gy));
 
             var worldPosition = grid.GetWorldPosition(5, 4);
-            Assert.AreEqual(worldPosition.x, 5.5f, 0.01f);
-            Assert.AreEqual(worldPosition.y, 4.5f, 0.01f);
+            Assert.AreEqual(worldPosition.x, 5f, 0.01f);
+            Assert.AreEqual(worldPosition.y, 4f, 0.01f);
         }
         
         [Test]
@@ -23,8 +23,8 @@ namespace Tests.EditMode.AI.GridSystem
             var grid = new Grid<GridNode>(10, 8, (Grid<GridNode> g, int gx, int gy) => new GridNode(gx, gy));
 
             var worldPosition = grid.GetWorldPosition(0, 0);
-            Assert.AreEqual(worldPosition.x, 0.5f, 0.01f);
-            Assert.AreEqual(worldPosition.y, 0.5f, 0.01f);
+            Assert.AreEqual(worldPosition.x, 0f, 0.01f);
+            Assert.AreEqual(worldPosition.y, 0f, 0.01f);
         }
 
         [Test]
@@ -33,8 +33,8 @@ namespace Tests.EditMode.AI.GridSystem
             var grid = new Grid<GridNode>(10, 8, (Grid<GridNode> g, int gx, int gy) => new GridNode(gx, gy), 2f);
 
             var worldPosition = grid.GetWorldPosition(1, 2);
-            Assert.AreEqual(worldPosition.x, 3f, 0.01f);
-            Assert.AreEqual(worldPosition.y, 5f, 0.01f);
+            Assert.AreEqual(worldPosition.x, 2f, 0.01f);
+            Assert.AreEqual(worldPosition.y, 4f, 0.01f);
         }
         
         [Test]
@@ -43,8 +43,8 @@ namespace Tests.EditMode.AI.GridSystem
             var grid = new Grid<GridNode>(10, 8, (Grid<GridNode> g, int gx, int gy) => new GridNode(gx, gy), 1, new Vector2(-2, 2));
 
             var worldPosition = grid.GetWorldPosition(1, 2);
-            Assert.AreEqual(-0.5f, worldPosition.x , 0.01f);
-            Assert.AreEqual(4.5f, worldPosition.y, 0.01f);
+            Assert.AreEqual(-1f, worldPosition.x , 0.01f);
+            Assert.AreEqual(4f, worldPosition.y, 0.01f);
         }
         
         [Test]

@@ -15,7 +15,7 @@ namespace game.scene.level
 
         [SerializeField] public LevelName levelName;
 
-        public GridSystem GridSystem { get; private set; }
+        public GridSystem GridSystem { get; set; }
         
         public LevelUtils LevelUtils { get; private set; }
         
@@ -53,24 +53,27 @@ namespace game.scene.level
             
             return worldPos.y > Center.y ? Direction.LeftUp : Direction.LeftDown;
         }
-        
-        private void Awake()
+
+        private void Start()
         {
             Injector.Instance.InjectLevel(this);
             var minBounds = tilemapGround.localBounds.min;
-            _offset = new Vector2Int((int) minBounds.x, (int) minBounds.y);
+            _offset = new Vector2Int((int)minBounds.x, (int)minBounds.y);
 
             TopLeft = TilemapUtils.TopLeft(tilemapGround);
             BottomRight = TilemapUtils.BottomRight(tilemapGround);
             CellSize = TilemapUtils.CellSize(tilemapGround);
             Center = new Vector2((TopLeft.x + BottomRight.x) / 2, (TopLeft.y + BottomRight.y) / 2);
-            
-            GridSystem = new GridSystem(this);
-            LevelUtils = new LevelUtils(GridSystem);
-        }
 
-        private void Start()
-        {
+            LevelUtils = new LevelUtils(GridSystem);
+
+            GridSystem.Setup(this);
+
+            if (true)
+            {
+                GridSystem.GridVisualizer.Show();
+            }
+
             _enemyFactory.Create(this);
         }
 
