@@ -14,9 +14,7 @@ using UnityEngine;
 
 public class Injector : MonoBehaviour
 {
-    public static Injector Instance;
-    
-    [SerializeField] private EnemyFactory enemyFactory;
+    [SerializeField] public EnemyFactory enemyFactory;
 
     [SerializeField] private EnemySpawner enemySpawner;
     
@@ -44,14 +42,14 @@ public class Injector : MonoBehaviour
     
     [SerializeField] private EnemyStore enemyStore;
     
-    [SerializeField] private PlayerStore playerStore;
+    [SerializeField] public PlayerStore playerStore;
     
     // Scene
-    [SerializeField] private LevelLoader levelLoader;
+    [SerializeField] public LevelLoader levelLoader;
     
     [SerializeField] private GridSetup gridSetup;
 
-    [SerializeField] private GridVisualizer gridVisualizer;
+    [SerializeField] public GridVisualizer gridVisualizer;
     
     // State
     [SerializeField] private StateFactory stateFactory;
@@ -62,8 +60,6 @@ public class Injector : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-        
         stateFactory.Construct(playerStore);
         
         enemyFactory.Construct(enemyStore, playerStore, bulletFactory, gameManager, stateFactory);
@@ -81,15 +77,7 @@ public class Injector : MonoBehaviour
 
         panelManager.startGamePanel = startGamePanel;
         
-        levelLoader.Construct(playerStore);
+        levelLoader.Construct(playerStore, this);
         levelLoader.LoadLevel("Level");
-    }
-
-    public void InjectLevel(Level level)
-    {
-        level.Construct(enemyFactory, playerStore, levelLoader);
-        var gridSystem = new GridSystem(gridVisualizer);
-        level.GridSystem = gridSystem;
-        gridVisualizer.GridSystem = gridSystem;
     }
 }

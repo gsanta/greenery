@@ -18,8 +18,9 @@ namespace game.scene.grid.path
             _grid = grid;
         }
 
-        public List<Vector2> FindPath(Vector2 startWorldPosition, Vector2 endWorldPosition)
+        public List<Vector2> FindPath(Vector2 startWorldPosition, Vector2 endWorldPosition, out List<PathNode> nodes)
         {
+            nodes = new List<PathNode>();
             var (startX, startY) = _grid.GetGridPosition(startWorldPosition);
             var (endX, endY) = _grid.GetGridPosition(endWorldPosition);
             var startNode = _grid.GetNode(startX, startY);
@@ -32,7 +33,10 @@ namespace game.scene.grid.path
             
             var path = FindPath(startNode, endNode);
 
-            path.ForEach(node => node.WalkCounter++);
+            if (path != null)
+            {
+                nodes = path;
+            }
 
             return path?.Select((node) => _grid.GetWorldPosition(node.X, node.Y)).ToList();
         }

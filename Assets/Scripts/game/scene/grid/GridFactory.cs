@@ -14,13 +14,13 @@ namespace game.scene.grid
 
         public Grid<PathNode> CreateGrid()
         {
-            var topLeft = _level.TopLeft;
-            var bottomRight = _level.BottomRight;
-            var cellSize = _level.CellSize;
+            var topLeft = _level.Environment.TopLeft;
+            var bottomRight = _level.Environment.BottomRight;
+            var cellSize = _level.Environment.CellSize;
             
             return Grid<PathNode>.CreateFromWorldSize(topLeft, bottomRight, (g, x, y) =>
             {
-                var isWalkable = _level.IsWalkable(new Vector2Int(x, y));
+                var isWalkable = _level.Environment.IsWalkable(new Vector2Int(x, y));
                 
                 return new PathNode(x, y)
                 {

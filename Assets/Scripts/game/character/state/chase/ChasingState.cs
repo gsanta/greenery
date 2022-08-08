@@ -78,6 +78,7 @@ namespace game.character.state.chase
         {
             targetTime = TimerMax;
             _character.Abilities.Get(AbilityType.Shoot).IsActive = false;
+            _pathMovement.FinishMovement();
             _character.States.SetActiveState(CharacterStateType.RoamingState);
         }
     }

@@ -8,9 +8,9 @@ namespace game.scene.level
 {
     public class LevelLoader : MonoBehaviour
     {
-        private static LevelLoader _instance;
-
         private PlayerStore _playerStore;
+
+        private Injector _injector;
 
         private List<Level> _levels = new();
         
@@ -18,9 +18,10 @@ namespace game.scene.level
         
         public Level ActiveLevel { set; get; }
 
-        public void Construct(PlayerStore playerStore)
+        public void Construct(PlayerStore playerStore, Injector injector)
         {
             _playerStore = playerStore;
+            _injector = injector;
         }
 
         public void AddLevel(Level level)
@@ -36,21 +37,37 @@ namespace game.scene.level
         
         public void LoadLevel(string levelName)
         {
-            SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Additive);
+            int operationIndex = SceneManager.sceneCount;
+            var operation = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Additive);
+
+            operation.completed += (s) =>
+            {
+                OnLevelLoaded(SceneManager.GetSceneAt(operationIndex));
+            };
+        }
+
+        private void OnLevelLoaded(Scene scene)
+        {
+            var gameObject = Array.Find(scene.GetRootGameObjects(), (obj) =>
+            {
+                return obj.name == LevelInjector.UnityName;
+            });
+
+            gameObject.GetComponent<LevelInjector>().Construct(_injector);
         }
 
         private void Update()
         {
-            if (ActiveLevel && _playerStore.GetActivePlayer())
-            {
-                var quarter = ActiveLevel.GetQuarter(_playerStore.GetActivePlayer().GetPosition());
+            //if (ActiveLevel && _playerStore.GetActivePlayer())
+            //{
+            //    var quarter = ActiveLevel.GetQuarter(_playerStore.GetActivePlayer().GetPosition());
 
-                var levels = Levels.GetLevelsAtDirection(ActiveLevel, quarter);
-                var oppositeLevels = Levels.GetLevelsAtOppositeDirection(ActiveLevel, quarter);
+            //    var levels = Levels.GetLevelsAtDirection(ActiveLevel, quarter);
+            //    var oppositeLevels = Levels.GetLevelsAtOppositeDirection(ActiveLevel, quarter);
 
-                levels.ForEach(ApplyNewLevel);
-                oppositeLevels.ForEach(RemoveLevel);
-            }
+            //    levels.ForEach(ApplyNewLevel);
+            //    oppositeLevels.ForEach(RemoveLevel);
+            //}
         }
 
         private void ApplyNewLevel(LevelName newLevel)

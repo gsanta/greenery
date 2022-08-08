@@ -6,6 +6,8 @@ namespace game.scene.grid.path
     public class PathMovement : MonoBehaviour
     {
         private List<Vector2> _pathVectorList = new();
+
+        private List<PathNode> _pathNodeList = new();
         
         private int _currentPathIndex = 0;
 
@@ -48,8 +50,7 @@ namespace game.scene.grid.path
                     _currentPathIndex++;
                     if (_currentPathIndex >= _pathVectorList.Count)
                     {
-                        _pathVectorList = null;
-                        IsTargetReached = true;
+                        FinishMovement();
                         _animator.SetFloat(HorizontalMovement, 0);
                         _animator.SetFloat(VerticalMovement, 0);
                     }
@@ -66,10 +67,19 @@ namespace game.scene.grid.path
         {
             if (_targetPosition != targetPosition)
             {
+                FinishMovement();
                 SetTargetPosition(targetPosition);
             }
             
             HandleMovement();
+        }
+
+        public void FinishMovement()
+        {
+            IsTargetReached = true;
+            _pathNodeList.ForEach(node => node.WalkCounter--);
+            _pathNodeList = new List<PathNode>();
+            _pathVectorList = null;
         }
 
         private void SetTargetPosition(Vector2 targetPosition)
@@ -77,7 +87,10 @@ namespace game.scene.grid.path
             IsTargetReached = false;
             _targetPosition = targetPosition;
             _currentPathIndex = 0;
-            _pathVectorList = _pathFinding.FindPath(transform.position, targetPosition);
+            _pathNodeList = new List<PathNode>();
+            _pathVectorList = _pathFinding.FindPath(transform.position, targetPosition, out _pathNodeList);
+
+            _pathNodeList.ForEach(node => node.WalkCounter++);
 
             if (_pathVectorList is {Count: > 1})
             {

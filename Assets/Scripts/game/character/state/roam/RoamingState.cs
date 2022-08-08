@@ -60,6 +60,7 @@ namespace game.character.state.roam
             var player = _playerStore.GetActivePlayer();
             if (Vector2.Distance(_character.GetPosition(), player.GetPosition()) < targetRange)
             {
+                _pathMovement.FinishMovement();
                 _character.States.SetActiveState(CharacterStateType.ChasingState);
             }
         }
