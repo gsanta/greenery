@@ -1,5 +1,4 @@
 using game.character.characters.enemy;
-using game.character.characters.player;
 using game.scene.grid;
 using UnityEngine;
 
@@ -9,27 +8,23 @@ namespace game.scene.level
     {
         [SerializeField] public LevelName levelName;
 
-        public Environment Environment;
+        public LevelBounds LevelBounds { get; set; }
 
-        public GridSystem GridSystem { get; private set; }
-        
-        public LevelUtils LevelUtils { get; private set; }
+        public Environment Environment { get; set; }
+
+        public grid.Grid Grid { get; set; }
         
         private EnemyFactory _enemyFactory;
-
-        private PlayerStore _playerStore;
 
         private GridVisualizer _gridVisualizer;
 
         private LevelLoader _levelLoader;
 
-        public void Construct(EnemyFactory enemyFactory, PlayerStore playerStore, LevelLoader levelLoader, GridVisualizer gridVisualizer, Environment environment)
+        public void Construct(EnemyFactory enemyFactory, LevelLoader levelLoader, GridVisualizer gridVisualizer)
         {
             _enemyFactory = enemyFactory;
-            _playerStore = playerStore;
             _levelLoader = levelLoader;
             _gridVisualizer = gridVisualizer;
-            Environment = environment;
 
             _levelLoader.AddLevel(this);
         }
@@ -46,11 +41,10 @@ namespace game.scene.level
 
         private void Start()
         {
+            LevelBounds.Init();
             Environment.Init();
-            GridSystem = new GridSystem(this);
-            _gridVisualizer.GridSystem = GridSystem;
-
-            LevelUtils = new LevelUtils(GridSystem);
+            Grid.Init();
+            _gridVisualizer.GridSystem = Grid;
 
             if (true)
             {

@@ -38,8 +38,8 @@ namespace game.character.characters.enemy
 
         public void Create(Level level)
         {
-            var spawnPosGrid = level.LevelUtils.GetRandomGrid();
-            var spawnPosWorld = level.GridSystem.Grid.GetWorldPosition(spawnPosGrid.x, spawnPosGrid.y);
+            var spawnPosGrid = GridUtils.GetRandomGrid(level.Grid.Graph);
+            var spawnPosWorld = level.Grid.Graph.GetWorldPosition(spawnPosGrid.x, spawnPosGrid.y);
             var enemy = Instantiate(enemyPrefab, spawnPosWorld, transform.rotation);
             enemy.Construct(_enemyStore, _playerStore, _gameManager);
 
@@ -50,7 +50,7 @@ namespace game.character.characters.enemy
             
             enemy.GetComponent<Health>().Construct(enemy, 100, null);
             var pathMovement = enemy.GetComponent<PathMovement>();
-            pathMovement.Construct(level.GridSystem.PathFinding);
+            pathMovement.Construct(level.Grid.PathFinding);
 
             var roamingState = _stateFactory.CreateRoamingState(enemy, enemy.gameObject);
             enemy.States.AddState(roamingState, true);

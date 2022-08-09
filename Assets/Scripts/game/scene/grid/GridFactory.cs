@@ -5,28 +5,26 @@ namespace game.scene.grid
 {
     public class GridFactory
     {
-        private Level _level;
+        private Environment _environment;
 
-        public GridFactory(Level level)
+        private LevelBounds _levelBounds;
+
+        public GridFactory(LevelBounds levelBounds, Environment environment)
         {
-            _level = level;
+            _levelBounds = levelBounds;
+            _environment = environment;
         }
 
-        public Grid<PathNode> CreateGrid()
+        public GridGraph<PathNode> CreateGrid()
         {
-            var topLeft = _level.Environment.TopLeft;
-            var bottomRight = _level.Environment.BottomRight;
-            var cellSize = _level.Environment.CellSize;
+            var topLeft = _levelBounds.TopLeft;
+            var bottomRight = _levelBounds.BottomRight;
+            var cellSize = _levelBounds.CellSize;
             
-            return Grid<PathNode>.CreateFromWorldSize(topLeft, bottomRight, (g, x, y) =>
-            {
-                var isWalkable = _level.Environment.IsWalkable(new Vector2Int(x, y));
-                
-                return new PathNode(x, y)
-                {
-                    IsWalkable = isWalkable
-                };
-            }, cellSize);
+            var graph = GridGraph<PathNode>.CreateFromWorldSize(topLeft, bottomRight, (g, x, y) => new PathNode(x, y), cellSize);
+            _environment.SetUnWalkable(graph);
+
+            return graph;
         }
     }
 }

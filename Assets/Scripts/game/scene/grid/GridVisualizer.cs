@@ -8,7 +8,7 @@ namespace game.scene.grid
 
         private Mesh _mesh;
 
-        public GridSystem GridSystem { set; get; }
+        public Grid GridSystem { set; get; }
 
         private void Awake()
         {
@@ -18,7 +18,7 @@ namespace game.scene.grid
 
         public void UpdateHeatMapVisual()
         {
-            var grid = GridSystem.Grid;
+            var grid = GridSystem.Graph;
             MeshUtils.CreateEmptyMeshArrays(grid.Width * grid.Height, out Vector3[] vertices, out Vector2[] uv, out int[] triangles);
 
             for (int x = 0; x < grid.Width; x++)
@@ -60,7 +60,7 @@ namespace game.scene.grid
 
             InvokeRepeating(nameof(UpdateHeatMapVisual), 0.5f, 0.5f);
 
-            var grid = GridSystem.Grid;
+            var grid = GridSystem.Graph;
 
             var halfCellSize = new Vector2(grid.CellSize, grid.CellSize) / 2;
             for (var x = 0; x < grid.Width; x++)

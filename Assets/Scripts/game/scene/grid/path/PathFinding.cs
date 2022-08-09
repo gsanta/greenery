@@ -9,11 +9,11 @@ namespace game.scene.grid.path
         private const int MoveStraightCost = 10;
         private const int MoveDiagonalCost = 14;
 
-        private readonly Grid<PathNode> _grid;
+        private readonly GridGraph<PathNode> _grid;
         private List<PathNode> _openList;
         private List<PathNode> _closedList;
 
-        public PathFinding(Grid<PathNode> grid)
+        public PathFinding(GridGraph<PathNode> grid)
         {
             _grid = grid;
         }
@@ -21,10 +21,16 @@ namespace game.scene.grid.path
         public List<Vector2> FindPath(Vector2 startWorldPosition, Vector2 endWorldPosition, out List<PathNode> nodes)
         {
             nodes = new List<PathNode>();
-            var (startX, startY) = _grid.GetGridPosition(startWorldPosition);
-            var (endX, endY) = _grid.GetGridPosition(endWorldPosition);
-            var startNode = _grid.GetNode(startX, startY);
-            var endNode = _grid.GetNode(endX, endY);
+            var start = _grid.GetGridPosition(startWorldPosition);
+            var end = _grid.GetGridPosition(endWorldPosition);
+
+            if (!start.HasValue || !end.HasValue)
+            {
+                return null;
+            }
+
+            var startNode = _grid.GetNode(start.Value.x, start.Value.y);
+            var endNode = _grid.GetNode(end.Value.x, end.Value.y);
 
             if (startNode == null || endNode == null)
             {

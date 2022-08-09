@@ -5,10 +5,10 @@ public class World
 {
     public Vector3 originPosition;
     public float gridRatio;
-    private Grid<object> grid;
+    private GridGraph<object> grid;
     private Vector3 worldSize;
     
-    public World(Grid<object> grid, float gridRatio, Vector3 originPosition)
+    public World(GridGraph<object> grid, float gridRatio, Vector3 originPosition)
     {
         this.grid = grid;
         this.gridRatio = gridRatio;
