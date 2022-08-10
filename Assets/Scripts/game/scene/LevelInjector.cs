@@ -22,14 +22,14 @@ namespace game.scene
 
         private grid.Grid _gridSystem;
 
-
         public void Construct(Injector injector)
         {
             var enemyFactory = injector.enemyFactory;
             var levelLoader = injector.levelLoader;
             var gridVisualizer = injector.gridVisualizer;
+            var gameManager = injector.gameManager;
 
-            level.Construct(enemyFactory, levelLoader, gridVisualizer);
+            level.Construct(enemyFactory, levelLoader, gridVisualizer, gameManager);
 
             _levelBounds = new LevelBounds(tilemapGround);
 

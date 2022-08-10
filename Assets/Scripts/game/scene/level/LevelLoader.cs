@@ -8,9 +8,9 @@ namespace game.scene.level
 {
     public class LevelLoader : MonoBehaviour
     {
-        private PlayerStore _playerStore;
-
         private Injector _injector;
+
+        private GameManager _gameManager;
 
         private List<Level> _levels = new();
         
@@ -18,9 +18,8 @@ namespace game.scene.level
         
         public Level ActiveLevel { set; get; }
 
-        public void Construct(PlayerStore playerStore, Injector injector)
+        public void Construct(Injector injector)
         {
-            _playerStore = playerStore;
             _injector = injector;
         }
 

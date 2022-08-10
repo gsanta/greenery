@@ -16,8 +16,6 @@ namespace game.character.characters.player
         public StateHandler States { get; private set; }
         public AbilityHandler Abilities { get; }
 
-        private GameManager _gameManager;
-        
         private Direction _moveDirection = Direction.Down;
 
         private Vector3 _movement;
@@ -32,9 +30,10 @@ namespace game.character.characters.player
 
         private bool _isActive;
 
-        public void Construct(GameManager gameManager)
+        public bool IsActive { get => _isActive; set => _isActive = value; }
+
+        public void Construct()
         {
-            _gameManager = gameManager;
             States = new StateHandler();
         }
         
@@ -59,8 +58,6 @@ namespace game.character.characters.player
         
         void Update()
         {
-            UpdateActive();
-
             if (!_isActive)
             {
                 return;
@@ -82,11 +79,6 @@ namespace game.character.characters.player
             {
                 _shooting.Shoot();
             }
-        }
-        
-        private void UpdateActive()
-        {
-            _isActive = _gameManager.IsGameStarted();
         }
         
         private void UpdateBlendTrees()

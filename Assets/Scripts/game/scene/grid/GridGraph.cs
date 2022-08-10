@@ -63,6 +63,14 @@ namespace game.scene.grid
             return new Vector2(x, y) * CellSize + _worldOffset;
         }
 
+        public Vector2 GetRandomWorldPosition()
+        {
+            var x = UnityEngine.Random.Range(0, Width);
+            var y = UnityEngine.Random.Range(0, Height);
+
+            return GetWorldPosition(x, y);
+        }
+
         public Vector2Int? GetGridPosition(Vector2 worldPosition)
         {
             var vec = (worldPosition - _worldOffset) / CellSize;
@@ -70,6 +78,14 @@ namespace game.scene.grid
             var y = (int) Mathf.Floor(vec.y);
             
             return !IsWithinGrid(x, y) ? null : new Vector2Int(x, y);
+        }
+
+        public Vector2Int GetRandomGridPosition()
+        {
+            var posX = UnityEngine.Random.Range(0, Width - 1);
+            var posY = UnityEngine.Random.Range(0, Height - 1);
+
+            return new Vector2Int(posX, posY);
         }
 
         public TNode TopNeighbour(int x, int y)
