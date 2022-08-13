@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace game.character.characters.player
 {
-    public class PlayerStore : MonoBehaviour, ICharacterStore<ICharacter>
+    public class PlayerStore : MonoBehaviour
     {
         private readonly List<Player> _players = new();
 
-        public List<ICharacter> GetAll()
+        public List<Player> GetAll()
         {
-            return _players.ConvertAll<ICharacter>(player => player);
+            return _players;
         }
 
-        public void Add(ICharacter player)
+        public void Add(Player player)
         {
             _players.Add((Player) player);
         }

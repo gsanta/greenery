@@ -30,6 +30,8 @@ public class Injector : MonoBehaviour
 
     [SerializeField] public GameManager gameManager;
 
+    [SerializeField] private PlayerManager playerManager;
+
     [SerializeField] private EnterAreaStore enterAreaStore;
 
     [SerializeField] private FollowCamera followCamera;
@@ -72,8 +74,10 @@ public class Injector : MonoBehaviour
         avatarFactory.Create();
         
         enterAreaStore.Construct(gameManager);
-        
-        gameManager.Construct(playerStore, playerFactory, followCamera, panelManager);
+
+        playerManager = new PlayerManager(playerFactory, playerStore, followCamera);
+
+        gameManager.Construct(playerManager, panelManager);
 
         panelManager.startGamePanel = startGamePanel;
         

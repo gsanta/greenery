@@ -46,7 +46,7 @@ namespace game.character.characters.enemy
             var shooting = enemy.GetComponent<Shooting>();
             shooting.Speed = 8f;
             var shootTarget = new ShootAtPlayer(enemy, _playerStore);
-            shooting.Construct(enemy, _bulletFactory, _playerStore, shootTarget);
+            shooting.Construct(enemy, _bulletFactory, shootTarget);
             
             enemy.GetComponent<Health>().Construct(enemy, 100, null);
             var pathMovement = enemy.GetComponent<PathMovement>();

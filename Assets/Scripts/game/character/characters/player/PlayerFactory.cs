@@ -43,7 +43,7 @@ namespace game.character.characters.player
             player.GetComponent<Health>().Construct(player, 100, _healthBar);
 
             var shootTarget = new ShootAtCursor(player);
-            player.GetComponent<Shooting>().Construct(player.GetComponent<Player>(), _bulletFactory, _enemyStore, shootTarget);
+            player.GetComponent<Shooting>().Construct(player.GetComponent<Player>(), _bulletFactory, shootTarget);
             _playerStore.Add(player);
             return player;
         }

@@ -12,8 +12,6 @@ namespace game.character.ability.shoot
         
         private BulletFactory _bulletFactory;
 
-        private ICharacterStore<ICharacter> _targetStore;
-
         private IShootTarget _shootTarget;
 
         private bool _isAbilityActive = false;
@@ -40,10 +38,9 @@ namespace game.character.ability.shoot
             }
         }
 
-        public void Construct(ICharacter character, BulletFactory bulletFactory, ICharacterStore<ICharacter> targetStore, IShootTarget shootTarget)
+        public void Construct(ICharacter character, BulletFactory bulletFactory, IShootTarget shootTarget)
         {
             _bulletFactory = bulletFactory;
-            _targetStore = targetStore;
             _character = character;
             _shootTarget = shootTarget;
         }

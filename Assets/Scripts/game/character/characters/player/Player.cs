@@ -9,8 +9,6 @@ namespace game.character.characters.player
 {
     public class Player : MonoBehaviour, ICharacter
     {
-        private static Player _instance;
-        
         public float moveSpeed = 5f;
         
         public StateHandler States { get; private set; }
@@ -41,19 +39,9 @@ namespace game.character.characters.player
         {
             _shooting = GetComponent<Shooting>();
             _health = GetComponent<Health>();
+            _rigidBody = GetComponent<Rigidbody2D>();
+            _animator = GetComponent<Animator>();
             
-            if (_instance != null && _instance != this)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                _instance = this;
-                _rigidBody = GetComponent<Rigidbody2D>();
-                _animator = GetComponent<Animator>();
-            
-                DontDestroyOnLoad(gameObject);
-            }
         }
         
         void Update()
