@@ -11,6 +11,7 @@ using game.scene.level;
 using GUI;
 using gui.avatar;
 using UnityEngine;
+using game.tool.weapon;
 
 public class Injector : MonoBehaviour
 {
@@ -24,7 +25,11 @@ public class Injector : MonoBehaviour
 
     [SerializeField] private HealthBar healthBar;
 
+    // weapon
+
     [SerializeField] private BulletFactory bulletFactory;
+
+    [SerializeField] private WeaponFactory weaponFactory;
 
     [SerializeField] private AvatarFactory avatarFactory;
 
@@ -63,10 +68,12 @@ public class Injector : MonoBehaviour
     private void Awake()
     {
         stateFactory.Construct(playerStore);
-        
-        enemyFactory.Construct(enemyStore, playerStore, bulletFactory, gameManager, stateFactory);
+
+        weaponFactory.Construct(bulletFactory);
+
+        enemyFactory.Construct(enemyStore, playerStore, weaponFactory, gameManager, stateFactory);
         enemySpawner.Construct(enemyFactory);
-        playerFactory.Construct(playerStore, enemyStore, gameInfoStore, healthBar, bulletFactory);
+        playerFactory.Construct(playerStore, gameInfoStore, healthBar, weaponFactory);
 
         _avatarStore = new AvatarStore();
         avatarFactory.Construct(_avatarStore);

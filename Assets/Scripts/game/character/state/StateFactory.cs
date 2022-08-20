@@ -1,3 +1,4 @@
+using game.character.characters.enemy;
 using game.character.characters.player;
 using game.character.state.chase;
 using game.character.state.roam;
@@ -21,11 +22,11 @@ namespace game.character.state
             return new RoamingState(character, pathMovement, _playerStore);
         } 
         
-        public ChasingState CreateChasingState(ICharacter character, GameObject parent)
+        public ChasingState CreateChasingState(Enemy enemy, GameObject parent)
         {
             var pathMovement = parent.GetComponent<PathMovement>();
             var chasingState = parent.AddComponent<ChasingState>();
-            chasingState.Construct(character, pathMovement, _playerStore);
+            chasingState.Construct(enemy, pathMovement, _playerStore);
             return chasingState;
         } 
     }

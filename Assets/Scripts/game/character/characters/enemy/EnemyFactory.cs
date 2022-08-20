@@ -1,12 +1,12 @@
 using game.character.ability.health;
 using game.character.ability.shoot;
-using game.character.ability.shoot.target;
 using game.character.characters.player;
 using game.character.state;
 using game.item.bullet;
 using game.scene.grid;
 using game.scene.grid.path;
 using game.scene.level;
+using game.tool.weapon;
 using UnityEngine;
 
 namespace game.character.characters.enemy
@@ -21,17 +21,17 @@ namespace game.character.characters.enemy
 
         private EnemyStore _enemyStore;
 
-        private BulletFactory _bulletFactory;
+        private WeaponFactory _weaponFactory;
 
         private GameManager _gameManager;
 
         private StateFactory _stateFactory;
 
-        public void Construct(EnemyStore enemyStore, PlayerStore playerStore, BulletFactory bulletFactory, GameManager gameManager, StateFactory stateFactory)
+        public void Construct(EnemyStore enemyStore, PlayerStore playerStore, WeaponFactory weaponFactory, GameManager gameManager, StateFactory stateFactory)
         {
             _enemyStore = enemyStore;
             _playerStore = playerStore;
-            _bulletFactory = bulletFactory;
+            _weaponFactory = weaponFactory;
             _gameManager = gameManager;
             _stateFactory = stateFactory;
         }
@@ -43,10 +43,11 @@ namespace game.character.characters.enemy
             var enemy = Instantiate(enemyPrefab, spawnPosWorld, transform.rotation);
             enemy.Construct(_enemyStore, _playerStore, _gameManager);
 
-            var shooting = enemy.GetComponent<Shooting>();
+            enemy.Weapon = _weaponFactory.CreateGun(enemy);
+
+            var shooting = enemy.GetComponent<ShootingBehaviour>();
             shooting.Speed = 8f;
-            var shootTarget = new ShootAtPlayer(enemy, _playerStore);
-            shooting.Construct(enemy, _bulletFactory, shootTarget);
+            shooting.Construct(enemy, _playerStore);
             
             enemy.GetComponent<Health>().Construct(enemy, 100, null);
             var pathMovement = enemy.GetComponent<PathMovement>();

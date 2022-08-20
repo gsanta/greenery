@@ -1,8 +1,5 @@
 using game.character.ability.health;
-using game.character.ability.shoot;
-using game.character.ability.shoot.target;
-using game.character.characters.enemy;
-using game.item.bullet;
+using game.tool.weapon;
 using GUI;
 using UnityEngine;
 
@@ -18,21 +15,18 @@ namespace game.character.characters.player
         
         private PlayerStore _playerStore;
 
-        private EnemyStore _enemyStore;
-        
         private GameInfoStore _gameInfoStore;
         
         private HealthBar _healthBar;
-        
-        private BulletFactory _bulletFactory;
 
-        public void Construct(PlayerStore playerStore, EnemyStore enemyStore, GameInfoStore gameInfoStore, HealthBar healthBar, BulletFactory bulletFactory)
+        private WeaponFactory _weaponFactory;
+
+        public void Construct(PlayerStore playerStore, GameInfoStore gameInfoStore, HealthBar healthBar, WeaponFactory weaponFactory)
         {
             _playerStore = playerStore;
-            _enemyStore = enemyStore;
             _gameInfoStore = gameInfoStore;
             _healthBar = healthBar;
-            _bulletFactory = bulletFactory;
+            _weaponFactory = weaponFactory;
         }
 
         public Player Create(Vector3 position)
@@ -41,9 +35,8 @@ namespace game.character.characters.player
             player.Construct();
             player.GetComponent<LineDrawer>().Construct(_gameInfoStore);
             player.GetComponent<Health>().Construct(player, 100, _healthBar);
+            player.Weapon = _weaponFactory.CreateBomb(player);
 
-            var shootTarget = new ShootAtCursor(player);
-            player.GetComponent<Shooting>().Construct(player.GetComponent<Player>(), _bulletFactory, shootTarget);
             _playerStore.Add(player);
             return player;
         }

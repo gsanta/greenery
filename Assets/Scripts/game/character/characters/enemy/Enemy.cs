@@ -6,6 +6,7 @@ using game.character.characters.player;
 using game.character.state;
 using game.character.utils;
 using game.scene.level;
+using game.tool;
 using UnityEngine;
 
 namespace game.character.characters.enemy
@@ -25,9 +26,13 @@ namespace game.character.characters.enemy
         private EnemyStore _enemyStore;
 
         private GameManager _gameManager;
+
+        public ShootingBehaviour ShootingBehaviour;
         
         private Health _health;
-        
+
+        public ITool Weapon;
+
         private static readonly int HorizontalMovement = Animator.StringToHash("horizontalMovement");
         
         private static readonly int VerticalMovement = Animator.StringToHash("verticalMovement");
@@ -50,7 +55,7 @@ namespace game.character.characters.enemy
 
             States = new StateHandler();
             Abilities = new AbilityHandler();
-            Abilities.Add(GetComponent<Shooting>());
+            ShootingBehaviour = GetComponent<ShootingBehaviour>();
         }
 
         private void Start()

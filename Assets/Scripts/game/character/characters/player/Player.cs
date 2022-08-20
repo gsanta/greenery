@@ -3,6 +3,8 @@ using game.character.ability.health;
 using game.character.ability.shoot;
 using game.character.state;
 using game.character.utils;
+using game.tool;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace game.character.characters.player
@@ -14,6 +16,8 @@ namespace game.character.characters.player
         public StateHandler States { get; private set; }
         public AbilityHandler Abilities { get; }
 
+        private PlayerCommandHandler _commandHandler; 
+
         private Direction _moveDirection = Direction.Down;
 
         private Vector3 _movement;
@@ -22,9 +26,9 @@ namespace game.character.characters.player
         
         private Animator _animator;
 
-        private Shooting _shooting;
-
         private Health _health;
+
+        public ITool Weapon;
 
         private bool _isActive;
 
@@ -33,11 +37,11 @@ namespace game.character.characters.player
         public void Construct()
         {
             States = new StateHandler();
+            _commandHandler = new PlayerCommandHandler(this);
         }
-        
+
         void Start()
         {
-            _shooting = GetComponent<Shooting>();
             _health = GetComponent<Health>();
             _rigidBody = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
@@ -55,18 +59,12 @@ namespace game.character.characters.player
             var verticalMovement = Input.GetAxisRaw("Vertical");
 
             _movement = new Vector2(horizontalMovement, verticalMovement);
+            _commandHandler.Update();
 
             _moveDirection = MovementUtil.UpdateMoveDirection(_movement, _moveDirection);
             UpdateBlendTrees();
 
             _rigidBody.velocity = new Vector2(horizontalMovement, verticalMovement) * moveSpeed;
-
-            var mousePosition = Utilities.GetMouseWorldPosition();
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                _shooting.Shoot();
-            }
         }
         
         private void UpdateBlendTrees()

@@ -1,4 +1,4 @@
-using game.character.ability;
+using game.character.characters.enemy;
 using game.character.characters.player;
 using game.scene.grid.path;
 using UnityEngine;
@@ -13,7 +13,7 @@ namespace game.character.state.chase
 
         private Vector2 _targetPosition;
         
-        private ICharacter _character;
+        private Enemy _enemy;
         
         private PathMovement _pathMovement;
 
@@ -21,13 +21,13 @@ namespace game.character.state.chase
         
         public float targetTime = TimerMax;
 
-        public void Construct(ICharacter character, PathMovement pathMovement, PlayerStore playerStore)
+        public void Construct(Enemy enemy, PathMovement pathMovement, PlayerStore playerStore)
         {
-            _character = character;
+            _enemy = enemy;
             _pathMovement = pathMovement;
             _playerStore = playerStore;
             
-            _character.States.AddState(this);
+            _enemy.States.AddState(this);
         }
 
         public CharacterStateType GetStateType()
@@ -38,7 +38,8 @@ namespace game.character.state.chase
         public void StartState()
         {
             UpdateTarget();
-            _character.Abilities.Get(AbilityType.Shoot).IsActive = true;
+
+            _enemy.ShootingBehaviour.IsActive = true;
         }
         
         public void UpdateState()
@@ -71,15 +72,15 @@ namespace game.character.state.chase
         {
             const float targetRange = 10f;
             var player = _playerStore.GetActivePlayer();
-            return Vector2.Distance(_character.GetPosition(), player.GetPosition()) > targetRange;
+            return Vector2.Distance(_enemy.GetPosition(), player.GetPosition()) > targetRange;
         }
 
         private void FinishState()
         {
             targetTime = TimerMax;
-            _character.Abilities.Get(AbilityType.Shoot).IsActive = false;
+            _enemy.ShootingBehaviour.IsActive = true;
             _pathMovement.FinishMovement();
-            _character.States.SetActiveState(CharacterStateType.RoamingState);
+            _enemy.States.SetActiveState(CharacterStateType.RoamingState);
         }
     }
 }

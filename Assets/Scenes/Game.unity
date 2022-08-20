@@ -622,7 +622,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.4387597, y: 1}
+    m_SensorSize: {x: 2.0324867, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1594,6 +1594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: -1013380481336084630, guid: 560ec43525a08794f8fb856920bd56f6, type: 3}
+  bombPrefab: {fileID: 2720112301697215736, guid: 392d072c3c4ca8e4d919ff95c601e64b, type: 3}
   bulletContainer: {fileID: 913007353}
 --- !u!4 &907717170
 Transform:
@@ -1641,6 +1642,51 @@ Transform:
   m_Father: {fileID: 1835230912}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &935833032
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 935833033}
+  - component: {fileID: 935833034}
+  m_Layer: 0
+  m_Name: Weapon Factory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &935833033
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 935833032}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1189261244}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &935833034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 935833032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a63ce4aa702b544e85d20998f35358a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bombPrefab: {fileID: 2720112301697215736, guid: 392d072c3c4ca8e4d919ff95c601e64b, type: 3}
 --- !u!1 &963391805
 GameObject:
   m_ObjectHideFlags: 0
@@ -1898,6 +1944,7 @@ Transform:
   - {fileID: 268983058}
   - {fileID: 963391806}
   - {fileID: 1481874137}
+  - {fileID: 935833033}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2056,6 +2103,7 @@ MonoBehaviour:
   playerFactory: {fileID: 2053390549}
   healthBar: {fileID: 105408227}
   bulletFactory: {fileID: 907717169}
+  weaponFactory: {fileID: 935833034}
   avatarFactory: {fileID: 773571013}
   gameManager: {fileID: 880379400}
   enterAreaStore: {fileID: 2030799327}

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace game.weapon.bomb
+namespace game.tool.weapon.bomb
 {
     public class BombLifeTime : MonoBehaviour
     {
