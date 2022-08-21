@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 58099632513283246}
   - component: {fileID: 241950881721809917}
   - component: {fileID: 1583479061939031148}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Insect
   m_TagString: Target
   m_Icon: {fileID: 0}
@@ -141,7 +141,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 3.5
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}

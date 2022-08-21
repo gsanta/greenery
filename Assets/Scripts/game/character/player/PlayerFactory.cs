@@ -35,7 +35,7 @@ namespace game.character.characters.player
             player.Construct();
             player.GetComponent<LineDrawer>().Construct(_gameInfoStore);
             player.GetComponent<Health>().Construct(player, 100, _healthBar);
-            player.Weapon = _weaponFactory.CreateBomb(player);
+            player.Weapon = _weaponFactory.CreateGun(player);
 
             _playerStore.Add(player);
             return player;

@@ -1,18 +1,16 @@
+using Assets.Scripts.game.character.characters.player;
 using game.character.ability;
 using game.character.ability.health;
-using game.character.ability.shoot;
+using game.character.movement;
 using game.character.state;
 using game.character.utils;
 using game.tool;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace game.character.characters.player
 {
     public class Player : MonoBehaviour, ICharacter
     {
-        public float moveSpeed = 5f;
-        
         public StateHandler States { get; private set; }
         public AbilityHandler Abilities { get; }
 
@@ -22,10 +20,6 @@ namespace game.character.characters.player
 
         private Vector3 _movement;
         
-        private Rigidbody2D _rigidBody;
-        
-        private Animator _animator;
-
         private Health _health;
 
         public ITool Weapon;
@@ -33,6 +27,8 @@ namespace game.character.characters.player
         private bool _isActive;
 
         public bool IsActive { get => _isActive; set => _isActive = value; }
+
+        public IMovement Movement { get; private set; }
 
         public void Construct()
         {
@@ -43,11 +39,9 @@ namespace game.character.characters.player
         void Start()
         {
             _health = GetComponent<Health>();
-            _rigidBody = GetComponent<Rigidbody2D>();
-            _animator = GetComponent<Animator>();
-            
+            Movement = GetComponent<InputMovement>();
         }
-        
+
         void Update()
         {
             if (!_isActive)
@@ -55,30 +49,9 @@ namespace game.character.characters.player
                 return;
             }
             
-            var horizontalMovement = Input.GetAxisRaw("Horizontal");
-            var verticalMovement = Input.GetAxisRaw("Vertical");
-
-            _movement = new Vector2(horizontalMovement, verticalMovement);
             _commandHandler.Update();
 
             _moveDirection = MovementUtil.UpdateMoveDirection(_movement, _moveDirection);
-            UpdateBlendTrees();
-
-            _rigidBody.velocity = new Vector2(horizontalMovement, verticalMovement) * moveSpeed;
-        }
-        
-        private void UpdateBlendTrees()
-        {
-            if (_movement.x == 0 && _movement.y == 0)
-            {
-                _animator.SetBool("isMoving", false);
-            }
-            else
-            {
-                _animator.SetFloat("horizontalMovement", _movement.x);
-                _animator.SetFloat("verticalMovement", _movement.y);
-                _animator.SetBool("isMoving", true);
-            }
         }
 
         public Direction GetMoveDirection()

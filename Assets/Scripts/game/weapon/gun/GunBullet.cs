@@ -4,8 +4,10 @@ using UnityEngine;
 
 namespace game.item.bullet
 {
-    public class Bullet : MonoBehaviour
+    public class GunBullet : MonoBehaviour
     {
+        [SerializeField] private float force = 150f;
+
         private Vector3 _shootDir;
 
         private float _speed;
@@ -30,25 +32,7 @@ namespace game.item.bullet
         private void Update()
         {
             transform.position += _shootDir * _speed * Time.deltaTime;
-
-            if (!_isUsed)
-            {
-                //HitTarget();
-            }
         }
-
-        //private void HitTarget()
-        //{
-        //    const float hitDetectionSize = 1f;
-        //    var target = TargetHelper.GetClosest(_characterStore.GetAll(), transform.position, hitDetectionSize);
-
-        //    if (target != null)
-        //    {
-        //        target.GetHealth().HitByBullet();
-        //        Invoke(nameof(DestroyBullet), 0.1f);
-        //        _isUsed = true;
-        //    }
-        //}
 
         private void DestroyBullet()
         {
@@ -59,9 +43,12 @@ namespace game.item.bullet
         {
             if (collision.gameObject != _character.GetGameObject() && collision.gameObject.tag == "Target") {
 
-                var health = collision.GetComponent<Health>();
-                if (health)
+                var character = collision.GetComponent<ICharacter>();
+                if (character != null)
                 {
+                    var health = collision.GetComponent<Health>();
+                    character.Movement.PauseUntil(0.3f);
+                    collision.GetComponent<Rigidbody2D>().AddForce(_shootDir * force);
                     health.HitByBullet();
                 }
                 Destroy(gameObject);

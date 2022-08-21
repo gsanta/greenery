@@ -1,9 +1,10 @@
+using game.character.movement;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace game.scene.grid.path
 {
-    public class PathMovement : MonoBehaviour
+    public class PathMovement : MonoBehaviour, IMovement
     {
         private List<Vector2> _pathVectorList = new();
 
@@ -21,7 +22,11 @@ namespace game.scene.grid.path
 
         private Animator _animator;
 
+        private Rigidbody2D _rigidBody;
+
         private Vector2 _targetPosition;
+
+        private bool _isPaused;
         
         public bool IsTargetReached { get; private set; }
 
@@ -30,22 +35,53 @@ namespace game.scene.grid.path
             _pathFinding = pathFinding;
             IsTargetReached = false;
             _animator = GetComponent<Animator>();
+            _rigidBody = GetComponent<Rigidbody2D>();
         }
-        
+
+        public void PauseUntil(float time)
+        {
+            _isPaused = true;
+            Invoke(nameof(Unpause), time);
+        }
+
+        private void Unpause()
+        {
+            _isPaused = false;
+        }
+       
+        public void MoveTo(Vector2 targetPosition)
+        {
+            if (_isPaused)
+            {
+                return;
+            }
+
+            if (_targetPosition != targetPosition)
+            {
+                FinishMovement();
+                SetTargetPosition(targetPosition);
+            }
+            
+            HandleMovement();
+        }
+
         private void HandleMovement()
         {
             if (_pathVectorList != null)
             {
-                var position = (Vector2) transform.position;
+                var position = (Vector2)transform.position;
                 var targetPosition = _pathVectorList[_currentPathIndex];
                 if (Vector2.Distance(position, targetPosition) > 0.2f)
                 {
-                    var moveDir = (targetPosition - (Vector2) position).normalized;
-                    transform.position = position + moveDir * Speed * Time.deltaTime; 
-                    
+                    var moveDir = (targetPosition - position).normalized;
+
+                    _rigidBody.velocity = moveDir * Speed;
+
+
                     _animator.SetFloat(HorizontalMovement, moveDir.x);
                     _animator.SetFloat(VerticalMovement, moveDir.y);
-                } else
+                }
+                else
                 {
                     _currentPathIndex++;
                     if (_currentPathIndex >= _pathVectorList.Count)
@@ -61,17 +97,6 @@ namespace game.scene.grid.path
                 _animator.SetFloat(HorizontalMovement, 0);
                 _animator.SetFloat(VerticalMovement, 0);
             }
-        }
-        
-        public void MoveTo(Vector2 targetPosition)
-        {
-            if (_targetPosition != targetPosition)
-            {
-                FinishMovement();
-                SetTargetPosition(targetPosition);
-            }
-            
-            HandleMovement();
         }
 
         public void FinishMovement()

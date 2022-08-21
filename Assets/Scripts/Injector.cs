@@ -5,7 +5,6 @@ using game.character.state;
 using game.item;
 using game.item.bullet;
 using game.scene;
-using game.scene.area;
 using game.scene.grid;
 using game.scene.level;
 using GUI;
@@ -37,8 +36,6 @@ public class Injector : MonoBehaviour
 
     [SerializeField] private PlayerManager playerManager;
 
-    [SerializeField] private EnterAreaStore enterAreaStore;
-
     [SerializeField] private FollowCamera followCamera;
 
     //GUI
@@ -63,8 +60,6 @@ public class Injector : MonoBehaviour
     
     private AvatarStore _avatarStore;
 
-    private readonly ItemStore<Ball> _ballStore = new();
-
     private void Awake()
     {
         stateFactory.Construct(playerStore);
@@ -80,8 +75,6 @@ public class Injector : MonoBehaviour
         avatarFactory.Create();
         avatarFactory.Create();
         
-        enterAreaStore.Construct(gameManager);
-
         playerManager = new PlayerManager(playerFactory, playerStore, followCamera);
 
         gameManager.Construct(playerManager, panelManager);

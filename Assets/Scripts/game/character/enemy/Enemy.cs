@@ -1,10 +1,13 @@
 using System;
+using Assets.Scripts.game.character.characters.player;
 using game.character.ability;
 using game.character.ability.health;
 using game.character.ability.shoot;
 using game.character.characters.player;
+using game.character.movement;
 using game.character.state;
 using game.character.utils;
+using game.scene.grid.path;
 using game.scene.level;
 using game.tool;
 using UnityEngine;
@@ -27,7 +30,7 @@ namespace game.character.characters.enemy
 
         private GameManager _gameManager;
 
-        public ShootingBehaviour ShootingBehaviour;
+        public ShootingBehaviour ShootingBehaviour { get; private set; }
         
         private Health _health;
 
@@ -46,6 +49,8 @@ namespace game.character.characters.enemy
         public AbilityHandler Abilities { get; private set; }
         
         public LevelName LevelName { set; get; }
+
+        public IMovement Movement { get; private set; }
         
         public void Construct(EnemyStore enemyStore, PlayerStore playerStore, GameManager gameManager)
         {
@@ -55,7 +60,6 @@ namespace game.character.characters.enemy
 
             States = new StateHandler();
             Abilities = new AbilityHandler();
-            ShootingBehaviour = GetComponent<ShootingBehaviour>();
         }
 
         private void Start()
@@ -63,6 +67,8 @@ namespace game.character.characters.enemy
             _health = GetComponent<Health>();
             _animator = GetComponent<Animator>();
             _rb = GetComponent<Rigidbody2D>();
+            ShootingBehaviour = GetComponent<ShootingBehaviour>();
+            Movement = GetComponent<PathMovement>();
         }
 
         private void Update()

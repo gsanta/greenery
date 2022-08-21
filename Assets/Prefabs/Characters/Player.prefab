@@ -18,9 +18,10 @@ GameObject:
   - component: {fileID: 3610411574362536823}
   - component: {fileID: 3610411574362536820}
   - component: {fileID: 3610411574362536818}
+  - component: {fileID: 8139586615798127967}
   - component: {fileID: 3610411574362536825}
   - component: {fileID: 3610411574362536821}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Target
   m_Icon: {fileID: 0}
@@ -127,7 +128,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 3.5
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -147,7 +148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b8fb3b4ca5634f4db6dba53b162ff69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
 --- !u!114 &3610411574362536827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,6 +214,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248acf1a748940e4974091064ce39532, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8139586615798127967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3610411574362536801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c0a2dedf1631724d94cd0f5bfc6e460, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 2.5
 --- !u!70 &3610411574362536825
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ namespace game.item.bullet
 {
     public class BulletFactory : MonoBehaviour
     {
-        [SerializeField] private Bullet bulletPrefab;
+        [SerializeField] private GunBullet bulletPrefab;
 
         [SerializeField] private BombBullet bombPrefab;
 

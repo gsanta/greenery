@@ -1,5 +1,6 @@
 using game.character.ability;
 using game.character.ability.health;
+using game.character.movement;
 using game.character.state;
 using UnityEngine;
 
@@ -22,6 +23,8 @@ namespace game.character
         void SetMovement(Vector2 movement);
         
         Vector2 GetMovement();
+
+        public IMovement Movement { get; }
 
         GameObject GetGameObject();
     }
