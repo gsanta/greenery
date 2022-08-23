@@ -1,14 +1,21 @@
-﻿using UnityEngine;
+﻿using game.character.player;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace game.character.characters.player
 {
-    public class PlayerCommandHandler
+    public class PlayerCommandHandler : MonoBehaviour
     {
-        private Player _player;
+        private PlayerStore _playerStore;
 
-        public PlayerCommandHandler(Player player)
+        private PlayerFactory _playerFactory;
+
+        private List<PlayerType> _playerTypes = new List<PlayerType> { PlayerType.Cat, PlayerType.Cow };
+
+        public void Construct(PlayerStore playerStore, PlayerFactory playerFactory)
         {
-            _player = player;
+            _playerStore = playerStore;
+            _playerFactory = playerFactory;
         }
 
         public void Update()
@@ -16,8 +23,23 @@ namespace game.character.characters.player
             if (Input.GetMouseButtonDown(0))
             {
                 var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                _player.Weapon.OnFire(pos);
+                _playerStore.GetActivePlayer().Weapon.OnFire(pos);
             }
+
+            if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
+            {
+                ChangePlayer();
+            }
+        }
+
+        private void ChangePlayer()
+        {
+            var currentPlayer = _playerStore.GetActivePlayer();
+            var index = _playerTypes.IndexOf(currentPlayer.PlayerType);
+            var newPlayerType = index == _playerTypes.Count - 1 ? _playerTypes[0] : _playerTypes[index + 1];
+
+            _playerFactory.Create(currentPlayer.GetPosition(), newPlayerType);
+            _playerStore.DestroyActivePlayer();
         }
     }
 }

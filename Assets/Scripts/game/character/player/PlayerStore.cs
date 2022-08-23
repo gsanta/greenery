@@ -17,9 +17,11 @@ namespace game.character.characters.player
             _players.Add((Player) player);
         }
 
-        public void Remove(ICharacter player)
+        public void DestroyActivePlayer()
         {
-            _players.Remove((Player) player);
+            var activePlayer = GetActivePlayer();
+            _players.Remove(activePlayer);
+            Destroy(activePlayer.gameObject);
         }
 
         public Player GetActivePlayer()

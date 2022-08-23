@@ -45,9 +45,13 @@ public class Injector : MonoBehaviour
     [SerializeField] private PanelManager panelManager;
     
     [SerializeField] private EnemyStore enemyStore;
+
+    // player
     
     [SerializeField] public PlayerStore playerStore;
-    
+
+    [SerializeField] public PlayerCommandHandler playerCommandHandler;
+
     // Scene
     [SerializeField] public LevelLoader levelLoader;
     
@@ -68,14 +72,16 @@ public class Injector : MonoBehaviour
 
         enemyFactory.Construct(enemyStore, playerStore, weaponFactory, gameManager, stateFactory);
         enemySpawner.Construct(enemyFactory);
-        playerFactory.Construct(playerStore, gameInfoStore, healthBar, weaponFactory);
+        playerFactory.Construct(playerStore, gameInfoStore, healthBar, weaponFactory, followCamera);
+
+        playerCommandHandler.Construct(playerStore, playerFactory);
 
         _avatarStore = new AvatarStore();
         avatarFactory.Construct(_avatarStore);
         avatarFactory.Create();
         avatarFactory.Create();
         
-        playerManager = new PlayerManager(playerFactory, playerStore, followCamera);
+        playerManager = new PlayerManager(playerFactory);
 
         gameManager.Construct(playerManager, panelManager);
 

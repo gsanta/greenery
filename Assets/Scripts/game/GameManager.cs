@@ -32,11 +32,6 @@ namespace game
             return _isGameStarted;
         }
 
-        private void Update()
-        {
-            _playerManager.Update();
-        }
-
         private void Start()
         {
             _panelManager.startGamePanel.gameObject.SetActive(false);

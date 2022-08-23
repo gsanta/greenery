@@ -154,6 +154,50 @@ Transform:
   m_Father: {fileID: 1300977546}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &102443752
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 102443753}
+  - component: {fileID: 102443754}
+  m_Layer: 0
+  m_Name: Player Command Handler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &102443753
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 102443752}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1189261244}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &102443754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 102443752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9342187d3f8e4b140ab36a0317087f0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &105408224
 GameObject:
   m_ObjectHideFlags: 0
@@ -622,7 +666,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.0324867, y: 1}
+    m_SensorSize: {x: 1.6946249, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1789,6 +1833,7 @@ Transform:
   - {fileID: 963391806}
   - {fileID: 1481874137}
   - {fileID: 935833033}
+  - {fileID: 102443753}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1918,12 +1963,12 @@ MonoBehaviour:
   weaponFactory: {fileID: 935833034}
   avatarFactory: {fileID: 773571013}
   gameManager: {fileID: 880379400}
-  enterAreaStore: {fileID: 0}
   followCamera: {fileID: 316928894}
   startGamePanel: {fileID: 303939626}
   panelManager: {fileID: 1989683898}
   enemyStore: {fileID: 1216971964}
   playerStore: {fileID: 1251377880}
+  playerCommandHandler: {fileID: 102443754}
   levelLoader: {fileID: 963391807}
   gridSetup: {fileID: 737299087}
   gridVisualizer: {fileID: 1481874138}
@@ -3529,8 +3574,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 3610411574362536829, guid: 4477ae5a755886448bd9ed95979c2e05, type: 3}
+  cowPrefab: {fileID: -128474283082255082, guid: 1559087691ddb554ba8325d79d9e194c, type: 3}
   playerList: {fileID: 1323349800}
-  playerSpawnPosition: {fileID: 67006018}
 --- !u!4 &2053390550
 Transform:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using Assets.Scripts.game.character.characters.player;
 using game.character.ability;
 using game.character.ability.health;
 using game.character.movement;
+using game.character.player;
 using game.character.state;
 using game.character.utils;
 using game.tool;
@@ -11,10 +12,10 @@ namespace game.character.characters.player
 {
     public class Player : MonoBehaviour, ICharacter
     {
+        public PlayerType PlayerType { get; private set; }
+
         public StateHandler States { get; private set; }
         public AbilityHandler Abilities { get; }
-
-        private PlayerCommandHandler _commandHandler; 
 
         private Direction _moveDirection = Direction.Down;
 
@@ -30,10 +31,10 @@ namespace game.character.characters.player
 
         public IMovement Movement { get; private set; }
 
-        public void Construct()
+        public void Construct(PlayerType playerType)
         {
+            PlayerType = playerType;
             States = new StateHandler();
-            _commandHandler = new PlayerCommandHandler(this);
         }
 
         void Start()
@@ -49,8 +50,6 @@ namespace game.character.characters.player
                 return;
             }
             
-            _commandHandler.Update();
-
             _moveDirection = MovementUtil.UpdateMoveDirection(_movement, _moveDirection);
         }
 
