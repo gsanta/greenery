@@ -1,4 +1,6 @@
-﻿namespace game.character.movement
+﻿using UnityEngine;
+
+namespace game.character.movement
 {
     public interface IMovement
     {

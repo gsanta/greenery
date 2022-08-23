@@ -17,10 +17,6 @@ namespace game.character.characters.player
         public StateHandler States { get; private set; }
         public AbilityHandler Abilities { get; }
 
-        private Direction _moveDirection = Direction.Down;
-
-        private Vector3 _movement;
-        
         private Health _health;
 
         public ITool Weapon;
@@ -41,21 +37,6 @@ namespace game.character.characters.player
         {
             _health = GetComponent<Health>();
             Movement = GetComponent<InputMovement>();
-        }
-
-        void Update()
-        {
-            if (!_isActive)
-            {
-                return;
-            }
-            
-            _moveDirection = MovementUtil.UpdateMoveDirection(_movement, _moveDirection);
-        }
-
-        public Direction GetMoveDirection()
-        {
-            return _moveDirection;
         }
 
         public Vector2 GetPosition()

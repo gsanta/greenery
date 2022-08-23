@@ -12,9 +12,9 @@ namespace game.item.bullet
 
         private float _speed;
 
-        private ICharacter _character;
+        private int _damage = 1;
 
-        private bool _isUsed = false;
+        private ICharacter _character;
 
         public void Construct(ICharacter character, float speed)
         {
@@ -34,11 +34,6 @@ namespace game.item.bullet
             transform.position += _shootDir * _speed * Time.deltaTime;
         }
 
-        private void DestroyBullet()
-        {
-            Destroy(gameObject);
-        }
-
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.gameObject != _character.GetGameObject() && collision.gameObject.tag == "Target") {
@@ -49,7 +44,7 @@ namespace game.item.bullet
                     var health = collision.GetComponent<Health>();
                     character.Movement.PauseUntil(0.3f);
                     collision.GetComponent<Rigidbody2D>().AddForce(_shootDir * force);
-                    health.HitByBullet();
+                    health.Decrease(_damage);
                 }
                 Destroy(gameObject);
             }

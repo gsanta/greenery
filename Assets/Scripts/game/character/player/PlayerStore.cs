@@ -1,3 +1,4 @@
+using game.character.player;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,12 @@ namespace game.character.characters.player
     public class PlayerStore : MonoBehaviour
     {
         private readonly List<Player> _players = new();
+
+        private Dictionary<PlayerType, PlayerStats> _stats = new Dictionary<PlayerType, PlayerStats>
+        {
+            { PlayerType.Cat, new PlayerStats(10) },
+            { PlayerType.Cow, new PlayerStats(20) }
+        };
 
         public List<Player> GetAll()
         {
@@ -35,6 +42,11 @@ namespace game.character.characters.player
             {
                 Destroy(player);
             }
+        }
+
+        public PlayerStats GetStat(PlayerType type)
+        {
+            return _stats[type];
         }
     }
 }

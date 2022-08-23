@@ -42,15 +42,7 @@ namespace game.character.ability.shoot
         
         public void Shoot()
         {
-            _enemy.Weapon.OnFire(GetTarget());
-        }
-
-        public Vector2 GetTarget()
-        {
-            Vector2 direction = _playerStore.GetActivePlayer().GetPosition() - _enemy.GetPosition();
-            direction.Normalize();
-
-            return direction;
+            _enemy.Weapon.OnFire(_playerStore.GetActivePlayer().GetPosition());
         }
     }
 }

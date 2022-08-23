@@ -1,3 +1,4 @@
+using game.character.player;
 using GUI;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -6,21 +7,22 @@ namespace game.character.ability.health
 {
     public class Health : MonoBehaviour
     {
-        private static readonly int _bulletDamage = 20;
-        
         private int _maxHealth = 100;
         
         private int _currentHealth;
 
         private ICharacter _character;
-        
+
+        private PlayerStats _stats;
+
         [CanBeNull] private HealthBar _healthBar;
         
-        public void Construct(ICharacter character, int maxHealth, [CanBeNull] HealthBar healthBar)
+        public void Construct(ICharacter character, int maxHealth, [CanBeNull] HealthBar healthBar, PlayerStats stats)
         {
+            _stats = stats;
             _character = character;
             _healthBar = healthBar;
-            _maxHealth = maxHealth;
+            _maxHealth = stats.MaxLife;
             if (_healthBar != null) _healthBar.SetMaxHealth(maxHealth);
             SetHealth(_maxHealth);
         }
@@ -29,15 +31,10 @@ namespace game.character.ability.health
         {
             SetHealth(_maxHealth);
         }
-
-        public void TakeDamage(int damage)
-        {
-            SetHealth(_currentHealth - damage);
-        }
         
-        public void HitByBullet()
+        public void Decrease(int amount)
         {
-            SetHealth(_currentHealth - _bulletDamage);
+            SetHealth(_currentHealth - amount);
         }
 
         private void SetHealth(int health)
@@ -45,6 +42,8 @@ namespace game.character.ability.health
             health = health < 0 ? 0 : health;
             _currentHealth = health;
             if (_healthBar != null) _healthBar.SetHealth(health);
+
+            _stats.Life = health;
 
             if (health == 0)
             {

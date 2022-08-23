@@ -1,6 +1,7 @@
 using game.character.ability.health;
 using game.character.ability.shoot;
 using game.character.characters.player;
+using game.character.player;
 using game.character.state;
 using game.item.bullet;
 using game.scene.grid;
@@ -49,7 +50,7 @@ namespace game.character.characters.enemy
             shooting.Speed = 8f;
             shooting.Construct(enemy, _playerStore);
             
-            enemy.GetComponent<Health>().Construct(enemy, 100, null);
+            enemy.GetComponent<Health>().Construct(enemy, 100, null, new PlayerStats(3));
             var pathMovement = enemy.GetComponent<PathMovement>();
             pathMovement.Construct(level.Grid.PathFinding);
 

@@ -12,7 +12,7 @@ namespace game.scene.grid.path
         
         private int _currentPathIndex = 0;
 
-        private const float Speed = 2f;
+        private const float Speed = 6f;
 
         private PathFinding _pathFinding;
         
@@ -27,7 +27,7 @@ namespace game.scene.grid.path
         private Vector2 _targetPosition;
 
         private bool _isPaused;
-        
+
         public bool IsTargetReached { get; private set; }
 
         public void Construct(PathFinding pathFinding)
@@ -51,17 +51,20 @@ namespace game.scene.grid.path
        
         public void MoveTo(Vector2 targetPosition)
         {
-            if (_isPaused)
-            {
-                return;
-            }
-
             if (_targetPosition != targetPosition)
             {
                 FinishMovement();
                 SetTargetPosition(targetPosition);
             }
-            
+        }
+
+        private void FixedUpdate()
+        {
+            if (_isPaused)
+            {
+                return;
+            }
+
             HandleMovement();
         }
 
@@ -75,7 +78,7 @@ namespace game.scene.grid.path
                 {
                     var moveDir = (targetPosition - position).normalized;
 
-                    _rigidBody.velocity = moveDir * Speed;
+                    _rigidBody.AddForce(moveDir * Speed);
 
 
                     _animator.SetFloat(HorizontalMovement, moveDir.x);

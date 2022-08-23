@@ -8,8 +8,6 @@ namespace game.character
 {
     public interface ICharacter
     {
-        Direction GetMoveDirection();
-        
         StateHandler States { get; }
         
         AbilityHandler Abilities { get; }

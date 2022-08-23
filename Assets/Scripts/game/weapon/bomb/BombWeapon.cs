@@ -16,7 +16,7 @@ namespace Assets.Scripts.game.tool.weapon.bomb
         public void OnFire(Vector2 pos)
         {
             var bullet = _bulletFactory.CreateBombBullet(pos);
-            bullet.Explode();
+            bullet.Fire();
         }
     }
 }

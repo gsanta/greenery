@@ -666,7 +666,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.6946249, y: 1}
+    m_SensorSize: {x: 2.0124, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -3574,7 +3574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 3610411574362536829, guid: 4477ae5a755886448bd9ed95979c2e05, type: 3}
-  cowPrefab: {fileID: -128474283082255082, guid: 1559087691ddb554ba8325d79d9e194c, type: 3}
+  cowPrefab: {fileID: 2106265010118575312, guid: e00c31e5ebd39f94384b43b8ce0ab961, type: 3}
   playerList: {fileID: 1323349800}
 --- !u!4 &2053390550
 Transform:

@@ -12,11 +12,15 @@ GameObject:
   - component: {fileID: 293078777468923133}
   - component: {fileID: 1532223824773054375}
   - component: {fileID: 6497798408655193285}
+  - component: {fileID: 269944038515211340}
   - component: {fileID: 6403243031120396007}
   - component: {fileID: 6121675893045768829}
+  - component: {fileID: 2106265010118575312}
+  - component: {fileID: 5484530958465200930}
+  - component: {fileID: 3811236910880186259}
   m_Layer: 0
   m_Name: cow 1
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -132,6 +136,27 @@ CapsuleCollider2D:
   m_Offset: {x: -0.041490614, y: 0.039854288}
   m_Size: {x: 0.5819123, y: 1.1887779}
   m_Direction: 0
+--- !u!50 &269944038515211340
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948285678224878508}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 3.5
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!114 &6403243031120396007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,6 +192,44 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2106265010118575312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948285678224878508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b8fb3b4ca5634f4db6dba53b162ff69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5484530958465200930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948285678224878508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 248acf1a748940e4974091064ce39532, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3811236910880186259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948285678224878508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c0a2dedf1631724d94cd0f5bfc6e460, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 2.5
+  _flipWhenMovingRight: 1
 --- !u!1 &2668934767306171768
 GameObject:
   m_ObjectHideFlags: 0

@@ -51,7 +51,7 @@ namespace game.character.characters.player
             var player = Instantiate(playerPrefab, position, transform.rotation, playerList);
             player.Construct(PlayerType.Cat);
             player.GetComponent<LineDrawer>().Construct(_gameInfoStore);
-            player.GetComponent<Health>().Construct(player, 100, _healthBar);
+            player.GetComponent<Health>().Construct(player, 100, _healthBar, _playerStore.GetStat(PlayerType.Cat));
             player.Weapon = _weaponFactory.CreateGun(player);
             ActivatePlayer(player);
 
@@ -64,7 +64,7 @@ namespace game.character.characters.player
         {
             var player = Instantiate(cowPrefab, position, transform.rotation, playerList);
             player.Construct(PlayerType.Cow);
-            player.GetComponent<Health>().Construct(player, 100, _healthBar);
+            player.GetComponent<Health>().Construct(player, 100, _healthBar, _playerStore.GetStat(PlayerType.Cow));
             player.Weapon = _weaponFactory.CreateBomb(player);
             ActivatePlayer(player);
 

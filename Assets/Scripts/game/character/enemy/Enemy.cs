@@ -1,5 +1,4 @@
 using System;
-using Assets.Scripts.game.character.characters.player;
 using game.character.ability;
 using game.character.ability.health;
 using game.character.ability.shoot;
@@ -118,11 +117,6 @@ namespace game.character.characters.enemy
         private void MoveCharacter(Vector2 direction)
         {
             _rb.MovePosition((Vector2) transform.position + (direction * moveSpeed * Time.deltaTime));
-        }
-
-        public Direction GetMoveDirection()
-        {
-            return _moveDirection;
         }
 
         public void SetMovement(Vector2 movement)
