@@ -9,13 +9,9 @@ namespace game.character.state
         private readonly List<ICharacterState> _states = new();
         [CanBeNull] public ICharacterState ActiveState { get; private set; }
         
-        public void AddState(ICharacterState state, bool isActive = false)
+        public void AddState(ICharacterState state)
         {
             _states.Add(state);
-            if (isActive)
-            {
-                SetActiveState(state.GetStateType());
-            }
         }
 
         public void SetActiveState(CharacterStateType type)

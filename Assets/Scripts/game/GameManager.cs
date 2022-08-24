@@ -1,4 +1,5 @@
 using game.character.characters.player;
+using game.character.enemy;
 using game.scene.level;
 using GUI;
 using UnityEngine;
@@ -12,18 +13,21 @@ namespace game
 
         private PanelManager _panelManager;
 
+        private EnemyManager _enemyManager;
 
         private bool _isGameStarted;
 
-        public void Construct(PlayerManager playerManager, PanelManager panelManager)
+        public void Construct(PlayerManager playerManager, PanelManager panelManager, EnemyManager enemyManager)
         {
             _playerManager = playerManager;
+            _enemyManager = enemyManager;
             _panelManager = panelManager;
         }
 
         public void StartLevel(Level level)
         {
             _playerManager.Start(level);
+            _enemyManager.Start(level);
             _isGameStarted = true;
         }
 

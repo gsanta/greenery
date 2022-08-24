@@ -70,7 +70,7 @@ namespace game.scene.grid.path
 
         private void HandleMovement()
         {
-            if (_pathVectorList != null)
+            if (_pathVectorList != null && _pathVectorList.Count > 0)
             {
                 var position = (Vector2)transform.position;
                 var targetPosition = _pathVectorList[_currentPathIndex];

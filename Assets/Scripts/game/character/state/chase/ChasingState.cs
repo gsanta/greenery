@@ -38,12 +38,15 @@ namespace game.character.state.chase
         public void StartState()
         {
             UpdateTarget();
-
-            _enemy.ShootingBehaviour.IsActive = true;
         }
         
         public void UpdateState()
         {
+            if (_enemy.ShootingBehaviour != null && !_enemy.ShootingBehaviour.IsActive)
+            {
+                _enemy.ShootingBehaviour.IsActive = true;
+            }
+
             _pathMovement.MoveTo(_targetPosition);
             UpdateTimer();
             if (CheckFinishState())
@@ -70,9 +73,10 @@ namespace game.character.state.chase
         
         private bool CheckFinishState()
         {
-            const float targetRange = 10f;
-            var player = _playerStore.GetActivePlayer();
-            return Vector2.Distance(_enemy.GetPosition(), player.GetPosition()) > targetRange;
+            return false;
+            //const float targetRange = 10f;
+            //var player = _playerStore.GetActivePlayer();
+            //return Vector2.Distance(_enemy.GetPosition(), player.GetPosition()) > targetRange;
         }
 
         private void FinishState()

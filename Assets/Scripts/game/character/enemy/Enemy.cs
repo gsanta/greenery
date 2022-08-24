@@ -74,10 +74,10 @@ namespace game.character.characters.enemy
         {
             UpdateActive();
             
-            if (!_isActive)
-            {
-                return;
-            }
+            //if (!_isActive)
+            //{
+            //    return;
+            //}
             
             var player = _playerStore.GetActivePlayer();
             var direction = player.transform.position - transform.position;

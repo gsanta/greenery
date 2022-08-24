@@ -37,7 +37,7 @@ namespace game.character.characters.enemy
             _stateFactory = stateFactory;
         }
 
-        public void Create(Level level)
+        public Enemy Create(Level level)
         {
             var spawnPosGrid = level.Grid.Graph.GetRandomGridPosition();
             var spawnPosWorld = level.Grid.Graph.GetWorldPosition(spawnPosGrid.x, spawnPosGrid.y);
@@ -50,17 +50,20 @@ namespace game.character.characters.enemy
             shooting.Speed = 8f;
             shooting.Construct(enemy, _playerStore);
             
-            enemy.GetComponent<Health>().Construct(enemy, 100, null, new PlayerStats(3));
+            enemy.GetComponent<Health>().Construct(enemy, null, new PlayerStats(3));
             var pathMovement = enemy.GetComponent<PathMovement>();
             pathMovement.Construct(level.Grid.PathFinding);
 
-            var roamingState = _stateFactory.CreateRoamingState(enemy, enemy.gameObject);
-            enemy.States.AddState(roamingState, true);
+            //var roamingState = _stateFactory.CreateRoamingState(enemy, enemy.gameObject);
+            //enemy.States.AddState(roamingState, true);
             var chasingState = _stateFactory.CreateChasingState(enemy, enemy.gameObject);
             enemy.States.AddState(chasingState);
             enemy.LevelName = level.levelName;
-            
+            enemy.States.SetActiveState(CharacterStateType.ChasingState);
+
             _enemyStore.Add(enemy);
+
+            return enemy;
         }
     }
 }

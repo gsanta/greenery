@@ -28,8 +28,9 @@ namespace game.scene
             var levelLoader = injector.levelLoader;
             var gridVisualizer = injector.gridVisualizer;
             var gameManager = injector.gameManager;
+            var levelStore = injector.LevelStore;
 
-            level.Construct(enemyFactory, levelLoader, gridVisualizer, gameManager);
+            level.Construct(enemyFactory, levelLoader, levelStore, gridVisualizer, gameManager);
 
             _levelBounds = new LevelBounds(tilemapGround);
 

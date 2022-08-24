@@ -17,14 +17,14 @@ namespace game.character.ability.health
 
         [CanBeNull] private HealthBar _healthBar;
         
-        public void Construct(ICharacter character, int maxHealth, [CanBeNull] HealthBar healthBar, PlayerStats stats)
+        public void Construct(ICharacter character, [CanBeNull] HealthBar healthBar, PlayerStats stats)
         {
             _stats = stats;
             _character = character;
             _healthBar = healthBar;
             _maxHealth = stats.MaxLife;
-            if (_healthBar != null) _healthBar.SetMaxHealth(maxHealth);
-            SetHealth(_maxHealth);
+            if (_healthBar != null) _healthBar.SetMaxHealth(_maxHealth);
+            SetHealth(stats.Life);
         }
         
         public void ResetMaxHealth()

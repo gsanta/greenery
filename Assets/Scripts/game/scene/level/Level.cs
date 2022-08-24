@@ -22,12 +22,15 @@ namespace game.scene.level
 
         private GameManager _gameManager;
 
-        public void Construct(EnemyFactory enemyFactory, LevelLoader levelLoader, GridVisualizer gridVisualizer, GameManager gameManager)
+        private LevelStore _levelStore;
+
+        public void Construct(EnemyFactory enemyFactory, LevelLoader levelLoader, LevelStore levelStore, GridVisualizer gridVisualizer, GameManager gameManager)
         {
             _enemyFactory = enemyFactory;
             _levelLoader = levelLoader;
             _gridVisualizer = gridVisualizer;
             _gameManager = gameManager;
+            _levelStore = levelStore;
 
             _levelLoader.AddLevel(this);
         }
@@ -54,7 +57,7 @@ namespace game.scene.level
                 _gridVisualizer.Show();
             }
 
-            _enemyFactory.Create(this);
+            _levelStore.Level = this;
             _gameManager.StartLevel(this);
         }
     }

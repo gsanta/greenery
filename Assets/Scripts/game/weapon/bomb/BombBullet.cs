@@ -33,14 +33,13 @@ namespace game.tool.weapon.bomb
         {
             Destroy(_circleGameObject);
 
+
             var pos = transform.position;
             var objects = Physics2D.OverlapCircleAll(pos, impactField, layerMaskToHit);
 
             foreach (var obj in objects)
             {
-                var dir = obj.transform.position - pos;
-
-                obj.GetComponent<Rigidbody2D>().AddForce(dir * force);
+                HitTarget(obj);
             }
 
             Instantiate(explosionPrefab, pos, transform.rotation);

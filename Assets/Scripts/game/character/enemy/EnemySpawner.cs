@@ -5,36 +5,32 @@ namespace game.character.characters.enemy
 {
     public class EnemySpawner : MonoBehaviour
     {
-        [SerializeField] private float spawnTime = 5f;
-
-        private float _timer;
-
-        private bool _isEnabled = false;
-
         private EnemyFactory _enemyFactory;
 
-        public void Construct(EnemyFactory enemyFactory)
+        private EnemyStore _enemyStore;
+
+        private LevelStore _levelStore;
+
+        public bool IsActive { set; private get; }
+
+        public void Construct(EnemyFactory enemyFactory, EnemyStore enemyStore, LevelStore levelStore)
         {
             _enemyFactory = enemyFactory;
-        }
-
-        public void Spawn(Level level)
-        {
-            // _enemyFactory.Create(level);
+            _enemyStore = enemyStore;
+            _levelStore = levelStore;
         }
         
         private void Update()
         {
-            // if (!_isEnabled)
-            // {
-            //     return;
-            // }
-            //
-            // _timer -= Time.deltaTime;
-            // if (!(_timer <= 0f)) return;
-            //
-            // _enemyFactory.Create();
-            // _timer = spawnTime;
+            if (!IsActive)
+            {
+                return;
+            }
+
+            if (_enemyStore.Count() == 0)
+            {
+                _enemyFactory.Create(_levelStore.Level);
+            }
         }
     }
 }

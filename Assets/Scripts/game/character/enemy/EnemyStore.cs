@@ -22,6 +22,11 @@ namespace game.character.characters.enemy
             _enemies.Remove((Enemy) enemy);
         }
 
+        public int Count()
+        {
+            return _enemies.Count;
+        }
+
         public void DestroyAll()
         {
             foreach (var enemy in _enemies)
