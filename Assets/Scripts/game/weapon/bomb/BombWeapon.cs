@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.game.tool.weapon.bomb
 {
-    public class BombWeapon : ITool
+    public class BombWeapon : IWeapon
     {
         private BulletFactory _bulletFactory;
 
@@ -12,6 +12,8 @@ namespace Assets.Scripts.game.tool.weapon.bomb
         {
             _bulletFactory = bulletFactory;
         }
+
+        public int Bullets { get; set; }
 
         public void OnFire(Vector2 pos)
         {

@@ -16,6 +16,8 @@ namespace game.scene
 
         [SerializeField]  private Tilemap tilemapGround;
 
+        [SerializeField]  private Tilemap tilemapObjects;
+
         private Environment _environment;
         
         private LevelBounds _levelBounds;
@@ -34,7 +36,7 @@ namespace game.scene
 
             _levelBounds = new LevelBounds(tilemapGround);
 
-            _environment = new Environment(level, blocks, tilemapGround);
+            _environment = new Environment(level, blocks, tilemapGround, tilemapObjects);
 
             _gridSystem = new grid.Grid(level);
 

@@ -8,11 +8,18 @@ namespace game.character.characters.player
     {
         private readonly List<Player> _players = new();
 
-        private Dictionary<PlayerType, PlayerStats> _stats = new Dictionary<PlayerType, PlayerStats>
+        private Dictionary<PlayerType, PlayerStats> _stats = new Dictionary<PlayerType, PlayerStats>();
+
+        public PlayerStore()
         {
-            { PlayerType.Cat, new PlayerStats(10) },
-            { PlayerType.Cow, new PlayerStats(20) }
-        };
+            var catStat = new PlayerStats(3);
+            catStat.Bullets = 8;
+            _stats.Add(PlayerType.Cat, catStat);
+
+            var cowStat = new PlayerStats(5);
+            cowStat.Bullets = 3;
+            _stats.Add(PlayerType.Cow, catStat);
+        }
 
         public List<Player> GetAll()
         {

@@ -2,11 +2,10 @@
 
 namespace game.tool
 {
-    public interface ITool
+    public interface IWeapon
     {
+        public int Bullets { get; set; }
 
         public void OnFire(Vector2 pos) { }
-
-        public void OnForward() { }
     }
 }

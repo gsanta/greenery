@@ -7,7 +7,7 @@ namespace game.character.ability.health
 {
     public class Health : MonoBehaviour
     {
-        private int _maxHealth = 100;
+        private int _maxHealth;
         
         private int _currentHealth;
 
@@ -15,9 +15,9 @@ namespace game.character.ability.health
 
         private PlayerStats _stats;
 
-        [CanBeNull] private HealthBar _healthBar;
+        [CanBeNull] private HealthPanel _healthBar;
         
-        public void Construct(ICharacter character, [CanBeNull] HealthBar healthBar, PlayerStats stats)
+        public void Construct(ICharacter character, [CanBeNull] HealthPanel healthBar, PlayerStats stats)
         {
             _stats = stats;
             _character = character;

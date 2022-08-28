@@ -7,10 +7,10 @@ using game.scene;
 using game.scene.grid;
 using game.scene.level;
 using GUI;
-using gui.avatar;
 using UnityEngine;
 using game.tool.weapon;
 using game.character.enemy;
+using gui;
 
 public class Injector : MonoBehaviour
 {
@@ -22,7 +22,7 @@ public class Injector : MonoBehaviour
 
     [SerializeField] private PlayerFactory playerFactory;
 
-    [SerializeField] private HealthBar healthBar;
+    [SerializeField] private HealthPanel healthBar;
 
     // weapon
 
@@ -30,9 +30,9 @@ public class Injector : MonoBehaviour
 
     [SerializeField] private WeaponFactory weaponFactory;
 
-    [SerializeField] private AvatarFactory avatarFactory;
-
     [SerializeField] public GameManager gameManager;
+
+    [SerializeField] private BulletPanel bulletPanel;
 
     [SerializeField] private PlayerManager playerManager;
 
@@ -68,8 +68,6 @@ public class Injector : MonoBehaviour
     // State
     [SerializeField] private StateFactory stateFactory;
     
-    private AvatarStore _avatarStore;
-
     private void Awake()
     {
         LevelStore = new LevelStore();
@@ -82,18 +80,13 @@ public class Injector : MonoBehaviour
         enemySpawner.Construct(enemyFactory, enemyStore, LevelStore);
         playerFactory.Construct(playerStore, gameInfoStore, healthBar, weaponFactory, followCamera);
 
-        playerCommandHandler.Construct(playerStore, playerFactory);
+        playerCommandHandler.Construct(playerStore, playerFactory, bulletPanel);
 
-        _avatarStore = new AvatarStore();
-        avatarFactory.Construct(_avatarStore);
-        avatarFactory.Create();
-        avatarFactory.Create();
-        
         playerManager = new PlayerManager(playerFactory);
 
         _enemyManager = new EnemyManager(enemyFactory, enemySpawner);
 
-        gameManager.Construct(playerManager, panelManager, _enemyManager);
+        gameManager.Construct(playerManager, panelManager, _enemyManager, followCamera);
 
         panelManager.startGamePanel = startGamePanel;
         

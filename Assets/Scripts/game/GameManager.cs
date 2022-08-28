@@ -1,5 +1,6 @@
 using game.character.characters.player;
 using game.character.enemy;
+using game.scene;
 using game.scene.level;
 using GUI;
 using UnityEngine;
@@ -15,19 +16,23 @@ namespace game
 
         private EnemyManager _enemyManager;
 
+        private FollowCamera _followCamera;
+
         private bool _isGameStarted;
 
-        public void Construct(PlayerManager playerManager, PanelManager panelManager, EnemyManager enemyManager)
+        public void Construct(PlayerManager playerManager, PanelManager panelManager, EnemyManager enemyManager, FollowCamera followCamera)
         {
             _playerManager = playerManager;
             _enemyManager = enemyManager;
             _panelManager = panelManager;
+            _followCamera = followCamera;
         }
 
         public void StartLevel(Level level)
         {
             _playerManager.Start(level);
             _enemyManager.Start(level);
+            _followCamera.GetConfiner().SetDimensions(level);
             _isGameStarted = true;
         }
 

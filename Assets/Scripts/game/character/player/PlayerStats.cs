@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-
+﻿
 namespace game.character.player
 {
     public class PlayerStats
@@ -7,9 +6,12 @@ namespace game.character.player
         public int Life { get; set; }
 
         public int MaxLife { get; private set; }
+
+        public int Bullets { get; set; }
         
         public PlayerStats(int life)
         {
+
             Life = life;
             MaxLife = life;
         }

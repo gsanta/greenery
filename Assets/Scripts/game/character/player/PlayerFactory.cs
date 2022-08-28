@@ -19,13 +19,13 @@ namespace game.character.characters.player
 
         private GameInfoStore _gameInfoStore;
         
-        private HealthBar _healthBar;
+        private HealthPanel _healthBar;
 
         private WeaponFactory _weaponFactory;
 
         private FollowCamera _camera;
 
-        public void Construct(PlayerStore playerStore, GameInfoStore gameInfoStore, HealthBar healthBar, WeaponFactory weaponFactory, FollowCamera camera)
+        public void Construct(PlayerStore playerStore, GameInfoStore gameInfoStore, HealthPanel healthBar, WeaponFactory weaponFactory, FollowCamera camera)
         {
             _playerStore = playerStore;
             _gameInfoStore = gameInfoStore;
@@ -49,10 +49,12 @@ namespace game.character.characters.player
 
         private Player CreateCat(Vector3 position) {
             var player = Instantiate(playerPrefab, position, transform.rotation, playerList);
-            player.Construct(PlayerType.Cat);
+            var stat = _playerStore.GetStat(PlayerType.Cat);
+            player.Construct(PlayerType.Cat, stat);
             player.GetComponent<LineDrawer>().Construct(_gameInfoStore);
             player.GetComponent<Health>().Construct(player, _healthBar, _playerStore.GetStat(PlayerType.Cat));
             player.Weapon = _weaponFactory.CreateGun(player);
+            player.Weapon.Bullets = stat.Bullets;
             ActivatePlayer(player);
 
             _playerStore.Add(player);
@@ -63,9 +65,11 @@ namespace game.character.characters.player
         private Player CreateCow(Vector3 position)
         {
             var player = Instantiate(cowPrefab, position, transform.rotation, playerList);
-            player.Construct(PlayerType.Cow);
+            var stat = _playerStore.GetStat(PlayerType.Cow);
+            player.Construct(PlayerType.Cow, stat);
             player.GetComponent<Health>().Construct(player, _healthBar, _playerStore.GetStat(PlayerType.Cow));
             player.Weapon = _weaponFactory.CreateBomb(player);
+            player.Weapon.Bullets = stat.Bullets;
             ActivatePlayer(player);
 
             _playerStore.Add(player);

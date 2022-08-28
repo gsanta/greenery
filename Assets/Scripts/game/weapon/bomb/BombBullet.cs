@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace game.tool.weapon.bomb
 {
-    public class BombBullet : MonoBehaviour, ITool
+    public class BombBullet : MonoBehaviour
     {
         [SerializeField] private float impactField;
 

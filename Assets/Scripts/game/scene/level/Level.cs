@@ -52,7 +52,7 @@ namespace game.scene.level
             Grid.Init();
             _gridVisualizer.GridSystem = Grid;
 
-            if (true)
+            if (false)
             {
                 _gridVisualizer.Show();
             }

@@ -4,7 +4,6 @@ using game.character.ability.health;
 using game.character.movement;
 using game.character.player;
 using game.character.state;
-using game.character.utils;
 using game.tool;
 using UnityEngine;
 
@@ -17,9 +16,11 @@ namespace game.character.characters.player
         public StateHandler States { get; private set; }
         public AbilityHandler Abilities { get; }
 
+        public PlayerStats Stats { get; private set; }
+
         private Health _health;
 
-        public ITool Weapon;
+        public IWeapon Weapon;
 
         private bool _isActive;
 
@@ -27,10 +28,11 @@ namespace game.character.characters.player
 
         public IMovement Movement { get; private set; }
 
-        public void Construct(PlayerType playerType)
+        public void Construct(PlayerType playerType, PlayerStats stats)
         {
             PlayerType = playerType;
             States = new StateHandler();
+            Stats = stats;
         }
 
         void Start()

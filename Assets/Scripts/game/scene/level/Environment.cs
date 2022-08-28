@@ -11,16 +11,19 @@ namespace game.scene.level
     {
         private Tilemap _tilemapGround;
 
+        private Tilemap _tilemapObjects; 
+
         private Transform _blocksContainer;
 
         private Vector2Int _offset;
 
         private Level _level;
 
-        public Environment(Level level, Transform blocksContainer, Tilemap tilemapGround)
+        public Environment(Level level, Transform blocksContainer, Tilemap tilemapGround, Tilemap tilemapObjects)
         {
             _blocksContainer = blocksContainer;
             _tilemapGround = tilemapGround;
+            _tilemapObjects = tilemapObjects;
             _level = level;
         }
 
@@ -53,8 +56,9 @@ namespace game.scene.level
 
         private bool IsWalkable(Vector2Int pos)
         {
-            var tile = _tilemapGround.GetTile(new Vector3Int(pos.x + _offset.x, pos.y + _offset.y, 0));
-            return TileNameMapper.IsWalkableTile(tile != null ? tile.name : null);
+            var tile = _tilemapObjects.GetTile(new Vector3Int(pos.x + _offset.x, pos.y + _offset.y, 0));
+
+            return tile == null;
         }
 
         private void SetUnWalkableObstacles(GridGraph<PathNode> graph)

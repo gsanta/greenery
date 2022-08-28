@@ -33,7 +33,7 @@ namespace game.character.characters.enemy
         
         private Health _health;
 
-        public ITool Weapon;
+        public IWeapon Weapon;
 
         private static readonly int HorizontalMovement = Animator.StringToHash("horizontalMovement");
         
