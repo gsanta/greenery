@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using gui;
+using UnityEngine;
 
 namespace game.tool
 {
@@ -6,6 +7,10 @@ namespace game.tool
     {
         public int Bullets { get; set; }
 
+        public void SetBulletPanel(BulletPanel bulletPanel);
+
         public void OnFire(Vector2 pos) { }
+
+        public void AddBullet(int amount) { }
     }
 }

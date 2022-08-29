@@ -41,12 +41,10 @@ namespace game.character.characters.player
         private void ChangePlayer()
         {
             var currentPlayer = _playerStore.GetActivePlayer();
-            currentPlayer.Stats.Bullets = currentPlayer.Weapon.Bullets;
             var index = _playerTypes.IndexOf(currentPlayer.PlayerType);
             var newPlayerType = index == _playerTypes.Count - 1 ? _playerTypes[0] : _playerTypes[index + 1];
 
             _playerFactory.Create(currentPlayer.GetPosition(), newPlayerType);
-            _playerStore.DestroyActivePlayer();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using game.character;
 using game.item.bullet;
+using gui;
 using UnityEngine;
 
 namespace game.tool.weapon.gun
@@ -9,6 +10,8 @@ namespace game.tool.weapon.gun
         private ICharacter _character;
 
         private BulletFactory _bulletFactory;
+
+        private BulletPanel _bulletPanel;
 
         private float _speed = 15f;
 
@@ -31,6 +34,11 @@ namespace game.tool.weapon.gun
                 _bulletFactory.CreateGunBullet(_character, position, direction, _speed);
                 Bullets--;
             }
+        }
+
+        public void SetBulletPanel(BulletPanel bulletPanel)
+        {
+            _bulletPanel = bulletPanel;
         }
     }
 }

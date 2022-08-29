@@ -4,6 +4,7 @@ using game.character.ability.health;
 using game.character.movement;
 using game.character.player;
 using game.character.state;
+using game.item;
 using game.tool;
 using UnityEngine;
 
@@ -21,6 +22,8 @@ namespace game.character.characters.player
         private Health _health;
 
         public IWeapon Weapon;
+
+        public ItemPickup ItemPickup;
 
         private bool _isActive;
 
@@ -69,6 +72,14 @@ namespace game.character.characters.player
         public GameObject GetGameObject()
         {
             return gameObject;
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (ItemPickup != null)
+            {
+                ItemPickup.Entered(collision.gameObject);
+            }
         }
     }
 }

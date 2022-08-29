@@ -1,5 +1,6 @@
 ﻿using game.item.bullet;
 using game.tool;
+using gui;
 using UnityEngine;
 
 namespace Assets.Scripts.game.tool.weapon.bomb
@@ -8,6 +9,8 @@ namespace Assets.Scripts.game.tool.weapon.bomb
     {
         private BulletFactory _bulletFactory;
 
+        private BulletPanel _bulletPanel;
+
         public BombWeapon(BulletFactory bulletFactory)
         {
             _bulletFactory = bulletFactory;
@@ -15,10 +18,29 @@ namespace Assets.Scripts.game.tool.weapon.bomb
 
         public int Bullets { get; set; }
 
+        public void AddBullet(int amount) {
+            Bullets += amount;
+
+            if (_bulletPanel)
+            {
+                _bulletPanel.SetBullets(Bullets);
+            }
+        }
+
         public void OnFire(Vector2 pos)
         {
-            var bullet = _bulletFactory.CreateBombBullet(pos);
-            bullet.Fire();
+            if (Bullets > 0)
+            {
+                var bullet = _bulletFactory.CreateBombBullet(pos);
+                bullet.Fire();
+
+                Bullets--;
+            }
+        }
+
+        public void SetBulletPanel(BulletPanel bulletPanel)
+        {
+            _bulletPanel = bulletPanel;
         }
     }
 }

@@ -40,7 +40,7 @@ namespace game.character.characters.player
 
         public Player GetActivePlayer()
         {
-            return _players[0];
+            return _players.Count > 0 ? _players[0] : null;
         }
 
         public void DestroyAll()

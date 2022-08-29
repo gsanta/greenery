@@ -70,7 +70,7 @@ public class Injector : MonoBehaviour
     
     private void Awake()
     {
-        LevelStore = new LevelStore();
+        LevelStore = new LevelStore(); 
 
         stateFactory.Construct(playerStore);
 
@@ -78,7 +78,7 @@ public class Injector : MonoBehaviour
 
         enemyFactory.Construct(enemyStore, playerStore, weaponFactory, gameManager, stateFactory);
         enemySpawner.Construct(enemyFactory, enemyStore, LevelStore);
-        playerFactory.Construct(playerStore, gameInfoStore, healthBar, weaponFactory, followCamera);
+        playerFactory.Construct(playerStore, gameInfoStore, healthBar, bulletPanel, weaponFactory, followCamera);
 
         playerCommandHandler.Construct(playerStore, playerFactory, bulletPanel);
 
