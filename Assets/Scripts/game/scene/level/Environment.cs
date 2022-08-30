@@ -1,7 +1,5 @@
 ﻿
 using game.scene.grid;
-using game.scene.tile;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -17,14 +15,11 @@ namespace game.scene.level
 
         private Vector2Int _offset;
 
-        private Level _level;
-
-        public Environment(Level level, Transform blocksContainer, Tilemap tilemapGround, Tilemap tilemapObjects)
+        public Environment(Transform blocksContainer, Tilemap tilemapGround, Tilemap tilemapObjects)
         {
             _blocksContainer = blocksContainer;
             _tilemapGround = tilemapGround;
             _tilemapObjects = tilemapObjects;
-            _level = level;
         }
 
         public void Init()

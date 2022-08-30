@@ -22,11 +22,14 @@ namespace game.scene.level
         }
 
 
-        public void Init()
+        public void Init(GameObject border)
         {
-            TopLeft = TilemapUtils.TopLeft(_tilemapGround);
-            BottomRight = TilemapUtils.BottomRight(_tilemapGround);
-            CellSize = TilemapUtils.CellSize(_tilemapGround);
+            var bounds = border.GetComponent<Renderer>().bounds;
+
+
+            TopLeft = new Vector3(bounds.min.x, bounds.max.y);
+            BottomRight = new Vector3(bounds.max.x, bounds.min.y);
+            CellSize = 1;
             Center = new Vector2((TopLeft.x + BottomRight.x) / 2, (TopLeft.y + BottomRight.y) / 2);
         }
     }

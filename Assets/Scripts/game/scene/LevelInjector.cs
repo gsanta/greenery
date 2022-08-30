@@ -18,6 +18,8 @@ namespace game.scene
 
         [SerializeField]  private Tilemap tilemapObjects;
 
+        [SerializeField] private GameObject border;
+
         private Environment _environment;
         
         private LevelBounds _levelBounds;
@@ -32,11 +34,11 @@ namespace game.scene
             var gameManager = injector.gameManager;
             var levelStore = injector.LevelStore;
 
-            level.Construct(enemyFactory, levelLoader, levelStore, gridVisualizer, gameManager);
+            level.Construct(border, levelLoader, levelStore, gridVisualizer, gameManager);
 
             _levelBounds = new LevelBounds(tilemapGround);
 
-            _environment = new Environment(level, blocks, tilemapGround, tilemapObjects);
+            _environment = new Environment(blocks, tilemapGround, tilemapObjects);
 
             _gridSystem = new grid.Grid(level);
 

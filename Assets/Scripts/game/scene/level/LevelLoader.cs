@@ -37,6 +37,20 @@ namespace game.scene.level
         {
             int operationIndex = SceneManager.sceneCount;
             var operation = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Additive);
+            var operation2 = SceneManager.LoadSceneAsync("Level2", LoadSceneMode.Additive);
+
+            operation2.completed += (s) =>
+            {
+                var rootObjects = SceneManager.GetSceneByName("Level2").GetRootGameObjects();
+                var root = Array.Find(rootObjects, (gameObject) =>
+                {
+                    return gameObject.name == "Root";
+                });
+
+                root.transform.Translate(new Vector3(28, 0, 0));
+
+                Debug.Log("success");
+            };
 
             operation.completed += (s) =>
             {

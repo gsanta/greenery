@@ -10,8 +10,6 @@ namespace game.scene.tile
             var localBounds = tilemap.localBounds;
             var minBounds = localBounds.min;
             var maxBounds = localBounds.max;
-            var pos = tilemap.GetCellCenterWorld(new Vector3Int((int) minBounds.x, (int)maxBounds.y, 0));
-            var cellSize = CellSize(tilemap);
             return new Vector3(minBounds.x, maxBounds.y);
         }
 

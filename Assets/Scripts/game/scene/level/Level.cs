@@ -1,4 +1,3 @@
-using game.character.characters.enemy;
 using game.scene.grid;
 using UnityEngine;
 
@@ -8,14 +7,14 @@ namespace game.scene.level
     {
         [SerializeField] public LevelName levelName;
 
+        private GameObject _border;
+
         public LevelBounds LevelBounds { get; set; }
 
         public Environment Environment { get; set; }
 
         public grid.Grid Grid { get; set; }
         
-        private EnemyFactory _enemyFactory;
-
         private GridVisualizer _gridVisualizer;
 
         private LevelLoader _levelLoader;
@@ -24,9 +23,9 @@ namespace game.scene.level
 
         private LevelStore _levelStore;
 
-        public void Construct(EnemyFactory enemyFactory, LevelLoader levelLoader, LevelStore levelStore, GridVisualizer gridVisualizer, GameManager gameManager)
+        public void Construct(GameObject border, LevelLoader levelLoader, LevelStore levelStore, GridVisualizer gridVisualizer, GameManager gameManager)
         {
-            _enemyFactory = enemyFactory;
+            _border = border;
             _levelLoader = levelLoader;
             _gridVisualizer = gridVisualizer;
             _gameManager = gameManager;
@@ -35,24 +34,14 @@ namespace game.scene.level
             _levelLoader.AddLevel(this);
         }
 
-        //public Direction GetQuarter(Vector2 worldPos)
-        //{
-        //    if (worldPos.x > Center.x)
-        //    {
-        //        return worldPos.y > Center.y ? Direction.RightUp : Direction.RightDown;
-        //    }
-            
-        //    return worldPos.y > Center.y ? Direction.LeftUp : Direction.LeftDown;
-        //}
-
         private void Start()
         {
-            LevelBounds.Init();
+            LevelBounds.Init(_border);
             Environment.Init();
             Grid.Init();
             _gridVisualizer.GridSystem = Grid;
 
-            if (false)
+            if (true)
             {
                 _gridVisualizer.Show();
             }
