@@ -16,7 +16,7 @@ namespace Assets.Scripts.game.tool.weapon.bomb
             _bulletFactory = bulletFactory;
         }
 
-        public int Bullets { get; set; }
+        public int Bullets { get; set; } = -1;
 
         public void AddBullet(int amount) {
             Bullets += amount;
@@ -29,7 +29,7 @@ namespace Assets.Scripts.game.tool.weapon.bomb
 
         public void OnFire(Vector2 pos)
         {
-            if (Bullets > 0)
+            if (Bullets != 0)
             {
                 var bullet = _bulletFactory.CreateBombBullet(pos);
                 bullet.Fire();

@@ -15,7 +15,6 @@ namespace game.scene.level
 
         public grid.Grid Grid { get; set; }
         
-        private GridVisualizer _gridVisualizer;
 
         private LevelLoader _levelLoader;
 
@@ -23,11 +22,10 @@ namespace game.scene.level
 
         private LevelStore _levelStore;
 
-        public void Construct(GameObject border, LevelLoader levelLoader, LevelStore levelStore, GridVisualizer gridVisualizer, GameManager gameManager)
+        public void Construct(GameObject border, LevelLoader levelLoader, LevelStore levelStore, GameManager gameManager)
         {
             _border = border;
             _levelLoader = levelLoader;
-            _gridVisualizer = gridVisualizer;
             _gameManager = gameManager;
             _levelStore = levelStore;
 
@@ -39,12 +37,6 @@ namespace game.scene.level
             LevelBounds.Init(_border);
             Environment.Init();
             Grid.Init();
-            _gridVisualizer.GridSystem = Grid;
-
-            if (true)
-            {
-                _gridVisualizer.Show();
-            }
 
             _levelStore.Level = this;
             _gameManager.StartLevel(this);

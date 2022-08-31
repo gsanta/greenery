@@ -20,31 +20,33 @@ namespace game.scene
 
         [SerializeField] private GameObject border;
 
+        [SerializeField] private GridVisualizer gridVisualizer;
+
         private Environment _environment;
         
         private LevelBounds _levelBounds;
 
-        private grid.Grid _gridSystem;
+        private grid.Grid _grid;
 
         public void Construct(Injector injector)
         {
-            var enemyFactory = injector.enemyFactory;
             var levelLoader = injector.levelLoader;
-            var gridVisualizer = injector.gridVisualizer;
             var gameManager = injector.gameManager;
             var levelStore = injector.LevelStore;
 
-            level.Construct(border, levelLoader, levelStore, gridVisualizer, gameManager);
+            level.Construct(border, levelLoader, levelStore, gameManager);
 
             _levelBounds = new LevelBounds(tilemapGround);
 
             _environment = new Environment(blocks, tilemapGround, tilemapObjects);
 
-            _gridSystem = new grid.Grid(level);
+            _grid = new grid.Grid(level);
+
+            gridVisualizer.Construct(_grid);
 
             level.LevelBounds = _levelBounds;
             level.Environment = _environment;
-            level.Grid = _gridSystem;
+            level.Grid = _grid;
         }
     }
 }

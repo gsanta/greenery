@@ -61,8 +61,6 @@ public class Injector : MonoBehaviour
     
     [SerializeField] private GridSetup gridSetup;
 
-    [SerializeField] public GridVisualizer gridVisualizer;
-
     public LevelStore LevelStore;
 
     // State
@@ -91,6 +89,6 @@ public class Injector : MonoBehaviour
         panelManager.startGamePanel = startGamePanel;
         
         levelLoader.Construct(this);
-        levelLoader.LoadLevel("Level");
+        levelLoader.Load("Level");
     }
 }

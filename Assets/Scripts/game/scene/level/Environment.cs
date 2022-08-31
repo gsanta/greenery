@@ -51,13 +51,23 @@ namespace game.scene.level
 
         private bool IsWalkable(Vector2Int pos)
         {
-            var tile = _tilemapObjects.GetTile(new Vector3Int(pos.x + _offset.x, pos.y + _offset.y, 0));
+            if (_tilemapObjects)
+            {
+                var tile = _tilemapObjects.GetTile(new Vector3Int(pos.x + _offset.x, pos.y + _offset.y, 0));
 
-            return tile == null;
+                return tile == null;
+            }
+
+            return true;
         }
 
         private void SetUnWalkableObstacles(GridGraph<PathNode> graph)
         {
+            if (!_blocksContainer)
+            {
+                return;
+            }
+
             foreach (Transform child in _blocksContainer)
             {
                 var bounds = child.GetComponent<Collider2D>().bounds;

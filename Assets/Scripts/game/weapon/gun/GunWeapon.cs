@@ -15,7 +15,7 @@ namespace game.tool.weapon.gun
 
         private float _speed = 15f;
 
-        public int Bullets { get; set; }
+        public int Bullets { get; set; } = -1;
 
         public GunWeapon(ICharacter character, BulletFactory bulletFactory)
         {
@@ -25,7 +25,7 @@ namespace game.tool.weapon.gun
 
         public void OnFire(Vector2 target)
         {
-            if (Bullets > 0)
+            if (Bullets != 0)
             {
                 var position = _character.GetPosition();
                 Vector2 direction = target - position;

@@ -33,29 +33,10 @@ namespace game.scene.level
             }
         }
         
-        public void LoadLevel(string levelName)
+        public void Load(string levelName)
         {
-            int operationIndex = SceneManager.sceneCount;
-            var operation = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Additive);
-            var operation2 = SceneManager.LoadSceneAsync("Level2", LoadSceneMode.Additive);
-
-            operation2.completed += (s) =>
-            {
-                var rootObjects = SceneManager.GetSceneByName("Level2").GetRootGameObjects();
-                var root = Array.Find(rootObjects, (gameObject) =>
-                {
-                    return gameObject.name == "Root";
-                });
-
-                root.transform.Translate(new Vector3(28, 0, 0));
-
-                Debug.Log("success");
-            };
-
-            operation.completed += (s) =>
-            {
-                OnLevelLoaded(SceneManager.GetSceneAt(operationIndex));
-            };
+            LoadLevel("Level", new Vector2(0, 0));
+            LoadLevel("Level2", new Vector2(28, 0));
         }
 
         private void OnLevelLoaded(Scene scene)
@@ -66,6 +47,24 @@ namespace game.scene.level
             });
 
             gameObject.GetComponent<LevelInjector>().Construct(_injector);
+        }
+
+        private void LoadLevel(string levelName, Vector2 translate)
+        {
+            var operation = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Additive);
+
+            operation.completed += (s) =>
+            {
+                var rootObjects = SceneManager.GetSceneByName(levelName).GetRootGameObjects();
+                var root = Array.Find(rootObjects, (gameObject) =>
+                {
+                    return gameObject.name == "Root";
+                });
+
+                root.transform.Translate(new Vector3(translate.x, translate.y, 0));
+
+                OnLevelLoaded(SceneManager.GetSceneByName(levelName));
+            };
         }
 
         private void Update()
