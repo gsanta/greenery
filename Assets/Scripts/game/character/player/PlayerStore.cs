@@ -8,17 +8,17 @@ namespace game.character.characters.player
     {
         private readonly List<Player> _players = new();
 
-        private Dictionary<PlayerType, PlayerStats> _stats = new Dictionary<PlayerType, PlayerStats>();
+        private Dictionary<CharacterType, PlayerStats> _stats = new Dictionary<CharacterType, PlayerStats>();
 
         public PlayerStore()
         {
             var catStat = new PlayerStats(3);
             catStat.Bullets = 8;
-            _stats.Add(PlayerType.Cat, catStat);
+            _stats.Add(CharacterType.Cat, catStat);
 
             var cowStat = new PlayerStats(5);
             cowStat.Bullets = 3;
-            _stats.Add(PlayerType.Cow, catStat);
+            _stats.Add(CharacterType.Cow, catStat);
         }
 
         public List<Player> GetAll()
@@ -51,7 +51,7 @@ namespace game.character.characters.player
             }
         }
 
-        public PlayerStats GetStat(PlayerType type)
+        public PlayerStats GetStat(CharacterType type)
         {
             return _stats[type];
         }

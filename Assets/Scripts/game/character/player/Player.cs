@@ -12,7 +12,7 @@ namespace game.character.characters.player
 {
     public class Player : MonoBehaviour, ICharacter
     {
-        public PlayerType PlayerType { get; private set; }
+        public CharacterType PlayerType { get; private set; }
 
         public StateHandler States { get; private set; }
         public AbilityHandler Abilities { get; }
@@ -31,7 +31,7 @@ namespace game.character.characters.player
 
         public IMovement Movement { get; private set; }
 
-        public void Construct(PlayerType playerType, PlayerStats stats)
+        public void Construct(CharacterType playerType, PlayerStats stats)
         {
             PlayerType = playerType;
             States = new StateHandler();

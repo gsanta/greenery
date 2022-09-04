@@ -23,7 +23,8 @@ namespace game.character.ability.health
             _character = character;
             _healthBar = healthBar;
             _maxHealth = stats.MaxLife;
-            if (_healthBar != null) _healthBar.SetMaxHealth(_maxHealth);
+            if (_healthBar != null) _healthBar.
+                    SetMaxHealth(_maxHealth);
             SetHealth(stats.Life);
         }
         

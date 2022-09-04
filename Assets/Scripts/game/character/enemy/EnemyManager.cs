@@ -18,7 +18,6 @@ namespace game.character.enemy
 
         public void Start(Level level)
         {
-            var enemy = _enemyFactory.Create(level);
             _enemySpawner.IsActive = true;
         }
     }

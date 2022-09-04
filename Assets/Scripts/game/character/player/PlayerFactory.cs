@@ -1,5 +1,4 @@
 using game.character.ability.health;
-using game.character.player;
 using game.item.grass;
 using game.scene;
 using game.tool.weapon;
@@ -40,17 +39,17 @@ namespace game.character.characters.player
             _camera = camera;
         }
 
-        public Player Create(Vector3 position, PlayerType playerType)
+        public Player Create(Vector3 position, CharacterType playerType)
         {
             var prevPlayer = _playerStore.GetActivePlayer();
 
             Player newPlayer;
             switch(playerType)
             {
-                case PlayerType.Cat:
+                case CharacterType.Cat:
                     newPlayer = CreateCat(position);
                     break;
-                case PlayerType.Cow:
+                case CharacterType.Cow:
                     newPlayer = CreateCow(position);
                     break;
                 default:
@@ -78,10 +77,10 @@ namespace game.character.characters.player
 
         private Player CreateCat(Vector3 position) {
             var player = Instantiate(playerPrefab, position, transform.rotation, playerList);
-            var stat = _playerStore.GetStat(PlayerType.Cat);
-            player.Construct(PlayerType.Cat, stat);
+            var stat = _playerStore.GetStat(CharacterType.Cat);
+            player.Construct(CharacterType.Cat, stat);
             player.GetComponent<LineDrawer>().Construct(_gameInfoStore);
-            player.GetComponent<Health>().Construct(player, _healthPanel, _playerStore.GetStat(PlayerType.Cat));
+            player.GetComponent<Health>().Construct(player, _healthPanel, _playerStore.GetStat(CharacterType.Cat));
             player.Weapon = _weaponFactory.CreateGun(player);
 
             return player;
@@ -90,9 +89,9 @@ namespace game.character.characters.player
         private Player CreateCow(Vector3 position)
         {
             var player = Instantiate(cowPrefab, position, transform.rotation, playerList);
-            var stat = _playerStore.GetStat(PlayerType.Cow);
-            player.Construct(PlayerType.Cow, stat);
-            player.GetComponent<Health>().Construct(player, _healthPanel, _playerStore.GetStat(PlayerType.Cow));
+            var stat = _playerStore.GetStat(CharacterType.Cow);
+            player.Construct(CharacterType.Cow, stat);
+            player.GetComponent<Health>().Construct(player, _healthPanel, _playerStore.GetStat(CharacterType.Cow));
             player.Weapon = _weaponFactory.CreateBomb(player);
             var grassPickup = player.GetComponent<GrassPickup>();
             grassPickup.Construct(player.Weapon);

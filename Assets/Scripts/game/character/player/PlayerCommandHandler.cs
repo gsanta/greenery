@@ -1,5 +1,4 @@
-﻿using game.character.player;
-using gui;
+﻿using gui;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +12,7 @@ namespace game.character.characters.player
 
         private BulletPanel _bulletPanel;
 
-        private List<PlayerType> _playerTypes = new List<PlayerType> { PlayerType.Cat, PlayerType.Cow };
+        private List<CharacterType> _playerTypes = new List<CharacterType> { CharacterType.Cat, CharacterType.Cow };
 
         public void Construct(PlayerStore playerStore, PlayerFactory playerFactory, BulletPanel bulletPanel)
         {

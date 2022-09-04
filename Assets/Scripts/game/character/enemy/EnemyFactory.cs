@@ -3,8 +3,6 @@ using game.character.ability.shoot;
 using game.character.characters.player;
 using game.character.player;
 using game.character.state;
-using game.item.bullet;
-using game.scene.grid;
 using game.scene.grid.path;
 using game.scene.level;
 using game.tool.weapon;
@@ -14,9 +12,11 @@ namespace game.character.characters.enemy
 {
     public class EnemyFactory : MonoBehaviour
     {
-        public Enemy enemyPrefab;
+        [SerializeField] private GameObject beetlePrefab;
 
-        private float _timer;
+        [SerializeField] private GameObject bumbleBeePrefab;
+
+        [SerializeField] private GameObject spawningPrefab;
 
         private PlayerStore _playerStore;
 
@@ -37,21 +37,23 @@ namespace game.character.characters.enemy
             _stateFactory = stateFactory;
         }
 
-        public Enemy Create(Level level)
+        public Enemy Create(CharacterType characterType, Vector3 pos, Level level)
         {
-            var spawnPosGrid = level.Grid.Graph.GetRandomGridPosition();
-            var spawnPosWorld = level.Grid.Graph.GetWorldPosition(spawnPosGrid.x, spawnPosGrid.y);
-            var enemy = Instantiate(enemyPrefab, spawnPosWorld, transform.rotation);
-            enemy.Construct(_enemyStore, _playerStore, _gameManager);
+            var enemyBase = Instantiate(GetPrefab(characterType), pos, transform.rotation);
+            var obj = enemyBase.gameObject;
 
+            var enemy = obj.AddComponent(typeof(Enemy)) as Enemy;
+            enemy.Construct(_enemyStore, _playerStore, _gameManager);
             enemy.Weapon = _weaponFactory.CreateGun(enemy);
 
-            var shooting = enemy.GetComponent<ShootingBehaviour>();
+            var shooting = obj.AddComponent(typeof(ShootingBehaviour)) as ShootingBehaviour;
             shooting.Speed = 8f;
             shooting.Construct(enemy, _playerStore);
-            
-            enemy.GetComponent<Health>().Construct(enemy, null, new PlayerStats(3));
-            var pathMovement = enemy.GetComponent<PathMovement>();
+
+            var health = obj.AddComponent(typeof(Health)) as Health;
+            health.Construct(enemy, null, new PlayerStats(3));
+
+            var pathMovement = obj.AddComponent(typeof(PathMovement)) as PathMovement;
             pathMovement.Construct(level.Grid.PathFinding);
 
             //var roamingState = _stateFactory.CreateRoamingState(enemy, enemy.gameObject);
@@ -64,6 +66,25 @@ namespace game.character.characters.enemy
             _enemyStore.Add(enemy);
 
             return enemy;
+        }
+
+        private GameObject GetPrefab(CharacterType characterType)
+        {
+            switch(characterType)
+            {
+                case CharacterType.Beetle:
+                    return beetlePrefab;
+                case CharacterType.Bumblebee:
+                default:
+                    return bumbleBeePrefab;
+            }
+        }
+
+        public GameObject CreateSpawnAnimation(Vector3 pos)
+        {
+            var obj = Instantiate(spawningPrefab, pos, transform.rotation);
+
+            return obj.gameObject;
         }
     }
 }

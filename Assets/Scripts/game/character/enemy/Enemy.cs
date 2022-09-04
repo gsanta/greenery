@@ -142,7 +142,8 @@ namespace game.character.characters.enemy
         public void Die()
         {
             _enemyStore.Remove(this);
-            Destroy(gameObject);
+            _animator.SetBool("isDead", true);
+            Destroy(gameObject, 1);
         }
 
         public GameObject GetGameObject()
