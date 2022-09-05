@@ -19,8 +19,6 @@ namespace game.character.characters.player
         
         private PlayerStore _playerStore;
 
-        private GameInfoStore _gameInfoStore;
-        
         private HealthPanel _healthPanel;
 
         private BulletPanel _bulletPanel;
@@ -29,10 +27,9 @@ namespace game.character.characters.player
 
         private FollowCamera _camera;
 
-        public void Construct(PlayerStore playerStore, GameInfoStore gameInfoStore, HealthPanel healthPanel, BulletPanel bulletPanel, WeaponFactory weaponFactory, FollowCamera camera)
+        public void Construct(PlayerStore playerStore, HealthPanel healthPanel, BulletPanel bulletPanel, WeaponFactory weaponFactory, FollowCamera camera)
         {
             _playerStore = playerStore;
-            _gameInfoStore = gameInfoStore;
             _healthPanel = healthPanel;
             _bulletPanel = bulletPanel;
             _weaponFactory = weaponFactory;
@@ -79,7 +76,6 @@ namespace game.character.characters.player
             var player = Instantiate(playerPrefab, position, transform.rotation, playerList);
             var stat = _playerStore.GetStat(CharacterType.Cat);
             player.Construct(CharacterType.Cat, stat);
-            player.GetComponent<LineDrawer>().Construct(_gameInfoStore);
             player.GetComponent<Health>().Construct(player, _healthPanel, _playerStore.GetStat(CharacterType.Cat));
             player.Weapon = _weaponFactory.CreateGun(player);
 

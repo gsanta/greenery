@@ -14,12 +14,6 @@ namespace game.character.characters.player
 
         private bool _isDrawing = false;
 
-        private GameInfoStore _gameInfoStore;
-        public void Construct(GameInfoStore gameInfoStore)
-        {
-            _gameInfoStore = gameInfoStore;
-        }
-
         void Start()
         {
             lineRenderer = GetComponent<LineRenderer>();
@@ -81,8 +75,6 @@ namespace game.character.characters.player
                 {
                     len += (points[i + 1] - points[i]).magnitude;
                 }
-
-                _gameInfoStore.UpdateCurrentBallLength(len);
             }
         }
 

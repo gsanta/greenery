@@ -1,6 +1,8 @@
 using game.scene.level;
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace game.character.characters.enemy
 {
@@ -37,17 +39,30 @@ namespace game.character.characters.enemy
             }
 
             isSpawning = true;
-            SpawnAtRandomPos();
+            SpawnRandom();
         }
 
-        public void SpawnAtRandomPos()
+        public void SpawnRandom() 
+        {
+            StartCoroutine(Spawn(GetRandomType(), GetRandomPos()));
+        }
+
+        private Vector2 GetRandomPos()
         {
             var level = _levelStore.Level;
 
-            var spawnPosGrid = level.Grid.Graph.GetRandomGridPosition();
-            var spawnPosWorld = level.Grid.Graph.GetWorldPosition(spawnPosGrid.x, spawnPosGrid.y);
+            var gridPos = level.Grid.Graph.GetRandomGridPosition();
+            var worldPos = level.Grid.Graph.GetWorldPosition(gridPos.x, gridPos.y);
 
-            StartCoroutine(Spawn(CharacterType.Beetle, spawnPosWorld));
+            return worldPos;
+        }
+
+        private CharacterType GetRandomType()
+        {
+            var types = new CharacterType[] { CharacterType.Beetle, CharacterType.Bumblebee };
+            var randomIndex = Random.Range(0, types.Length);
+
+            return types[randomIndex];
         }
 
         public void SpawnAt(CharacterType type, Vector3 pos)

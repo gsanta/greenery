@@ -52,3 +52,6 @@ TagManager:
   - name: Dynamics
     uniqueID: 2737900601
     locked: 0
+  - name: Characters
+    uniqueID: 647931549
+    locked: 0

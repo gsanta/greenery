@@ -13,15 +13,7 @@ using game.character.enemy;
 using gui;
 
 public class Injector : MonoBehaviour
-{
-    [SerializeField] public EnemyFactory enemyFactory;
-
-    [SerializeField] private EnemySpawner enemySpawner;
-    
-    [SerializeField] private GameInfoStore gameInfoStore;
-
-    [SerializeField] private PlayerFactory playerFactory;
-
+{    
     [SerializeField] private HealthPanel healthBar;
 
     // weapon
@@ -48,18 +40,22 @@ public class Injector : MonoBehaviour
     
     [SerializeField] private EnemyStore enemyStore;
 
+    [SerializeField] public EnemyFactory enemyFactory;
+
+    [SerializeField] private EnemySpawner enemySpawner;
+
     private EnemyManager _enemyManager;
 
     // player
-    
+
+    [SerializeField] private PlayerFactory playerFactory;
+
     [SerializeField] public PlayerStore playerStore;
 
     [SerializeField] public PlayerCommandHandler playerCommandHandler;
 
     // Scene
     [SerializeField] public LevelLoader levelLoader;
-    
-    [SerializeField] private GridSetup gridSetup;
 
     public LevelStore LevelStore;
 
@@ -76,7 +72,7 @@ public class Injector : MonoBehaviour
 
         enemyFactory.Construct(enemyStore, playerStore, weaponFactory, gameManager, stateFactory);
         enemySpawner.Construct(enemyFactory, enemyStore, LevelStore);
-        playerFactory.Construct(playerStore, gameInfoStore, healthBar, bulletPanel, weaponFactory, followCamera);
+        playerFactory.Construct(playerStore, healthBar, bulletPanel, weaponFactory, followCamera);
 
         playerCommandHandler.Construct(playerStore, playerFactory, bulletPanel);
 

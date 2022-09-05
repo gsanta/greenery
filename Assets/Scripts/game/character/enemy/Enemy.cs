@@ -50,6 +50,8 @@ namespace game.character.characters.enemy
         public LevelName LevelName { set; get; }
 
         public IMovement Movement { get; private set; }
+
+        private bool _isInitialized = false;
         
         public void Construct(EnemyStore enemyStore, PlayerStore playerStore, GameManager gameManager)
         {
@@ -59,6 +61,8 @@ namespace game.character.characters.enemy
 
             States = new StateHandler();
             Abilities = new AbilityHandler();
+
+            _isInitialized = true;
         }
 
         private void Start()
@@ -72,6 +76,11 @@ namespace game.character.characters.enemy
 
         private void Update()
         {
+            if (!_isInitialized)
+            {
+                return;
+            }
+
             UpdateActive();
             
             //if (!_isActive)

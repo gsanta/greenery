@@ -81,8 +81,8 @@ namespace game.scene.grid.path
                     _rigidBody.AddForce(moveDir * Speed);
 
 
-                    _animator.SetFloat(HorizontalMovement, moveDir.x);
-                    _animator.SetFloat(VerticalMovement, moveDir.y);
+                    //_animator.SetFloat(HorizontalMovement, moveDir.x);
+                    //_animator.SetFloat(VerticalMovement, moveDir.y);
                 }
                 else
                 {
@@ -90,15 +90,16 @@ namespace game.scene.grid.path
                     if (_currentPathIndex >= _pathVectorList.Count)
                     {
                         FinishMovement();
-                        _animator.SetFloat(HorizontalMovement, 0);
-                        _animator.SetFloat(VerticalMovement, 0);
+                        //_animator.SetFloat(HorizontalMovement, 0);
+                        //_animator.SetFloat(VerticalMovement, 0);
                     }
                 }
             }
             else
             {
-                _animator.SetFloat(HorizontalMovement, 0);
-                _animator.SetFloat(VerticalMovement, 0);
+                FinishMovement();
+                //_animator.SetFloat(HorizontalMovement, 0);
+                //_animator.SetFloat(VerticalMovement, 0);
             }
         }
 
