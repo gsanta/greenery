@@ -65,4 +65,9 @@ public class Utilities
 
         return n;
     }
+
+    public static Vector3 ToVector3(Vector2 vec2)
+    {
+        return new Vector3(vec2.x, vec2.y, -1);
+    }
 }

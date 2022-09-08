@@ -1160,6 +1160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 3610411574362536829, guid: 4477ae5a755886448bd9ed95979c2e05, type: 3}
   cowPrefab: {fileID: 2106265010118575312, guid: e00c31e5ebd39f94384b43b8ce0ab961, type: 3}
+  fieldOfViewPrefab: {fileID: 441781298544365593, guid: 9df320e79297d8d4589bf927e0a02ec9, type: 3}
   playerList: {fileID: 1300977546}
 --- !u!114 &1187016161
 MonoBehaviour:

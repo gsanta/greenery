@@ -1,3 +1,4 @@
+using game.character.ability.field_of_view;
 using game.character.ability.health;
 using game.item.grass;
 using game.scene;
@@ -14,6 +15,8 @@ namespace game.character.characters.player
         [SerializeField] private Player playerPrefab;
 
         [SerializeField] private Player cowPrefab;
+
+        [SerializeField] private FieldOfView fieldOfViewPrefab;
 
         [SerializeField] private Transform playerList; 
         

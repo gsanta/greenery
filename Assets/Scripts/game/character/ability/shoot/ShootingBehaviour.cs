@@ -42,7 +42,11 @@ namespace game.character.ability.shoot
         
         public void Shoot()
         {
-            _enemy.Weapon.OnFire(_playerStore.GetActivePlayer().GetPosition());
+            var target = _enemy.FieldOfView.FindTarget();
+            if (target != null)
+            {
+                _enemy.Weapon.OnFire(_playerStore.GetActivePlayer().GetPosition());
+            }
         }
     }
 }

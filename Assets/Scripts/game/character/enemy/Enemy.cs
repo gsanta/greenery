@@ -1,5 +1,6 @@
 using System;
 using game.character.ability;
+using game.character.ability.field_of_view;
 using game.character.ability.health;
 using game.character.ability.shoot;
 using game.character.characters.player;
@@ -50,6 +51,8 @@ namespace game.character.characters.enemy
         public LevelName LevelName { set; get; }
 
         public IMovement Movement { get; private set; }
+
+        public FieldOfView FieldOfView { get; set; }
 
         private bool _isInitialized = false;
         
@@ -152,6 +155,12 @@ namespace game.character.characters.enemy
         {
             _enemyStore.Remove(this);
             _animator.SetBool("isDead", true);
+
+            if (FieldOfView.Visualizer != null)
+            {
+                Destroy(FieldOfView.Visualizer);
+            }
+
             Destroy(gameObject, 1);
         }
 

@@ -1,3 +1,4 @@
+using game.character.ability.field_of_view;
 using game.character.ability.health;
 using game.character.ability.shoot;
 using game.character.characters.player;
@@ -17,6 +18,8 @@ namespace game.character.characters.enemy
         [SerializeField] private GameObject bumbleBeePrefab;
 
         [SerializeField] private GameObject spawningPrefab;
+        
+        [SerializeField] private FieldOfViewVisualizer fieldOfViewPrefab;
 
         private PlayerStore _playerStore;
 
@@ -46,6 +49,12 @@ namespace game.character.characters.enemy
             enemy.Construct(_enemyStore, _playerStore, _gameManager);
             enemy.Weapon = _weaponFactory.CreateGun(enemy);
 
+            var fieldOfView = new FieldOfView(enemy, _playerStore);
+            enemy.FieldOfView = fieldOfView;
+
+            var fieldOfViewVisualizer = Instantiate(fieldOfViewPrefab, new Vector3(0, 0, 0), transform.rotation);
+            fieldOfViewVisualizer.Construct(fieldOfView, enemy, _playerStore);
+
             var shooting = obj.AddComponent(typeof(ShootingBehaviour)) as ShootingBehaviour;
             shooting.Speed = 8f;
             shooting.Construct(enemy, _playerStore);
@@ -54,7 +63,7 @@ namespace game.character.characters.enemy
             health.Construct(enemy, null, new PlayerStats(3));
 
             var pathMovement = obj.AddComponent(typeof(PathMovement)) as PathMovement;
-            pathMovement.Construct(level.Grid.PathFinding);
+            pathMovement.Construct(level.Grid.PathFinding, enemy);
 
             //var roamingState = _stateFactory.CreateRoamingState(enemy, enemy.gameObject);
             //enemy.States.AddState(roamingState, true);

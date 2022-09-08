@@ -1,31 +1,43 @@
 ﻿
+using game.character.characters.player;
 using UnityEngine;
 
 namespace game.character.ability.field_of_view
 {
-    public class FieldOfView : MonoBehaviour
+    public class FieldOfView
     {
+        public readonly float Fov = 90f;
 
-        private void Start()
+        public readonly float ViewDistance = 50f;
+
+        public FieldOfViewVisualizer Visualizer { get; set; }
+        
+        private PlayerStore _playerStore;
+
+        private ICharacter _character;
+
+        public FieldOfView(ICharacter character, PlayerStore playerStore)
         {
-            Mesh mesh = new Mesh();
-            GetComponent<MeshFilter>().mesh = mesh;
+            _character = character;
+            _playerStore = playerStore;
+        }
 
-            Vector3[] vertices = new Vector3[3];
-            Vector2[] uv = new Vector2[3];
-            int[] triangles = new int[3];
+        public ICharacter FindTarget()
+        {
+            var player = _playerStore.GetActivePlayer();
+            if (Vector2.Distance(_character.GetPosition(), player.GetPosition()) < ViewDistance)
+            {
+                Vector2 targetDirection = (player.GetPosition() - _character.GetPosition()).normalized;
+                Direction dir = _character.Movement.GetDirection();
+                Vector2 aimDirection = DirectionHelper.DirToVector(dir);
+                
+                if (Vector2.Angle(aimDirection, targetDirection) < Fov / 2f)
+                {
+                    return player;
+                }
+            }
 
-            vertices[0] = Vector3.zero;
-            vertices[1] = new Vector3(50, 0);
-            vertices[2] = new Vector3(0, -50);
-
-            triangles[0] = 0;
-            triangles[1] = 2;
-            triangles[2] = 1;
-
-            mesh.vertices = vertices;
-            mesh.uv = uv;
-            mesh.triangles = triangles;
+            return null;
         }
     }
 }

@@ -80,5 +80,10 @@ namespace Assets.Scripts.game.character.characters.player
                 _animator.SetBool("isMoving", true);
             }
         }
+
+        public Direction GetDirection()
+        {
+            return _moveDirection;
+        }
     }
 }

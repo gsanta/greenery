@@ -35,7 +35,7 @@ namespace game.character.characters.player
         {
             var activePlayer = GetActivePlayer();
             _players.Remove(activePlayer);
-            Destroy(activePlayer.gameObject);
+            DestroyPlayer(activePlayer);
         }
 
         public Player GetActivePlayer()
@@ -47,8 +47,13 @@ namespace game.character.characters.player
         {
             foreach (var player in _players)
             {
-                Destroy(player);
+                DestroyPlayer(player);
             }
+        }
+
+        private void DestroyPlayer(Player player)
+        {
+            Destroy(player.gameObject);
         }
 
         public PlayerStats GetStat(CharacterType type)

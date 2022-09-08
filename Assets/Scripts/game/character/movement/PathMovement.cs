@@ -1,6 +1,9 @@
+using game.character;
 using game.character.movement;
+using game.character.utils;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace game.scene.grid.path
 {
@@ -13,6 +16,8 @@ namespace game.scene.grid.path
         private int _currentPathIndex = 0;
 
         private const float Speed = 6f;
+
+        private ICharacter _character;
 
         private PathFinding _pathFinding;
         
@@ -30,9 +35,10 @@ namespace game.scene.grid.path
 
         public bool IsTargetReached { get; private set; }
 
-        public void Construct(PathFinding pathFinding)
+        public void Construct(PathFinding pathFinding, ICharacter character)
         {
             _pathFinding = pathFinding;
+            _character = character;
             IsTargetReached = false;
             _animator = GetComponent<Animator>();
             _rigidBody = GetComponent<Rigidbody2D>();
@@ -125,6 +131,12 @@ namespace game.scene.grid.path
             {
                 _pathVectorList.RemoveAt(0);
             }
+        }
+
+        public Direction GetDirection()
+        {
+            var vector = (_targetPosition - _character.GetPosition()).normalized;
+            return MovementUtil.UpdateMoveDirection(vector, null);
         }
     }
 }
