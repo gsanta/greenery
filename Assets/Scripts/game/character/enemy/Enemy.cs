@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using game.character.ability;
 using game.character.ability.field_of_view;
 using game.character.ability.health;
@@ -55,6 +56,8 @@ namespace game.character.characters.enemy
         public FieldOfView FieldOfView { get; set; }
 
         private bool _isInitialized = false;
+
+        private List<GameObject> destroyables = new();
         
         public void Construct(EnemyStore enemyStore, PlayerStore playerStore, GameManager gameManager)
         {
@@ -156,10 +159,7 @@ namespace game.character.characters.enemy
             _enemyStore.Remove(this);
             _animator.SetBool("isDead", true);
 
-            if (FieldOfView.Visualizer != null)
-            {
-                Destroy(FieldOfView.Visualizer);
-            }
+            destroyables.ForEach((destroyable) => Destroy(destroyable));
 
             Destroy(gameObject, 1);
         }
@@ -167,6 +167,11 @@ namespace game.character.characters.enemy
         public GameObject GetGameObject()
         {
             return gameObject;
+        }
+
+        public void  AddDestroyable(GameObject gameObject)
+        {
+            destroyables.Add(gameObject);
         }
     }
 }

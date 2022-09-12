@@ -10,34 +10,54 @@ namespace game.character.ability.field_of_view
 
         public readonly float ViewDistance = 50f;
 
-        public FieldOfViewVisualizer Visualizer { get; set; }
-        
         private PlayerStore _playerStore;
 
         private ICharacter _character;
 
-        public FieldOfView(ICharacter character, PlayerStore playerStore)
+        private string _targetLayerMask;
+
+        private static readonly string WallLayerMask = "Wall";
+
+        public FieldOfView(ICharacter character, PlayerStore playerStore, string targetLayerMask)
         {
             _character = character;
             _playerStore = playerStore;
+            _targetLayerMask = targetLayerMask;
         }
 
         public ICharacter FindTarget()
         {
             var player = _playerStore.GetActivePlayer();
-            if (Vector2.Distance(_character.GetPosition(), player.GetPosition()) < ViewDistance)
+
+            return IsTargetWithinFieldOfView(player) && IsTargetVisible(player) ? player : null;
+        }
+
+        private bool IsTargetWithinFieldOfView(ICharacter target)
+        {
+            if (Vector2.Distance(_character.GetPosition(), target.GetPosition()) < ViewDistance)
             {
-                Vector2 targetDirection = (player.GetPosition() - _character.GetPosition()).normalized;
+                Vector2 targetDirection = (target.GetPosition() - _character.GetPosition()).normalized;
                 Direction dir = _character.Movement.GetDirection();
                 Vector2 aimDirection = DirectionHelper.DirToVector(dir);
-                
-                if (Vector2.Angle(aimDirection, targetDirection) < Fov / 2f)
-                {
-                    return player;
-                }
+
+                return Vector2.Angle(aimDirection, targetDirection) < Fov / 2f;
             }
 
-            return null;
+            return false;
+        }
+
+        private bool IsTargetVisible(ICharacter target)
+        {
+            Vector2 targetDirection = (target.GetPosition() - _character.GetPosition()).normalized;
+            var mask = LayerMask.GetMask(WallLayerMask, _targetLayerMask);
+            RaycastHit2D raycastHit2D = Physics2D.Raycast(_character.GetPosition(), targetDirection, ViewDistance, mask);
+
+            if (raycastHit2D.collider != null)
+            {
+                return raycastHit2D.collider.gameObject == target.GetGameObject();
+            }
+
+            return false;
         }
     }
 }

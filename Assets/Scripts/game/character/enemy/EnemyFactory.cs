@@ -49,11 +49,12 @@ namespace game.character.characters.enemy
             enemy.Construct(_enemyStore, _playerStore, _gameManager);
             enemy.Weapon = _weaponFactory.CreateGun(enemy);
 
-            var fieldOfView = new FieldOfView(enemy, _playerStore);
+            var fieldOfView = new FieldOfView(enemy, _playerStore, "Characters");
             enemy.FieldOfView = fieldOfView;
 
             var fieldOfViewVisualizer = Instantiate(fieldOfViewPrefab, new Vector3(0, 0, 0), transform.rotation);
             fieldOfViewVisualizer.Construct(fieldOfView, enemy, _playerStore);
+            enemy.AddDestroyable(fieldOfViewVisualizer.gameObject);
 
             var shooting = obj.AddComponent(typeof(ShootingBehaviour)) as ShootingBehaviour;
             shooting.Speed = 8f;

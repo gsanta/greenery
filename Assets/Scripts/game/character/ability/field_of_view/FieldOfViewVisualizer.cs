@@ -21,8 +21,6 @@ namespace game.character.ability.field_of_view
             _fieldOfView = fieldOfView;
             _character = character;
             _playerStore = playerStore;
-
-            fieldOfView.Visualizer = this;
         }
 
         public ICharacter FindTarget()

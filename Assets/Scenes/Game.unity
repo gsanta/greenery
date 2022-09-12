@@ -369,7 +369,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7780662, y: 1}
+    m_SensorSize: {x: 1.7772053, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -480,6 +480,7 @@ MonoBehaviour:
   beetlePrefab: {fileID: 116240, guid: 2f4697df5aec1c84a88220f305cc483b, type: 3}
   bumbleBeePrefab: {fileID: 116240, guid: 718384191891d4647b203d81a5423bfd, type: 3}
   spawningPrefab: {fileID: 7515709889734201651, guid: 83d4a00c2e213514fb4991681234fdd8, type: 3}
+  fieldOfViewPrefab: {fileID: 611187928825937699, guid: 9df320e79297d8d4589bf927e0a02ec9, type: 3}
 --- !u!1 &478949054
 GameObject:
   m_ObjectHideFlags: 0
@@ -1160,7 +1161,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 3610411574362536829, guid: 4477ae5a755886448bd9ed95979c2e05, type: 3}
   cowPrefab: {fileID: 2106265010118575312, guid: e00c31e5ebd39f94384b43b8ce0ab961, type: 3}
-  fieldOfViewPrefab: {fileID: 441781298544365593, guid: 9df320e79297d8d4589bf927e0a02ec9, type: 3}
   playerList: {fileID: 1300977546}
 --- !u!114 &1187016161
 MonoBehaviour:

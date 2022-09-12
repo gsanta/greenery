@@ -24,6 +24,8 @@ namespace game.character
 
         public IMovement Movement { get; }
 
+        public void AddDestroyable(GameObject gameObject);
+
         GameObject GetGameObject();
     }
 }

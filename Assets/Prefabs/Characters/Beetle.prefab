@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2463619385349184515}
   - component: {fileID: 5289414032584848281}
   - component: {fileID: 5414713636432333334}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: Beetle
   m_TagString: Target
   m_Icon: {fileID: 0}
