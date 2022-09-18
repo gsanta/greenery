@@ -51,8 +51,8 @@ namespace game.character.characters.enemy
         {
             var level = _levelStore.ActiveLevel;
 
-            var gridPos = level.Grid.Graph.GetRandomGridPosition();
-            var worldPos = level.Grid.Graph.GetWorldPosition(gridPos.x, gridPos.y);
+            var gridPos = level.Graph.GetRandomGridPosition();
+            var worldPos = level.Graph.GetWorldPosition(gridPos.x, gridPos.y);
 
             return worldPos;
         }

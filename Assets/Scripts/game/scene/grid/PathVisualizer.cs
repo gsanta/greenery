@@ -9,15 +9,15 @@ namespace game.scene.grid
     {
         private Mesh _mesh;
 
-        private Grid _grid;
+        private GridGraph<PathNode> _graph;
 
         private PathMovement _pathMovement;
 
         private List<Vector2> _path;
 
-        public void Construct(Grid grid)
+        public void Construct(GridGraph<PathNode> graph)
         {
-            _grid = grid;
+            _graph = graph;
         }
 
         public void SetPathMovement(PathMovement pathMovement)
@@ -40,7 +40,7 @@ namespace game.scene.grid
 
         private void UpdateMesh()
         {
-            var grid = _grid.Graph;
+            var grid = _graph;
             MeshUtils.CreateEmptyMeshArrays(grid.Width * grid.Height, out Vector3[] vertices, out Vector2[] uv, out int[] triangles);
 
             var path = _path != null ? _path : _pathMovement.GetPath(); 
@@ -56,7 +56,7 @@ namespace game.scene.grid
 
         private void CreatePath(Vector3[] vertices, Vector2[] uv, int[] triangles)
         {
-            var grid = _grid.Graph;
+            var grid = _graph;
             var index = 0;
             Vector2 quadSize = new Vector3(1, 1) * grid.CellSize;
 

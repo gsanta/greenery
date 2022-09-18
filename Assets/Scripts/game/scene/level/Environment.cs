@@ -7,8 +7,6 @@ namespace game.scene.level
 {
     public class Environment
     {
-        private Tilemap _tilemapGround;
-
         private Tilemap _tilemapObjects; 
 
         private Transform _blocksContainer;
@@ -17,10 +15,9 @@ namespace game.scene.level
 
         private Vector2Int _offset;
 
-        public Environment(Transform blocksContainer, Tilemap tilemapGround, Tilemap tilemapObjects, LevelBounds levelBounds)
+        public Environment(Transform blocksContainer, Tilemap tilemapObjects, LevelBounds levelBounds)
         {
             _blocksContainer = blocksContainer;
-            _tilemapGround = tilemapGround;
             _tilemapObjects = tilemapObjects;
             _levelBounds = levelBounds;
         }

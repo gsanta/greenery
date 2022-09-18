@@ -1,4 +1,5 @@
 ﻿
+using Assets.Scripts.debug;
 using game.character.characters.enemy;
 using game.character.enemy;
 using game.scene.level;
@@ -9,11 +10,7 @@ using static Codice.Client.BaseCommands.Import.Commit;
 public class GameSettingsWindow : EditorWindow
 {
 
-    int selected = 0;
-    string[] options = new string[]
-    {
-     "Option1", "Option2", "Option3",
-    };
+    int selectedLevelIndex = 0;
 
     [MenuItem("Window/Game Settings")]
     public static void ShowWindow()
@@ -62,7 +59,14 @@ public class GameSettingsWindow : EditorWindow
     {
         var levelStore = FindObjectOfType<LevelStore>();
 
-        selected = EditorGUILayout.Popup("Level", selected, levelStore.GetLevelNames());
+        selectedLevelIndex = EditorGUILayout.Popup("Level", selectedLevelIndex, levelStore.GetLevelNames());
+
+        if (GUILayout.Button("Render debug path"))
+        {
+            var pathFindingDebug = FindObjectOfType<PathFindingDebug>();
+            var selectedLevelName = Levels.ReverseNameMap[levelStore.GetLevelNames()[selectedLevelIndex]];
+            pathFindingDebug.RenderPath(levelStore.GetLevelByName(selectedLevelName).Graph);
+        }
     }
 
     private void HandleDecoratorChange(string decoratorName, bool isOn)

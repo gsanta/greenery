@@ -14,7 +14,7 @@ namespace game.character.characters.player
 
         public void Start(Level level)
         {
-            _playerFactory.Create(level.Grid.Graph.GetRandomWorldPosition(), CharacterType.Cow);
+            _playerFactory.Create(level.Graph.GetRandomWorldPosition(), CharacterType.Cow);
 
             //var player2 = _playerFactory.Create(new Vector3(0, 0, 0));
             //player2.GetComponent<SpriteRenderer>().material = new Material(Shader.Find("Shader Graphs/Outline Shader"));

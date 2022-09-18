@@ -26,30 +26,24 @@ namespace game.scene
         
         private LevelBounds _levelBounds;
 
-        private grid.Grid _grid;
-
         public void Construct(Injector injector)
         {
             var levelLoader = injector.levelLoader;
             var gameManager = injector.gameManager;
             var levelStore = injector.LevelStore;
 
-            level.Construct(border, levelLoader, gameManager);
+            level.Construct(border, levelLoader, gameManager, gridVisualizer);
 
             levelStore.AddLevel(level);
             levelStore.ActiveLevel = level;
 
             _levelBounds = new LevelBounds(tilemapGround);
 
-            _environment = new Environment(blocks, tilemapGround, tilemapObjects, _levelBounds);
+            _environment = new Environment(blocks, tilemapObjects, _levelBounds);
 
-            _grid = new grid.Grid(level);
-
-            gridVisualizer.Construct(_grid);
 
             level.LevelBounds = _levelBounds;
             level.Environment = _environment;
-            level.Grid = _grid;
         }
     }
 }

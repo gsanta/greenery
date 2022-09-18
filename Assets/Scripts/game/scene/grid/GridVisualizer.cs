@@ -8,13 +8,13 @@ namespace game.scene.grid
 
         private Mesh _mesh;
 
-        private Grid _grid;
+        private GridGraph<PathNode> _gridGraph;
 
         private bool isVisualize = false;
 
-        public void Construct(Grid grid)
+        public void Construct(GridGraph<PathNode> gridGraph)
         {
-            _grid = grid;
+            _gridGraph = gridGraph;
         }
 
         private void Awake()
@@ -49,19 +49,19 @@ namespace game.scene.grid
 
         private void Show()
         {
-            var grid = _grid.Graph;
-            MeshUtils.CreateEmptyMeshArrays(grid.Width * grid.Height, out Vector3[] vertices, out Vector2[] uv, out int[] triangles);
 
-            for (int x = 0; x < grid.Width; x++)
+            MeshUtils.CreateEmptyMeshArrays(_gridGraph.Width * _gridGraph.Height, out Vector3[] vertices, out Vector2[] uv, out int[] triangles);
+
+            for (int x = 0; x < _gridGraph.Width; x++)
             {
-                for (int y = 0; y < grid.Height; y++)
+                for (int y = 0; y < _gridGraph.Height; y++)
                 {
-                    int index = y * grid.Width + x;
-                    Vector2 quadSize = new Vector3(1, 1) * grid.CellSize;
+                    int index = y * _gridGraph.Width + x;
+                    Vector2 quadSize = new Vector3(1, 1) * _gridGraph.CellSize;
 
-                    var node = grid.GetNode(x, y);
+                    var node = _gridGraph.GetNode(x, y);
 
-                    var pos = grid.GetWorldPosition(x, y);
+                    var pos = _gridGraph.GetWorldPosition(x, y);
                     var pos3d = new Vector3(pos.x, pos.y, -0.5f);
 
                     Vector2 uvVal = new Vector2(0, 0);

@@ -13,18 +13,24 @@ namespace game.scene.level
 
         public Environment Environment { get; set; }
 
-        public grid.Grid Grid { get; set; }
-        
+        public GridGraph<PathNode> Graph { get; set; }
+
+        private GridFactory _gridFactory;
 
         private LevelLoader _levelLoader;
 
         private GameManager _gameManager;
 
-        public void Construct(GameObject border, LevelLoader levelLoader, GameManager gameManager)
+        private GridVisualizer _gridVisualizer;
+
+        public void Construct(GameObject border, LevelLoader levelLoader, GameManager gameManager, GridVisualizer gridVisualizer)
         {
             _border = border;
             _levelLoader = levelLoader;
             _gameManager = gameManager;
+            _gridVisualizer = gridVisualizer;
+
+            _gridFactory = new GridFactory();
 
             _levelLoader.AddLevel(this);
         }
@@ -33,7 +39,9 @@ namespace game.scene.level
         {
             LevelBounds.Init(_border);
             Environment.Init();
-            Grid.Init();
+
+            Graph = _gridFactory.CreateGrid(LevelBounds, Environment);
+            _gridVisualizer.Construct(Graph);
 
             _gameManager.StartLevel(this);
         }

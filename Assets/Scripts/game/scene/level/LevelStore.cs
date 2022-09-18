@@ -15,6 +15,11 @@ namespace game.scene.level
             levels.Add(level);
         }
 
+        public Level GetLevelByName(LevelName levelName)
+        {
+            return levels.Find((level) => level.levelName == levelName);
+        }
+
         public string[] GetLevelNames()
         {
             return levels.Select((level) =>  Levels.LevelNameMap[level.levelName]).ToArray();
