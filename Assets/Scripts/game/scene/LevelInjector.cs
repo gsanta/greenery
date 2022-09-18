@@ -34,11 +34,14 @@ namespace game.scene
             var gameManager = injector.gameManager;
             var levelStore = injector.LevelStore;
 
-            level.Construct(border, levelLoader, levelStore, gameManager);
+            level.Construct(border, levelLoader, gameManager);
+
+            levelStore.AddLevel(level);
+            levelStore.ActiveLevel = level;
 
             _levelBounds = new LevelBounds(tilemapGround);
 
-            _environment = new Environment(blocks, tilemapGround, tilemapObjects);
+            _environment = new Environment(blocks, tilemapGround, tilemapObjects, _levelBounds);
 
             _grid = new grid.Grid(level);
 

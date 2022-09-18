@@ -19,8 +19,8 @@ namespace Tests.EditMode.AI.pathFinding
             var startNode = grid.GetNode(0, 0);
             var endNode = grid.GetNode(3, 4);
             
-            var pathFinding = new PathFinding(grid);
-            var path = pathFinding.FindPath(startNode, endNode);
+            var pathFinding = new PathFinding();
+            var path = pathFinding.FindPath(grid, startNode, endNode);
 
             var expectedPath = new int[,]
             {
@@ -63,8 +63,8 @@ namespace Tests.EditMode.AI.pathFinding
             var startNode = grid.GetNode(0, 0);
             var endNode = grid.GetNode(3, 4);
             
-            var pathFinding = new PathFinding(grid);
-            var path = pathFinding.FindPath(startNode, endNode);
+            var pathFinding = new PathFinding();
+            var path = pathFinding.FindPath(grid, startNode, endNode);
             
             Assert.IsNull(path);
         }

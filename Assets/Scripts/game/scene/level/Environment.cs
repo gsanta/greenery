@@ -13,19 +13,23 @@ namespace game.scene.level
 
         private Transform _blocksContainer;
 
+        private LevelBounds _levelBounds;
+
         private Vector2Int _offset;
 
-        public Environment(Transform blocksContainer, Tilemap tilemapGround, Tilemap tilemapObjects)
+        public Environment(Transform blocksContainer, Tilemap tilemapGround, Tilemap tilemapObjects, LevelBounds levelBounds)
         {
             _blocksContainer = blocksContainer;
             _tilemapGround = tilemapGround;
             _tilemapObjects = tilemapObjects;
+            _levelBounds = levelBounds;
         }
 
         public void Init()
         {
-            var minBounds = _tilemapGround.localBounds.min;
-            _offset = new Vector2Int((int)minBounds.x, (int)minBounds.y);
+            var offsetX = Mathf.RoundToInt(_levelBounds.Size.x / _levelBounds.CellSize / 2);
+            var offsetY = Mathf.RoundToInt(_levelBounds.Size.y / _levelBounds.CellSize / 2);
+            _offset = new Vector2Int(offsetX, offsetY);
         }
 
         public void SetUnWalkable(GridGraph<PathNode> graph)
@@ -53,7 +57,7 @@ namespace game.scene.level
         {
             if (_tilemapObjects)
             {
-                var tile = _tilemapObjects.GetTile(new Vector3Int(pos.x + _offset.x, pos.y + _offset.y, 0));
+                var tile = _tilemapObjects.GetTile(new Vector3Int(pos.x - _offset.x, pos.y - _offset.y, 0));
 
                 return tile == null;
             }

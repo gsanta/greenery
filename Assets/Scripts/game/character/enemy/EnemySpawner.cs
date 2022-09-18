@@ -49,7 +49,7 @@ namespace game.character.characters.enemy
 
         private Vector2 GetRandomPos()
         {
-            var level = _levelStore.Level;
+            var level = _levelStore.ActiveLevel;
 
             var gridPos = level.Grid.Graph.GetRandomGridPosition();
             var worldPos = level.Grid.Graph.GetWorldPosition(gridPos.x, gridPos.y);
@@ -72,7 +72,7 @@ namespace game.character.characters.enemy
 
         private IEnumerator Spawn(CharacterType type, Vector3 spawnPos)
         {
-            var level = _levelStore.Level;
+            var level = _levelStore.ActiveLevel;
 
             var anim = _enemyFactory.CreateSpawnAnimation(spawnPos);
             yield return new WaitForSeconds(2f);

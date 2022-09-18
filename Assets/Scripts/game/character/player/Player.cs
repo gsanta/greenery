@@ -67,7 +67,6 @@ namespace game.character.characters.player
         
         public void Die()
         {
-            Debug.Log("player is dead");
         }
 
         public GameObject GetGameObject()
@@ -81,6 +80,11 @@ namespace game.character.characters.player
             {
                 ItemPickup.Entered(collision.gameObject);
             }
+        }
+
+        public void AddDestroyable(GameObject gameObject)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

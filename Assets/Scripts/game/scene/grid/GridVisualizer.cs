@@ -64,16 +64,11 @@ namespace game.scene.grid
                     var pos = grid.GetWorldPosition(x, y);
                     var pos3d = new Vector3(pos.x, pos.y, -0.5f);
 
-                    Vector2 uvVal = new Vector2(1f, 0);
+                    Vector2 uvVal = new Vector2(0, 0);
 
                     if (!node.IsWalkable)
                     {
-                        uvVal = new Vector2(0, 0);
-                    }
-                    else if (node.WalkCounter > 0)
-                    {
-                        var val = (float)node.WalkCounter / PathNode.MAX_WALK_COUNTER * 0.9f;
-                        uvVal = new Vector2(val, 0);
+                        uvVal = new Vector2(0.5f, 0.5f);
                     }
 
                     MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, pos3d, 0f, quadSize, 0.1f, uvVal, uvVal);

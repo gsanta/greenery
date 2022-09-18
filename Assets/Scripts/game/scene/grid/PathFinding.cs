@@ -10,50 +10,44 @@ namespace game.scene.grid.path
         private const int MoveStraightCost = 10;
         private const int MoveDiagonalCost = 14;
 
-        private readonly GridGraph<PathNode> _grid;
         private List<PathNode> _openList;
         private List<PathNode> _closedList;
 
-        public PathFinding(GridGraph<PathNode> grid)
-        {
-            _grid = grid;
-        }
-
-        public List<Vector2> FindPath(Vector2 startWorldPosition, Vector2 endWorldPosition, out List<PathNode> nodes)
+        public List<Vector2> FindPath(GridGraph<PathNode> grid, Vector2 startWorldPosition, Vector2 endWorldPosition, out List<PathNode> nodes)
         {
             nodes = new List<PathNode>();
-            var start = _grid.GetGridPosition(startWorldPosition);
-            var end = _grid.GetGridPosition(endWorldPosition);
+            var start = grid.GetGridPosition(startWorldPosition);
+            var end = grid.GetGridPosition(endWorldPosition);
 
             if (!start.HasValue || !end.HasValue)
             {
                 return null;
             }
 
-            var startNode = _grid.GetNode(start.Value.x, start.Value.y);
-            var endNode = _grid.GetNode(end.Value.x, end.Value.y);
+            var startNode = grid.GetNode(start.Value.x, start.Value.y);
+            var endNode = grid.GetNode(end.Value.x, end.Value.y);
 
             if (startNode == null || endNode == null)
             {
                 return null;
             }
             
-            var path = FindPath(startNode, endNode);
+            var path = FindPath(grid, startNode, endNode);
 
             if (path != null)
             {
                 nodes = path;
             }
 
-            return path?.Select((node) => _grid.GetWorldPosition(node.X, node.Y)).ToList();
+            return path?.Select((node) => grid.GetWorldPosition(node.X, node.Y)).ToList();
         }
 
-        public List<PathNode> FindPath(PathNode startNode, PathNode endNode)
+        public List<PathNode> FindPath(GridGraph<PathNode> grid, PathNode startNode, PathNode endNode)
         {
             _openList = new List<PathNode> { startNode };
             _closedList = new List<PathNode>();
             
-            InitPath(startNode, endNode);
+            InitPath(grid, startNode, endNode);
 
             while (_openList.Count > 0)
             {
@@ -66,15 +60,15 @@ namespace game.scene.grid.path
                 _openList.Remove(currentNode);
                 _closedList.Add(currentNode);
 
-                UpdateNeighbourCosts(currentNode, endNode);
+                UpdateNeighbourCosts(grid, currentNode, endNode);
             }
 
             return null;
         }
 
-        private void InitPath(PathNode startNode, PathNode endNode)
+        private void InitPath(GridGraph<PathNode> grid, PathNode startNode, PathNode endNode)
         {
-            var pathNodes = _grid.GetAllNodes();
+            var pathNodes = grid.GetAllNodes();
             foreach (var pathNode in pathNodes)
             {
                 pathNode.GCost = int.MaxValue;
@@ -87,9 +81,9 @@ namespace game.scene.grid.path
             startNode.CalculateFCost();
         }
 
-        private void UpdateNeighbourCosts(PathNode currentNode, PathNode endNode)
+        private void UpdateNeighbourCosts(GridGraph<PathNode> grid, PathNode currentNode, PathNode endNode)
         {
-            foreach (var neighbourNode in GetNeighbourList(currentNode))
+            foreach (var neighbourNode in GetNeighbourList(grid, currentNode))
             {
                 if (_closedList.Contains(neighbourNode))
                 {
@@ -120,19 +114,19 @@ namespace game.scene.grid.path
 
         }
 
-        private List<PathNode> GetNeighbourList(PathNode currentNode)
+        private List<PathNode> GetNeighbourList(GridGraph<PathNode> grid, PathNode currentNode)
         {
-            var left = _grid.LeftNeighbour(currentNode.X, currentNode.Y);
-            var right = _grid.RightNeighbour(currentNode.X, currentNode.Y);
-            var top = _grid.TopNeighbour(currentNode.X, currentNode.Y);
-            var bottom = _grid.BottomNeighbour(currentNode.X, currentNode.Y);
+            var left = grid.LeftNeighbour(currentNode.X, currentNode.Y);
+            var right = grid.RightNeighbour(currentNode.X, currentNode.Y);
+            var top = grid.TopNeighbour(currentNode.X, currentNode.Y);
+            var bottom = grid.BottomNeighbour(currentNode.X, currentNode.Y);
 
             return new List<PathNode>() {left, right, top, bottom}.FindAll(node => node != null).ToList();
         }
 
-        private PathNode GetNode(int x, int y)
+        private PathNode GetNode(GridGraph<PathNode> grid, int x, int y)
         {
-            return _grid.GetNode(x, y);
+            return grid.GetNode(x, y);
         }
 
         private List<PathNode> CalculatePath(PathNode endNode)

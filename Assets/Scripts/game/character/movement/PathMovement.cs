@@ -3,7 +3,6 @@ using game.character.movement;
 using game.character.utils;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace game.scene.grid.path
 {
@@ -20,7 +19,9 @@ namespace game.scene.grid.path
         private ICharacter _character;
 
         private PathFinding _pathFinding;
-        
+
+        private GridGraph<PathNode> _gridGraph;
+
         private static readonly int HorizontalMovement = Animator.StringToHash("horizontalMovement");
         
         private static readonly int VerticalMovement = Animator.StringToHash("verticalMovement");
@@ -35,9 +36,9 @@ namespace game.scene.grid.path
 
         public bool IsTargetReached { get; private set; }
 
-        public void Construct(PathFinding pathFinding, ICharacter character)
+        public void Construct(GridGraph<PathNode> gridGraph, ICharacter character)
         {
-            _pathFinding = pathFinding;
+            _pathFinding = new PathFinding();
             _character = character;
             IsTargetReached = false;
             _animator = GetComponent<Animator>();
@@ -62,6 +63,11 @@ namespace game.scene.grid.path
                 FinishMovement();
                 SetTargetPosition(targetPosition);
             }
+        }
+
+        public List<Vector2> GetPath()
+        {
+            return _pathVectorList;
         }
 
         private void FixedUpdate()
@@ -112,7 +118,6 @@ namespace game.scene.grid.path
         public void FinishMovement()
         {
             IsTargetReached = true;
-            _pathNodeList.ForEach(node => node.WalkCounter--);
             _pathNodeList = new List<PathNode>();
             _pathVectorList = null;
         }
@@ -123,9 +128,8 @@ namespace game.scene.grid.path
             _targetPosition = targetPosition;
             _currentPathIndex = 0;
             _pathNodeList = new List<PathNode>();
-            _pathVectorList = _pathFinding.FindPath(transform.position, targetPosition, out _pathNodeList);
+            _pathVectorList = _pathFinding.FindPath(_gridGraph, transform.position, targetPosition, out _pathNodeList);
 
-            _pathNodeList.ForEach(node => node.WalkCounter++);
 
             if (_pathVectorList is {Count: > 1})
             {

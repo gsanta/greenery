@@ -4,7 +4,6 @@ using game.character.characters.player;
 using game.character.state;
 using game.item.bullet;
 using game.scene;
-using game.scene.grid;
 using game.scene.level;
 using GUI;
 using UnityEngine;
@@ -44,6 +43,10 @@ public class Injector : MonoBehaviour
 
     [SerializeField] private EnemySpawner enemySpawner;
 
+    [SerializeField] private FovVisualDecorator fovVisualDecorator;
+
+    [SerializeField] private PathVisualDecorator pathVisualDecorator;
+
     private EnemyManager _enemyManager;
 
     // player
@@ -57,20 +60,18 @@ public class Injector : MonoBehaviour
     // Scene
     [SerializeField] public LevelLoader levelLoader;
 
-    public LevelStore LevelStore;
+    [SerializeField] public LevelStore LevelStore;
 
     // State
     [SerializeField] private StateFactory stateFactory;
     
     private void Awake()
     {
-        LevelStore = new LevelStore(); 
-
         stateFactory.Construct(playerStore);
 
         weaponFactory.Construct(bulletFactory);
 
-        enemyFactory.Construct(enemyStore, playerStore, weaponFactory, gameManager, stateFactory);
+        enemyFactory.Construct(enemyStore, playerStore, weaponFactory, gameManager, stateFactory, new EnemyDecorator[] { fovVisualDecorator, pathVisualDecorator });
         enemySpawner.Construct(enemyFactory, enemyStore, LevelStore);
         playerFactory.Construct(playerStore, healthBar, bulletPanel, weaponFactory, followCamera);
 

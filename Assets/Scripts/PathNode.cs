@@ -15,13 +15,6 @@ public class PathNode
     public int FCost;
 
     public bool IsWalkable = true;
-
-    private int _walkCounter;
-
-    public int WalkCounter {
-        set { _walkCounter = Math.Clamp(value, 0, MAX_WALK_COUNTER); }
-        get => _walkCounter;
-    }
     
     public PathNode CameFromNode;
 

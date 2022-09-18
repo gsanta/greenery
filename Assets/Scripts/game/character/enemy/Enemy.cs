@@ -49,7 +49,8 @@ namespace game.character.characters.enemy
         
         public AbilityHandler Abilities { get; private set; }
         
-        public LevelName LevelName { set; get; }
+        // TODO: get rid of this reference
+        public Level Level { set; get; }
 
         public IMovement Movement { get; private set; }
 
@@ -172,6 +173,16 @@ namespace game.character.characters.enemy
         public void  AddDestroyable(GameObject gameObject)
         {
             destroyables.Add(gameObject);
+        }
+
+        public List<GameObject> GetDestroyables()
+        {
+            return destroyables;
+        }
+
+        public void RemoveDestoyable(GameObject gameObject)
+        {
+            destroyables.Remove(gameObject);
         }
     }
 }

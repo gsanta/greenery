@@ -7,8 +7,6 @@ namespace game.scene.grid
     {
         public GridGraph<PathNode> Graph { get; set; }
 
-        public PathFinding PathFinding { get; private set; }
-        
         private GridFactory _gridFactory { get; set; }
 
         private Level _level;
@@ -22,7 +20,6 @@ namespace game.scene.grid
         {
             _gridFactory = new GridFactory(_level.LevelBounds, _level.Environment);
             Graph = _gridFactory.CreateGrid();
-            PathFinding = new PathFinding(Graph);
         }
     }
 }

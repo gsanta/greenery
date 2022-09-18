@@ -6,11 +6,18 @@ namespace game.scene.grid
     public class GridGraph<TNode> where TNode : class
     {
         public readonly int Width;
+        
         public readonly int Height;
+        
         public readonly float CellSize;
+        
         private TNode[] _gridArray;
+        
         private readonly Vector2 _halfCellSize;
+        
         private readonly Vector2 _worldOffset;
+
+        private readonly Vector2 _worldSize;
 
         public static GridGraph<TNode> CreateFromWorldSize(Vector2 topLeft, Vector2 bottomRight , Func<GridGraph<TNode>, int, int, TNode> createGridObject, float cellSize = 1.0f)
         {
@@ -22,16 +29,18 @@ namespace game.scene.grid
             var gridWidth = (int) (worldWidth / cellSize) + 1;
             var gridHeight = (int) (worldHeight / cellSize) + 1;
 
+            
+
             return new GridGraph<TNode>(gridWidth, gridHeight, createGridObject, cellSize,
-                new Vector2(worldMinX, worldMinY));
+                new Vector2(worldWidth, worldHeight));
         }
 
-        public GridGraph(int width, int height, Func<GridGraph<TNode>, int, int, TNode> createGridObject, float cellSize = 1.0f, Vector2 worldOffset = default)
+        public GridGraph(int width, int height, Func<GridGraph<TNode>, int, int, TNode> createGridObject, float cellSize = 1.0f, Vector2 worldSize = default)
         {
             Width = width;
             Height = height;
             CellSize = cellSize;
-            _worldOffset = worldOffset;
+            _worldSize = worldSize;
             _halfCellSize = new Vector2(CellSize / 2.0f, CellSize / 2.0f);
 
             InitGridArray(createGridObject);
@@ -41,6 +50,7 @@ namespace game.scene.grid
         {
             return _gridArray;
         }
+
 
         public TNode GetNode(int x, int y)
         {
@@ -60,7 +70,7 @@ namespace game.scene.grid
 
         public Vector2 GetWorldPosition(int x, int y)
         {
-            return new Vector2(x, y) * CellSize + _worldOffset;
+            return new Vector2(x, y) * CellSize - _worldSize / 2;
         }
 
         public Vector2 GetRandomWorldPosition()
@@ -73,7 +83,7 @@ namespace game.scene.grid
 
         public Vector2Int? GetGridPosition(Vector2 worldPosition)
         {
-            var vec = (worldPosition - _worldOffset) / CellSize;
+            var vec = (worldPosition + _worldSize / 2) / CellSize;
             var x = (int) Mathf.Floor(vec.x);
             var y = (int) Mathf.Floor(vec.y);
             

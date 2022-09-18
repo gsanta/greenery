@@ -20,14 +20,11 @@ namespace game.scene.level
 
         private GameManager _gameManager;
 
-        private LevelStore _levelStore;
-
-        public void Construct(GameObject border, LevelLoader levelLoader, LevelStore levelStore, GameManager gameManager)
+        public void Construct(GameObject border, LevelLoader levelLoader, GameManager gameManager)
         {
             _border = border;
             _levelLoader = levelLoader;
             _gameManager = gameManager;
-            _levelStore = levelStore;
 
             _levelLoader.AddLevel(this);
         }
@@ -38,7 +35,6 @@ namespace game.scene.level
             Environment.Init();
             Grid.Init();
 
-            _levelStore.Level = this;
             _gameManager.StartLevel(this);
         }
     }

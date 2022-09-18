@@ -3,21 +3,21 @@ using UnityEngine;
 
 namespace game.character.characters.enemy
 {
-    public class EnemyStore : MonoBehaviour, ICharacterStore<ICharacter>
+    public class EnemyStore : MonoBehaviour, ICharacterStore<Enemy>
     {
         private readonly List<Enemy> _enemies = new();
 
-        public List<ICharacter> GetAll()
+        public List<Enemy> GetAll()
         {
-            return _enemies.ConvertAll<ICharacter>(enemy => enemy);
+            return _enemies;
         }
 
-        public void Add(ICharacter enemy)
+        public void Add(Enemy enemy)
         {
-            _enemies.Add((Enemy) enemy);
+            _enemies.Add(enemy);
         }
         
-        public void Remove(ICharacter enemy)
+        public void Remove(Enemy enemy)
         {
             _enemies.Remove((Enemy) enemy);
         }

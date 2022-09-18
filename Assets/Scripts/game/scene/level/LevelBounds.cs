@@ -14,6 +14,8 @@ namespace game.scene.level
 
         public Vector2 Center { get; private set; }
 
+        public Vector2 Size { get; private set; }
+
         public float CellSize { get; private set; }
 
         public LevelBounds(Tilemap tilemapGround)
@@ -27,10 +29,12 @@ namespace game.scene.level
             var bounds = border.GetComponent<Renderer>().bounds;
 
 
-            TopLeft = new Vector3(bounds.min.x, bounds.max.y);
-            BottomRight = new Vector3(bounds.max.x, bounds.min.y);
+            TopLeft = new Vector2(bounds.min.x, bounds.max.y);
+            BottomRight = new Vector2(bounds.max.x, bounds.min.y);
             CellSize = 1;
             Center = new Vector2((TopLeft.x + BottomRight.x) / 2, (TopLeft.y + BottomRight.y) / 2);
+
+            Size = new Vector2(bounds.size.x, bounds.size.y);
         }
     }
 }
