@@ -1,4 +1,5 @@
 ﻿using game.scene.grid.path;
+using game.scene.level;
 using System.Collections.Generic;
 using UnityEngine;
 using utils;
@@ -9,15 +10,15 @@ namespace game.scene.grid
     {
         private Mesh _mesh;
 
-        private GridGraph<PathNode> _graph;
-
         private PathMovement _pathMovement;
 
         private List<Vector2> _path;
 
-        public void Construct(GridGraph<PathNode> graph)
+        private Level _level;
+
+        public void SetLevel(Level level)
         {
-            _graph = graph;
+            _level = level;
         }
 
         public void SetPathMovement(PathMovement pathMovement)
@@ -28,6 +29,8 @@ namespace game.scene.grid
         public void SetPath(List<Vector2> path)
         {
             _path = path;
+
+            UpdateMesh(path);
         }
 
         private void Awake()
@@ -35,18 +38,28 @@ namespace game.scene.grid
             _mesh = new Mesh();
             GetComponent<MeshFilter>().mesh = _mesh;
 
-            InvokeRepeating(nameof(UpdateMesh), 0.5f, 0.5f);
+            InvokeRepeating(nameof(UpdatePathMovement), 0.5f, 0.5f);
         }
 
-        private void UpdateMesh()
+        private void UpdatePathMovement()
         {
-            var grid = _graph;
+            if (_pathMovement == null)
+            {
+                return;
+            }
+
+            var path = _pathMovement.GetPath();
+            UpdateMesh(path);
+        }
+
+        private void UpdateMesh(List<Vector2> path)
+        {
+            var grid = _level.Graph;
             MeshUtils.CreateEmptyMeshArrays(grid.Width * grid.Height, out Vector3[] vertices, out Vector2[] uv, out int[] triangles);
 
-            var path = _path != null ? _path : _pathMovement.GetPath(); 
             if (path != null)
             {
-                CreatePath(vertices, uv, triangles);
+                CreatePath(vertices, uv, triangles, path);
             }
 
             _mesh.vertices = vertices;
@@ -54,26 +67,22 @@ namespace game.scene.grid
             _mesh.triangles = triangles;
         }
 
-        private void CreatePath(Vector3[] vertices, Vector2[] uv, int[] triangles)
+        private void CreatePath(Vector3[] vertices, Vector2[] uv, int[] triangles, List<Vector2> path)
         {
-            var grid = _graph;
+            var grid = _level.Graph;
             var index = 0;
             Vector2 quadSize = new Vector3(1, 1) * grid.CellSize;
 
-
-            if (_pathMovement.GetPath() != null)
+            path.ForEach((pos) =>
             {
-                _pathMovement.GetPath().ForEach((pos) =>
-                {
-                    var pos3d = new Vector3(pos.x, pos.y, -0.5f);
+                var pos3d = new Vector3(pos.x, pos.y, -0.5f);
 
-                    var uvVal = new Vector2(2f, 0);
+                var uvVal = new Vector2(2f, 0);
 
-                    MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, pos3d, 0f, quadSize, 0.1f, uvVal, uvVal);
+                MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, pos3d, 0f, quadSize, 0.1f, uvVal, uvVal);
 
-                    index++;
-                });
-            }
+                index++;
+            });
         }
     }
 }

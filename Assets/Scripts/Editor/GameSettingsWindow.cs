@@ -65,7 +65,8 @@ public class GameSettingsWindow : EditorWindow
         {
             var pathFindingDebug = FindObjectOfType<PathFindingDebug>();
             var selectedLevelName = Levels.ReverseNameMap[levelStore.GetLevelNames()[selectedLevelIndex]];
-            pathFindingDebug.RenderPath(levelStore.GetLevelByName(selectedLevelName).Graph);
+            var level = levelStore.GetLevelByName(selectedLevelName);
+            pathFindingDebug.RenderPath(level);
         }
     }
 

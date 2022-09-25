@@ -21,7 +21,7 @@ namespace game.character.enemy
         public void Apply(Enemy enemy)
         {
             var pathVisualizer = Instantiate(pathVisualizerPrefab, new Vector3(0, 0, 0), transform.rotation);
-            pathVisualizer.Construct(enemy.Level.Graph);
+            pathVisualizer.SetLevel(enemy.Level);
             pathVisualizer.SetPathMovement((PathMovement)enemy.Movement);
             enemy.AddDestroyable(pathVisualizer.gameObject);
         }

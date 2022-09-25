@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 
 namespace game.scene.level
 {
+    public class LevelLoadedEventArgs : EventArgs
+    {
+        public Scene Scene { get; set; }
+
+        public Vector2 TranslateScene { get; set; }
+    }
+
     public class LevelLoader : MonoBehaviour
     {
         private Injector _injector;
@@ -14,7 +21,9 @@ namespace game.scene.level
         private List<Level> _levels = new();
         
         private HashSet<LevelName> _loadingLevels = new();
-        
+
+        public event EventHandler<LevelLoadedEventArgs> LevelLoadedEventHandler;
+
         public Level ActiveLevel { set; get; }
 
         public void Construct(Injector injector)
@@ -39,14 +48,17 @@ namespace game.scene.level
             LoadLevel("Level2", new Vector2(28, 0));
         }
 
-        private void OnLevelLoaded(Scene scene)
+        private void OnLevelLoaded(Scene scene, Vector2 translate)
         {
-            var gameObject = Array.Find(scene.GetRootGameObjects(), (obj) =>
-            {
-                return obj.name == LevelInjector.UnityName;
-            });
 
-            gameObject.GetComponent<LevelInjector>().Construct(_injector);
+            EventHandler<LevelLoadedEventArgs> handler = LevelLoadedEventHandler;
+            if (handler != null)
+            {
+                var eventArgs = new LevelLoadedEventArgs();
+                eventArgs.Scene = scene;
+                eventArgs.TranslateScene = translate;
+                handler(this, eventArgs);
+            }
         }
 
         private void LoadLevel(string levelName, Vector2 translate)
@@ -55,15 +67,7 @@ namespace game.scene.level
 
             operation.completed += (s) =>
             {
-                var rootObjects = SceneManager.GetSceneByName(levelName).GetRootGameObjects();
-                var root = Array.Find(rootObjects, (gameObject) =>
-                {
-                    return gameObject.name == "Root";
-                });
-
-                root.transform.Translate(new Vector3(translate.x, translate.y, 0));
-
-                OnLevelLoaded(SceneManager.GetSceneByName(levelName));
+                OnLevelLoaded(SceneManager.GetSceneByName(levelName), translate);
             };
         }
 

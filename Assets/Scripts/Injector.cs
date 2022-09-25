@@ -10,6 +10,10 @@ using UnityEngine;
 using game.tool.weapon;
 using game.character.enemy;
 using gui;
+using Assets.Scripts.debug;
+using UnityEngine.SceneManagement;
+using System;
+using Environment = game.scene.level.Environment;
 
 public class Injector : MonoBehaviour
 {    
@@ -64,7 +68,8 @@ public class Injector : MonoBehaviour
 
     // State
     [SerializeField] private StateFactory stateFactory;
-    
+
+
     private void Awake()
     {
         stateFactory.Construct(playerStore);
@@ -86,6 +91,34 @@ public class Injector : MonoBehaviour
         panelManager.startGamePanel = startGamePanel;
         
         levelLoader.Construct(this);
+        levelLoader.LevelLoadedEventHandler += LevelLoaded;
         levelLoader.Load("Level");
+    }
+
+    private void LevelLoaded(object sender, LevelLoadedEventArgs e)
+    {
+        InjectLevel(e.Scene, e.TranslateScene);
+    }
+
+    private void InjectLevel(Scene scene, Vector2 translate)
+    {
+        var levelInjectorGameObject = Array.Find(scene.GetRootGameObjects(), (obj) => obj.name == LevelInjector.UnityName);
+        var rootGameObject = Array.Find(scene.GetRootGameObjects(), (gameObject) => gameObject.name == "Root");
+
+        var levelInjector = levelInjectorGameObject.GetComponent<LevelInjector>();
+        
+
+        var level = levelInjector.level;
+        level.RootGameObject = rootGameObject;
+        level.Construct(levelInjector.border, levelLoader, gameManager, levelInjector.gridVisualizer);
+
+        rootGameObject.transform.Translate(new Vector3(translate.x, translate.y, 0));
+
+        LevelStore.AddLevel(level);
+        LevelStore.ActiveLevel = level;
+
+        level.LevelBounds = new LevelBounds(levelInjector.tilemapGround);
+
+        level.Environment = new Environment(levelInjector.blocks, levelInjector.tilemapObjects, level.LevelBounds);
     }
 }

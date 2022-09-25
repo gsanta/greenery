@@ -15,6 +15,8 @@ namespace game.scene.level
 
         public GridGraph<PathNode> Graph { get; set; }
 
+        public GameObject RootGameObject { get; set; }
+
         private GridFactory _gridFactory;
 
         private LevelLoader _levelLoader;

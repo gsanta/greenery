@@ -12,7 +12,7 @@ namespace game.scene.level
 
         public Vector3 BottomRight { get; private set; }
 
-        public Vector2 Center { get; private set; }
+        public Vector3 Center { get; private set; }
 
         public Vector2 Size { get; private set; }
 
@@ -32,7 +32,7 @@ namespace game.scene.level
             TopLeft = new Vector2(bounds.min.x, bounds.max.y);
             BottomRight = new Vector2(bounds.max.x, bounds.min.y);
             CellSize = 1;
-            Center = new Vector2((TopLeft.x + BottomRight.x) / 2, (TopLeft.y + BottomRight.y) / 2);
+            Center = new Vector3((TopLeft.x + BottomRight.x) / 2, (TopLeft.y + BottomRight.y) / 2, bounds.center.y);
 
             Size = new Vector2(bounds.size.x, bounds.size.y);
         }
