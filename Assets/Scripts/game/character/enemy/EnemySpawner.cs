@@ -14,11 +14,13 @@ namespace game.character.characters.enemy
 
         private LevelStore _levelStore;
 
+        [SerializeField] private Transform manualSpawnPoint;
+
         public Vector2 editorSpawnPos;
 
         public bool IsActive { set; private get; }
 
-        public bool IsPausedInInspector { set; get; }
+        public bool IsManualSpawning { set; get; }
 
         public CharacterType CharacterType { get; set; } = CharacterType.Beetle; 
 
@@ -33,7 +35,7 @@ namespace game.character.characters.enemy
         
         private void Update()
         {
-            if (!IsActive || IsPausedInInspector || _enemyStore.Count() > 0 || isSpawning)
+            if (!IsActive || IsManualSpawning || _enemyStore.Count() > 0 || isSpawning)
             {
                 return;
             }
@@ -65,9 +67,9 @@ namespace game.character.characters.enemy
             return types[randomIndex];
         }
 
-        public void SpawnAt(CharacterType type, Vector3 pos)
+        public void SpawnAtManualPosition(CharacterType type)
         {
-            StartCoroutine(Spawn(type, pos));
+            StartCoroutine(Spawn(type, manualSpawnPoint.transform.position));
         }
 
         private IEnumerator Spawn(CharacterType type, Vector3 spawnPos)

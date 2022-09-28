@@ -1,3 +1,4 @@
+using game.character.characters.enemy;
 using game.character.player;
 using GUI;
 using JetBrains.Annotations;
@@ -26,11 +27,6 @@ namespace game.character.ability.health
             if (_healthBar != null) _healthBar.
                     SetMaxHealth(_maxHealth);
             SetHealth(stats.Life);
-        }
-        
-        public void ResetMaxHealth()
-        {
-            SetHealth(_maxHealth);
         }
         
         public void Decrease(int amount)

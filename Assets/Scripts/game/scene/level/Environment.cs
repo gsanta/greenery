@@ -71,23 +71,26 @@ namespace game.scene.level
 
             foreach (Transform child in _blocksContainer)
             {
-                var bounds = child.GetComponent<Collider2D>().bounds;
-
-                var bottomLeftWorld = new Vector2(bounds.min.x, bounds.min.y);
-                var topRightWorld = new Vector2(bounds.max.x, bounds.max.y);
-                var bottomLeftGrid = graph.GetGridPosition(bottomLeftWorld);
-                var topRightGrid = graph.GetGridPosition(topRightWorld);
-
-                if (!bottomLeftGrid.HasValue || !topRightGrid.HasValue)
+                if (child.gameObject.activeInHierarchy)
                 {
-                    break;
-                }
+                    var bounds = child.GetComponent<Collider2D>().bounds;
 
-                for (var i = bottomLeftGrid.Value.x; i <= topRightGrid.Value.x; i++)
-                {
-                    for (var j = bottomLeftGrid.Value.y; j <= topRightGrid.Value.y; j++)
+                    var bottomLeftWorld = new Vector2(bounds.min.x, bounds.min.y);
+                    var topRightWorld = new Vector2(bounds.max.x, bounds.max.y);
+                    var bottomLeftGrid = graph.GetGridPosition(bottomLeftWorld);
+                    var topRightGrid = graph.GetGridPosition(topRightWorld);
+
+                    if (!bottomLeftGrid.HasValue || !topRightGrid.HasValue)
                     {
-                        graph.GetNode(i, j).IsWalkable = false;
+                        break;
+                    }
+
+                    for (var i = bottomLeftGrid.Value.x; i <= topRightGrid.Value.x; i++)
+                    {
+                        for (var j = bottomLeftGrid.Value.y; j <= topRightGrid.Value.y; j++)
+                        {
+                            graph.GetNode(i, j).IsWalkable = false;
+                        }
                     }
                 }
             }

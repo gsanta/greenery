@@ -43,6 +43,7 @@ namespace game.scene.grid.path
             IsTargetReached = false;
             _animator = GetComponent<Animator>();
             _rigidBody = GetComponent<Rigidbody2D>();
+            _gridGraph = gridGraph;
         }
 
         public void PauseUntil(float time)
@@ -58,7 +59,7 @@ namespace game.scene.grid.path
        
         public void MoveTo(Vector2 targetPosition)
         {
-            if (_targetPosition != targetPosition)
+            if (_targetPosition != targetPosition || _pathVectorList == null)
             {
                 FinishMovement();
                 SetTargetPosition(targetPosition);

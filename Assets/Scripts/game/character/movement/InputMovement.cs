@@ -1,4 +1,5 @@
-﻿using game.character.movement;
+﻿
+using game.character.movement;
 using game.character.utils;
 using UnityEngine;
 

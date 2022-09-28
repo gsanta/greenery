@@ -1,16 +1,18 @@
 ﻿
-using Assets.Scripts.debug;
 using game.character.characters.enemy;
 using game.character.enemy;
-using game.scene.level;
 using UnityEditor;
 using UnityEngine;
-using static Codice.Client.BaseCommands.Import.Commit;
 
 public class GameSettingsWindow : EditorWindow
 {
+    private LevelDebug _levelDebug;
 
-    int selectedLevelIndex = 0;
+    private EnemyDebug _enemyDebug;
+
+    private EnemySpawner enemySpawner;
+
+    private bool isEnemySpawnPointOn = false;
 
     [MenuItem("Window/Game Settings")]
     public static void ShowWindow()
@@ -31,6 +33,8 @@ public class GameSettingsWindow : EditorWindow
         GUILayout.Space(10);
 
         RenderLevelSelect();
+
+        RenderEnemySpawnPosition();
     }
 
     private void RenderFovToggle()
@@ -57,17 +61,14 @@ public class GameSettingsWindow : EditorWindow
 
     private void RenderLevelSelect()
     {
-        var levelStore = FindObjectOfType<LevelStore>();
-
-        selectedLevelIndex = EditorGUILayout.Popup("Level", selectedLevelIndex, levelStore.GetLevelNames());
-
-        if (GUILayout.Button("Render debug path"))
+        if (!_levelDebug)
         {
-            var pathFindingDebug = FindObjectOfType<PathFindingDebug>();
-            var selectedLevelName = Levels.ReverseNameMap[levelStore.GetLevelNames()[selectedLevelIndex]];
-            var level = levelStore.GetLevelByName(selectedLevelName);
-            pathFindingDebug.RenderPath(level);
+            _levelDebug = FindObjectOfType<LevelDebug>();
         }
+
+        if (!_levelDebug) { return; }
+
+        _levelDebug.RenderGui();
     }
 
     private void HandleDecoratorChange(string decoratorName, bool isOn)
@@ -84,6 +85,42 @@ public class GameSettingsWindow : EditorWindow
         {
             var enemyFactory = FindObjectOfType<EnemyFactory>();
             enemyFactory.RemoveDecorator(decoratorName);
+        }
+    }
+
+    private void RenderEnemySpawnPosition()
+    {
+        if (!_enemyDebug)
+        {
+            _enemyDebug = FindObjectOfType<EnemyDebug>();
+        }
+
+        if (!enemySpawner)
+        {
+            enemySpawner = FindObjectOfType<EnemySpawner>();
+        }
+
+        GUILayout.Space(10);
+
+        EditorGUI.DrawRect(EditorGUILayout.GetControlRect(false, 1), Color.gray);
+
+        GUILayout.Space(10);
+
+        EditorGUILayout.LabelField("Enemy", new GUIStyle()
+        {
+            normal =
+            {
+                textColor = Color.white
+            },
+            fontStyle = FontStyle.Bold
+        });
+
+        _enemyDebug.RenderGui();
+        isEnemySpawnPointOn = GUILayout.Toggle(isEnemySpawnPointOn, "Manual spawn");
+
+        if (enemySpawner != null)
+        {
+                enemySpawner.IsManualSpawning = isEnemySpawnPointOn;
         }
     }
 }
