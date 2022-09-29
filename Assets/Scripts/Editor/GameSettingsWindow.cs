@@ -95,32 +95,6 @@ public class GameSettingsWindow : EditorWindow
             _enemyDebug = FindObjectOfType<EnemyDebug>();
         }
 
-        if (!enemySpawner)
-        {
-            enemySpawner = FindObjectOfType<EnemySpawner>();
-        }
-
-        GUILayout.Space(10);
-
-        EditorGUI.DrawRect(EditorGUILayout.GetControlRect(false, 1), Color.gray);
-
-        GUILayout.Space(10);
-
-        EditorGUILayout.LabelField("Enemy", new GUIStyle()
-        {
-            normal =
-            {
-                textColor = Color.white
-            },
-            fontStyle = FontStyle.Bold
-        });
-
         _enemyDebug.RenderGui();
-        isEnemySpawnPointOn = GUILayout.Toggle(isEnemySpawnPointOn, "Manual spawn");
-
-        if (enemySpawner != null)
-        {
-                enemySpawner.IsManualSpawning = isEnemySpawnPointOn;
-        }
     }
 }

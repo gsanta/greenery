@@ -54,7 +54,7 @@ namespace game.scene.grid
 
         private void UpdateMesh(List<Vector2> path)
         {
-            var grid = _level.Graph;
+            var grid = _level.Grid;
             MeshUtils.CreateEmptyMeshArrays(grid.Width * grid.Height, out Vector3[] vertices, out Vector2[] uv, out int[] triangles);
 
             if (path != null)
@@ -69,7 +69,7 @@ namespace game.scene.grid
 
         private void CreatePath(Vector3[] vertices, Vector2[] uv, int[] triangles, List<Vector2> path)
         {
-            var grid = _level.Graph;
+            var grid = _level.Grid;
             var index = 0;
             Vector2 quadSize = new Vector3(1, 1) * grid.CellSize;
 

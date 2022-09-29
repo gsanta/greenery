@@ -7,43 +7,33 @@ namespace game.scene.level
     {
         [SerializeField] public LevelName levelName;
 
-        private GameObject _border;
+        public EnvironmentData EnvironmentData { get; set; } 
 
-        public LevelBounds LevelBounds { get; set; }
-
-        public Environment Environment { get; set; }
-
-        public GridGraph<PathNode> Graph { get; set; }
+        public GridGraph<PathNode> Grid { get; set; }
 
         public GameObject RootGameObject { get; set; }
 
         private GridFactory _gridFactory;
 
-        private LevelLoader _levelLoader;
-
         private GameManager _gameManager;
 
         public GridVisualizer gridVisualizer;
 
-        public void Construct(GameObject border, LevelLoader levelLoader, GameManager gameManager, GridVisualizer gridVisualizer)
+        public void Construct(GameManager gameManager, GridVisualizer gridVisualizer)
         {
-            _border = border;
-            _levelLoader = levelLoader;
             _gameManager = gameManager;
             this.gridVisualizer = gridVisualizer;
-
-            _gridFactory = new GridFactory();
-
-            _levelLoader.AddLevel(this);
         }
 
         private void Start()
         {
-            LevelBounds.Init(_border);
-            Environment.Init();
+            EnvironmentData.Init();
 
-            Graph = _gridFactory.CreateGrid(LevelBounds, Environment);
-            gridVisualizer.Construct(Graph);
+            _gridFactory = new GridFactory(EnvironmentData);
+
+            Grid = _gridFactory.CreateGrid();
+
+            gridVisualizer.Construct(Grid);
 
             _gameManager.StartLevel(this);
         }

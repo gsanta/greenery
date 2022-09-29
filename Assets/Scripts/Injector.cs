@@ -10,10 +10,8 @@ using UnityEngine;
 using game.tool.weapon;
 using game.character.enemy;
 using gui;
-using Assets.Scripts.debug;
 using UnityEngine.SceneManagement;
 using System;
-using Environment = game.scene.level.Environment;
 
 public class Injector : MonoBehaviour
 {    
@@ -110,15 +108,20 @@ public class Injector : MonoBehaviour
 
         var level = levelInjector.level;
         level.RootGameObject = rootGameObject;
-        level.Construct(levelInjector.border, levelLoader, gameManager, levelInjector.gridVisualizer);
+
+
+        level.Construct(gameManager, levelInjector.gridVisualizer);
+
+        levelLoader.AddLevel(level);
 
         rootGameObject.transform.Translate(new Vector3(translate.x, translate.y, 0));
 
         LevelStore.AddLevel(level);
-        LevelStore.ActiveLevel = level;
+        if (!LevelStore.ActiveLevel)
+        {
+            LevelStore.ActiveLevel = level;
+        }
 
-        level.LevelBounds = new LevelBounds(levelInjector.tilemapGround);
-
-        level.Environment = new Environment(levelInjector.blocks, levelInjector.tilemapObjects, level.LevelBounds);
+        level.EnvironmentData = new EnvironmentData(levelInjector.border, levelInjector.tilemapObjects, levelInjector.blocks);
     }
 }

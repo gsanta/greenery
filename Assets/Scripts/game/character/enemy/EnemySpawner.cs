@@ -35,7 +35,7 @@ namespace game.character.characters.enemy
         
         private void Update()
         {
-            if (!IsActive || IsManualSpawning || _enemyStore.Count() > 0 || isSpawning)
+            if (!IsActive || _levelStore.ActiveLevel.Grid == null || IsManualSpawning || _enemyStore.Count() > 0 || isSpawning)
             {
                 return;
             }
@@ -53,8 +53,8 @@ namespace game.character.characters.enemy
         {
             var level = _levelStore.ActiveLevel;
 
-            var gridPos = level.Graph.GetRandomGridPosition();
-            var worldPos = level.Graph.GetWorldPosition(gridPos.x, gridPos.y);
+            var gridPos = level.Grid.GetRandomGridPosition();
+            var worldPos = level.Grid.GetWorldPosition(gridPos.x, gridPos.y);
 
             return worldPos;
         }

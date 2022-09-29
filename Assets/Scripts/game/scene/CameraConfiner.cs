@@ -24,8 +24,8 @@ namespace Assets.Scripts.game.scene
 
         public void SetDimensions(Level level)
         {
-            var topLeft = level.LevelBounds.TopLeft;
-            var bottomRight = level.LevelBounds.BottomRight;
+            var topLeft = level.EnvironmentData.TopLeft;
+            var bottomRight = level.EnvironmentData.BottomRight;
 
             _collider.enabled = false;
             _collider.pathCount = 1;

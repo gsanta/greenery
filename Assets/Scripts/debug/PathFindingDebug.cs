@@ -20,12 +20,12 @@ namespace Assets.Scripts.debug
         public void RenderPath(Level level)
         {
 
-            var levelOffset = level.LevelBounds.Center;
+            var levelOffset = level.EnvironmentData.Center;
             var fromPos = from.transform.position - levelOffset;
             var toPos = to.transform.position - levelOffset;
 
             var pathNodeList = new List<PathNode>();
-            var path = _pathFinding.FindPath(level.Graph, fromPos, toPos, out pathNodeList);
+            var path = _pathFinding.FindPath(level.Grid, fromPos, toPos, out pathNodeList);
 
             if (path != null)
             {

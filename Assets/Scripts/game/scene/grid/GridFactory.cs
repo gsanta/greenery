@@ -1,19 +1,40 @@
 using game.scene.level;
+using game.scene.level.obstacle;
+using System.Collections.Generic;
 
 namespace game.scene.grid
 {
     public class GridFactory
     {
-        public GridGraph<PathNode> CreateGrid(LevelBounds levelBounds, Environment environment)
-        {
-            var topLeft = levelBounds.TopLeft;
-            var bottomRight = levelBounds.BottomRight;
-            var cellSize = levelBounds.CellSize;
-            
-            var graph = GridGraph<PathNode>.CreateFromWorldSize(topLeft, bottomRight, (g, x, y) => new PathNode(x, y), cellSize);
-            environment.SetUnWalkable(graph);
+        private List<IObstacleCalculator> _obstacleCalcs;
 
-            return graph;
+        private EnvironmentData _environmentData;
+
+        public GridFactory(EnvironmentData environmentData)
+        {
+            this._environmentData = environmentData;
+
+            _obstacleCalcs = new()
+            {
+                new TileObstacleCalculator(environmentData),
+                new ObjectObstacleCalculator(environmentData)
+            };
+        }
+
+        public GridGraph<PathNode> CreateGrid()
+        {
+            var topLeft = _environmentData.TopLeft;
+            var bottomRight = _environmentData.BottomRight;
+            var cellSize = _environmentData.GridSize;
+            
+            var grid = GridGraph<PathNode>.CreateFromWorldSize(topLeft, bottomRight, (g, x, y) => new PathNode(x, y), cellSize);
+            
+            foreach (var obstacleCalc in _obstacleCalcs)
+            {
+                obstacleCalc.Calculate(grid);
+            }
+
+            return grid;
         }
     }
 }
