@@ -1,5 +1,4 @@
 using game.scene.level;
-using System;
 using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -53,8 +52,8 @@ namespace game.character.characters.enemy
         {
             var level = _levelStore.ActiveLevel;
 
-            var gridPos = level.Grid.GetRandomGridPosition();
-            var worldPos = level.Grid.GetWorldPosition(gridPos.x, gridPos.y);
+            var node = level.Grid.GetRandomNode();
+            var worldPos = level.Grid.GetWorldPosition(node.X, node.Y);
 
             return worldPos;
         }
@@ -83,4 +82,5 @@ namespace game.character.characters.enemy
             isSpawning = false;
         }
     }
+
 }

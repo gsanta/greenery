@@ -8,11 +8,11 @@ namespace game.scene.grid
 
         private Mesh _mesh;
 
-        private GridGraph<PathNode> _gridGraph;
+        private GridGraph _gridGraph;
 
         private bool isVisualize = false;
 
-        public void Construct(GridGraph<PathNode> gridGraph)
+        public void Construct(GridGraph gridGraph)
         {
             _gridGraph = gridGraph;
         }
@@ -57,7 +57,7 @@ namespace game.scene.grid
                 for (int y = 0; y < _gridGraph.Height; y++)
                 {
                     int index = y * _gridGraph.Width + x;
-                    Vector2 quadSize = new Vector3(1, 1) * _gridGraph.CellSize;
+                    Vector2 quadSize = new Vector3(1, 1) * _gridGraph.CellSize / 2.0f * 0.9f;
 
                     var node = _gridGraph.GetNode(x, y);
 
@@ -71,7 +71,7 @@ namespace game.scene.grid
                         uvVal = new Vector2(0.5f, 0.5f);
                     }
 
-                    MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, pos3d, 0f, quadSize, 0.1f, uvVal, uvVal);
+                    MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, pos3d, quadSize, uvVal, uvVal);
                 }
             }
 

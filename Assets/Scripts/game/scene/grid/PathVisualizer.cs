@@ -1,4 +1,5 @@
-﻿using game.scene.grid.path;
+﻿using game.character;
+using game.scene.grid.path;
 using game.scene.level;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,20 +11,33 @@ namespace game.scene.grid
     {
         private Mesh _mesh;
 
-        private PathMovement _pathMovement;
-
         private List<Vector2> _path;
 
         private Level _level;
+
+        private ICharacter _character;
+
+        private LineRenderer _lineRenderer;
+
+        private void Start()
+        {
+            _lineRenderer = GetComponent<LineRenderer>();
+            _lineRenderer.positionCount = 2;
+            _lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+            _lineRenderer.startColor = Color.green;
+            _lineRenderer.endColor = Color.green;
+            _lineRenderer.startWidth = 0.1f;
+            _lineRenderer.endWidth = 0.1f;
+        }
 
         public void SetLevel(Level level)
         {
             _level = level;
         }
 
-        public void SetPathMovement(PathMovement pathMovement)
+        public void SetPathMovement(ICharacter character)
         {
-            _pathMovement = pathMovement;
+            _character = character;
         }
 
         public void SetPath(List<Vector2> path)
@@ -43,13 +57,15 @@ namespace game.scene.grid
 
         private void UpdatePathMovement()
         {
-            if (_pathMovement == null)
+            if (_character == null)
             {
                 return;
             }
 
-            var path = _pathMovement.GetPath();
+            var path = _character.Movement.GetPath();
             UpdateMesh(path);
+            UpdateDirection(_character);
+
         }
 
         private void UpdateMesh(List<Vector2> path)
@@ -71,7 +87,7 @@ namespace game.scene.grid
         {
             var grid = _level.Grid;
             var index = 0;
-            Vector2 quadSize = new Vector3(1, 1) * grid.CellSize;
+            Vector2 quadSize = new Vector3(1, 1) * grid.CellSize / 2.0f;
 
             path.ForEach((pos) =>
             {
@@ -79,10 +95,23 @@ namespace game.scene.grid
 
                 var uvVal = new Vector2(2f, 0);
 
-                MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, pos3d, 0f, quadSize, 0.1f, uvVal, uvVal);
+                MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, pos3d, quadSize, uvVal, uvVal);
 
                 index++;
             });
+        }
+
+        private void UpdateDirection(ICharacter character)
+        {
+            if (character.Movement.GetPath() == null || character.Movement.GetPath().Count == 0)
+            {
+                return;
+            }
+
+            var startPos = character.GetPosition();
+            var endPos = character.Movement.GetPath()[0];
+            _lineRenderer.SetPosition(0, new Vector3(startPos.x, startPos.y, 0));
+            _lineRenderer.SetPosition(1, new Vector3(endPos.x, endPos.y, 0));
         }
     }
 }

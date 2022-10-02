@@ -1,6 +1,7 @@
 ﻿
 using game.character.movement;
 using game.character.utils;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.game.character.characters.player
@@ -85,6 +86,11 @@ namespace Assets.Scripts.game.character.characters.player
         public Direction GetDirection()
         {
             return _moveDirection;
+        }
+
+        public List<Vector2> GetPath()
+        {
+            return new List<Vector2>();
         }
     }
 }

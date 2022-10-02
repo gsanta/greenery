@@ -18,11 +18,19 @@ namespace game.character.enemy
 
         public string Name => "Path Visual";
 
+        private LineRenderer lineRenderer;
+
+        private void Start()
+        {
+            lineRenderer = gameObject.AddComponent<LineRenderer>();
+            lineRenderer.positionCount = 2;
+        }
+
         public void Apply(Enemy enemy)
         {
             var pathVisualizer = Instantiate(pathVisualizerPrefab, new Vector3(0, 0, 0), transform.rotation);
             pathVisualizer.SetLevel(enemy.Level);
-            pathVisualizer.SetPathMovement((PathMovement)enemy.Movement);
+            pathVisualizer.SetPathMovement(enemy);
             enemy.AddDestroyable(pathVisualizer.gameObject);
         }
 

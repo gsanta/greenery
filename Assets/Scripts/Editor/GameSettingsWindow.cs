@@ -10,9 +10,6 @@ public class GameSettingsWindow : EditorWindow
 
     private EnemyDebug _enemyDebug;
 
-    private EnemySpawner enemySpawner;
-
-    private bool isEnemySpawnPointOn = false;
 
     [MenuItem("Window/Game Settings")]
     public static void ShowWindow()

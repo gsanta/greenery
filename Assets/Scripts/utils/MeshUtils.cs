@@ -23,7 +23,7 @@ namespace utils
             triangles = new int[6 * quadCount];
         }
 
-		public static void AddToMeshArrays(Vector3[] vertices, Vector2[] uvs, int[] triangles, int index, Vector3 pos, float rot, Vector3 baseSize, float offset, Vector2 uv00, Vector2 uv11)
+		public static void AddToMeshArrays(Vector3[] vertices, Vector2[] uvs, int[] triangles, int index, Vector3 pos, Vector3 baseSize, Vector2 uv00, Vector2 uv11)
 		{
 			//Relocate vertices
 			int vIndex = index * 4;
@@ -32,23 +32,11 @@ namespace utils
 			int vIndex2 = vIndex + 2;
 			int vIndex3 = vIndex + 3;
 
-			var halfOffset = offset / 2.0f;
 
-			bool skewed = baseSize.x != baseSize.y;
-			if (skewed)
-			{
-				vertices[vIndex0] = pos + GetQuaternionEuler(rot) * new Vector3(-baseSize.x, baseSize.y);
-				vertices[vIndex1] = pos + GetQuaternionEuler(rot) * new Vector3(-baseSize.x, -baseSize.y);
-				vertices[vIndex2] = pos + GetQuaternionEuler(rot) * new Vector3(baseSize.x, -baseSize.y);
-				vertices[vIndex3] = pos + GetQuaternionEuler(rot) * baseSize;
-			}
-			else
-			{
-				vertices[vIndex0] = pos + new Vector3(halfOffset, baseSize.y - halfOffset); ; // GetQuaternionEuler(rot - 270) * baseSize;
-				vertices[vIndex1] = pos + new Vector3(halfOffset, halfOffset); //  GetQuaternionEuler(rot - 180) * baseSize;
-				vertices[vIndex2] = pos + new Vector3(baseSize.x - halfOffset, halfOffset);  //GetQuaternionEuler(rot - 90) * baseSize;
-				vertices[vIndex3] = pos + new Vector3(baseSize.x - halfOffset, baseSize.y - halfOffset); //GetQuaternionEuler(rot - 0) * baseSize;
-			}
+			vertices[vIndex0] = pos + new Vector3(-baseSize.x, baseSize.y); ; // GetQuaternionEuler(rot - 270) * baseSize;
+			vertices[vIndex1] = pos + new Vector3(-baseSize.x, -baseSize.y); //  GetQuaternionEuler(rot - 180) * baseSize;
+			vertices[vIndex2] = pos + new Vector3(baseSize.x, -baseSize.y);  //GetQuaternionEuler(rot - 90) * baseSize;
+			vertices[vIndex3] = pos + baseSize; //GetQuaternionEuler(rot - 0) * baseSize;
 
 			//Relocate UVs
 			uvs[vIndex0] = new Vector2(uv00.x, uv11.y);

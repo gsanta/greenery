@@ -13,12 +13,12 @@ namespace game.scene.level.obstacle
             _environmentData = environmentData;
         }
 
-        public void Calculate(GridGraph<PathNode> grid)
+        public void Calculate(GridGraph grid)
         {
             var container = _environmentData.ObjectsContainer;
             foreach (Transform child in container)
             {
-                if (child.gameObject.activeInHierarchy)
+                if (!child.gameObject.activeInHierarchy)
                 {
                     break;
                 }

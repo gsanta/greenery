@@ -10,7 +10,7 @@ namespace Tests.EditMode.AI.pathFinding
         [Test]
         public void FindPath_ValidPathExists_ReturnsPath()
         {
-            var grid = new GridGraph<PathNode>(4, 5, (grid, x, y) => new PathNode(x, y), 2f);
+            var grid = new GridGraph(4, 5, (grid, x, y) => new PathNode(x, y), 2f);
             grid.GetNode(1, 0).IsWalkable = false;
             grid.GetNode(1, 1).IsWalkable = false;
             grid.GetNode(2, 3).IsWalkable = false;
@@ -53,7 +53,7 @@ namespace Tests.EditMode.AI.pathFinding
         [Test]
         public void FindPath_NoValidPath_ReturnsNull()
         {
-            var grid = new GridGraph<PathNode>(4, 5, (grid, x, y) => new PathNode(x, y), 2f);
+            var grid = new GridGraph(4, 5, (grid, x, y) => new PathNode(x, y), 2f);
             grid.GetNode(1, 0).IsWalkable = false;
             grid.GetNode(1, 1).IsWalkable = false;
             grid.GetNode(1, 2).IsWalkable = false;

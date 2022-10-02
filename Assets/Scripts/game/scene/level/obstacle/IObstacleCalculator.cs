@@ -5,6 +5,6 @@ namespace game.scene.level.obstacle
 {
     public interface IObstacleCalculator
     {
-        void Calculate(GridGraph<PathNode> grid);
+        void Calculate(GridGraph grid);
     }
 }

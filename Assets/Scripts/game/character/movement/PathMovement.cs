@@ -14,13 +14,13 @@ namespace game.scene.grid.path
         
         private int _currentPathIndex = 0;
 
-        private const float Speed = 6f;
+        [SerializeField] private float speed = 6f;
 
         private ICharacter _character;
 
         private PathFinding _pathFinding;
 
-        private GridGraph<PathNode> _gridGraph;
+        private GridGraph _gridGraph;
 
         private static readonly int HorizontalMovement = Animator.StringToHash("horizontalMovement");
         
@@ -36,7 +36,7 @@ namespace game.scene.grid.path
 
         public bool IsTargetReached { get; private set; }
 
-        public void Construct(GridGraph<PathNode> gridGraph, ICharacter character)
+        public void Construct(GridGraph gridGraph, ICharacter character)
         {
             _pathFinding = new PathFinding();
             _character = character;
@@ -91,7 +91,7 @@ namespace game.scene.grid.path
                 {
                     var moveDir = (targetPosition - position).normalized;
 
-                    _rigidBody.AddForce(moveDir * Speed);
+                    _rigidBody.AddForce(moveDir * speed);
 
 
                     //_animator.SetFloat(HorizontalMovement, moveDir.x);

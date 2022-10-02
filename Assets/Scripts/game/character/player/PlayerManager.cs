@@ -1,5 +1,4 @@
-﻿using game.scene;
-using game.scene.level;
+﻿using game.scene.level;
 
 namespace game.character.characters.player
 {
@@ -14,7 +13,9 @@ namespace game.character.characters.player
 
         public void Start(Level level)
         {
-            _playerFactory.Create(level.Grid.GetRandomWorldPosition(), CharacterType.Cow);
+            PathNode randomNode = level.Grid.GetRandomNode();
+            var worldPos = level.Grid.GetWorldPosition(randomNode.X, randomNode.Y);
+            _playerFactory.Create(worldPos, CharacterType.Cow);
 
             //var player2 = _playerFactory.Create(new Vector3(0, 0, 0));
             //player2.GetComponent<SpriteRenderer>().material = new Material(Shader.Find("Shader Graphs/Outline Shader"));

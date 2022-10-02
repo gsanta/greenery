@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace game.scene.grid
 {
-    public class GridGraph<TNode> where TNode : class
+    public class GridGraph
     {
         public readonly int Width;
         
@@ -11,15 +11,11 @@ namespace game.scene.grid
         
         public readonly float CellSize;
         
-        private TNode[] _gridArray;
+        private PathNode[] _gridArray;
         
-        private readonly Vector2 _halfCellSize;
-        
-        private readonly Vector2 _worldOffset;
-
         private readonly Vector2 _worldSize;
 
-        public static GridGraph<TNode> CreateFromWorldSize(Vector2 topLeft, Vector2 bottomRight , Func<GridGraph<TNode>, int, int, TNode> createGridObject, float cellSize = 1.0f)
+        public static GridGraph CreateFromWorldSize(Vector2 topLeft, Vector2 bottomRight , Func<GridGraph, int, int, PathNode> createGridObject, float cellSize = 1.0f)
         {
             var worldWidth = Mathf.Abs(topLeft.x - bottomRight.x);
             var worldMinX = topLeft.x;
@@ -31,28 +27,27 @@ namespace game.scene.grid
 
             
 
-            return new GridGraph<TNode>(gridWidth, gridHeight, createGridObject, cellSize,
+            return new GridGraph(gridWidth, gridHeight, createGridObject, cellSize,
                 new Vector2(worldWidth, worldHeight));
         }
 
-        public GridGraph(int width, int height, Func<GridGraph<TNode>, int, int, TNode> createGridObject, float cellSize = 1.0f, Vector2 worldSize = default)
+        public GridGraph(int width, int height, Func<GridGraph, int, int, PathNode> createGridObject, float cellSize = 1.0f, Vector2 worldSize = default)
         {
             Width = width;
             Height = height;
             CellSize = cellSize;
             _worldSize = worldSize;
-            _halfCellSize = new Vector2(CellSize / 2.0f, CellSize / 2.0f);
 
             InitGridArray(createGridObject);
         }
 
-        public TNode[] GetAllNodes()
+        public PathNode[] GetAllNodes()
         {
             return _gridArray;
         }
 
 
-        public TNode GetNode(int x, int y)
+        public PathNode GetNode(int x, int y)
         {
             var index = ToArrayIndex(x, y);
             if (index < 0 || index > _gridArray.Length - 1)
@@ -70,7 +65,7 @@ namespace game.scene.grid
 
         public Vector2 GetWorldPosition(int x, int y)
         {
-            return new Vector2(x, y) * CellSize - _worldSize / 2;
+            return new Vector2(x, y) * CellSize - _worldSize / 2 + new Vector2(CellSize, CellSize) / 2;
         }
 
         public Vector2 GetRandomWorldPosition()
@@ -98,28 +93,41 @@ namespace game.scene.grid
             return new Vector2Int(posX, posY);
         }
 
-        public TNode TopNeighbour(int x, int y)
+        public PathNode GetRandomNode(bool onlyWalkable = true)
+        {
+            PathNode randomNode;
+            do
+            {
+                var randomPos = GetRandomGridPosition();
+                randomNode = GetNode(randomPos.x, randomPos.y);
+
+            } while (onlyWalkable && (randomNode == null || !randomNode.IsWalkable));
+
+            return randomNode;
+        }
+
+        public PathNode TopNeighbour(int x, int y)
         {
             y += 1;
 
             return GetNode(x, y);
         }
         
-        public TNode BottomNeighbour(int x, int y)
+        public PathNode BottomNeighbour(int x, int y)
         {
             y -= 1;
 
             return GetNode(x, y);
         }
         
-        public TNode LeftNeighbour(int x, int y)
+        public PathNode LeftNeighbour(int x, int y)
         {
             x -= 1;
 
             return GetNode(x, y);
         }
         
-        public TNode RightNeighbour(int x, int y)
+        public PathNode RightNeighbour(int x, int y)
         {
             x += 1;
 
@@ -141,9 +149,9 @@ namespace game.scene.grid
             return gridY * Width + gridX;
         }
 
-        private void InitGridArray(Func<GridGraph<TNode>, int, int, TNode> createGridObject)
+        private void InitGridArray(Func<GridGraph, int, int, PathNode> createGridObject)
         {
-            _gridArray = new TNode[Width * Height];
+            _gridArray = new PathNode[Width * Height];
             for (var i = 0; i < Width * Height; i++)
             {
                 var x = i % Width;

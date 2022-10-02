@@ -88,7 +88,7 @@ MonoBehaviour:
   force: 150
   layerMaskToHit:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 512
   explosionPrefab: {fileID: 4721728212297583763, guid: 7f41823f4e945254b8c0428da2c028e6, type: 3}
   circlePrefab: {fileID: 1100331579018720525, guid: d4b9bdb9e740bca458f7c895ae78b6eb, type: 3}
 --- !u!212 &2720112301697215683

@@ -9,7 +9,7 @@ namespace game.scene.level
 
         public EnvironmentData EnvironmentData { get; set; } 
 
-        public GridGraph<PathNode> Grid { get; set; }
+        public GridGraph Grid { get; set; }
 
         public GameObject RootGameObject { get; set; }
 

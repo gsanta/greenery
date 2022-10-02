@@ -21,13 +21,13 @@ namespace game.scene.grid
             };
         }
 
-        public GridGraph<PathNode> CreateGrid()
+        public GridGraph CreateGrid()
         {
             var topLeft = _environmentData.TopLeft;
             var bottomRight = _environmentData.BottomRight;
             var cellSize = _environmentData.GridSize;
             
-            var grid = GridGraph<PathNode>.CreateFromWorldSize(topLeft, bottomRight, (g, x, y) => new PathNode(x, y), cellSize);
+            var grid = GridGraph.CreateFromWorldSize(topLeft, bottomRight, (g, x, y) => new PathNode(x, y), cellSize);
             
             foreach (var obstacleCalc in _obstacleCalcs)
             {

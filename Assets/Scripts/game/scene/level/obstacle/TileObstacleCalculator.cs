@@ -12,7 +12,7 @@ namespace game.scene.level.obstacle
             _environmentData = environmentData;
         }
 
-        public void Calculate(GridGraph<PathNode> grid)
+        public void Calculate(GridGraph grid)
         {
             var width = grid.Width;
             var height = grid.Height;
