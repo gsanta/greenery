@@ -12,10 +12,16 @@ using game.character.enemy;
 using gui;
 using UnityEngine.SceneManagement;
 using System;
+using game.character.player;
+using Base.Input;
 
 public class Injector : MonoBehaviour
 {    
     [SerializeField] private HealthPanel healthBar;
+
+    // base
+
+    [SerializeField] private InputHandler inputHandler;
 
     // weapon
 
@@ -59,6 +65,8 @@ public class Injector : MonoBehaviour
 
     [SerializeField] public PlayerCommandHandler playerCommandHandler;
 
+    private GunInputListener _gunInputListener;
+
     // Scene
     [SerializeField] public LevelLoader levelLoader;
 
@@ -78,7 +86,9 @@ public class Injector : MonoBehaviour
         enemySpawner.Construct(enemyFactory, enemyStore, LevelStore);
         playerFactory.Construct(playerStore, healthBar, bulletPanel, weaponFactory, followCamera);
 
-        playerCommandHandler.Construct(playerStore, playerFactory, bulletPanel);
+        playerCommandHandler.Construct(playerStore, playerFactory);
+        _gunInputListener = new GunInputListener(playerStore, bulletPanel);
+        inputHandler.AddListener(_gunInputListener);
 
         playerManager = new PlayerManager(playerFactory);
 

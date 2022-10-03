@@ -1,6 +1,5 @@
 using Assets.Scripts.game.character.characters.player;
 using game.character.ability;
-using game.character.ability.field_of_view;
 using game.character.ability.health;
 using game.character.movement;
 using game.character.player;

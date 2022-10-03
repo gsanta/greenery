@@ -10,27 +10,16 @@ namespace game.character.characters.player
 
         private PlayerFactory _playerFactory;
 
-        private BulletPanel _bulletPanel;
-
         private List<CharacterType> _playerTypes = new List<CharacterType> { CharacterType.Cat, CharacterType.Cow };
 
-        public void Construct(PlayerStore playerStore, PlayerFactory playerFactory, BulletPanel bulletPanel)
+        public void Construct(PlayerStore playerStore, PlayerFactory playerFactory)
         {
             _playerStore = playerStore;
             _playerFactory = playerFactory;
-            _bulletPanel = bulletPanel;
         }
 
         public void Update()
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                var weapon = _playerStore.GetActivePlayer().Weapon;
-                weapon.OnFire(pos);
-                _bulletPanel.SetBullets(weapon.Bullets);
-            }
-
             if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
             {
                 ChangePlayer();
