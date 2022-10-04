@@ -1,6 +1,7 @@
 ﻿
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Base.Input
 {
@@ -16,9 +17,12 @@ namespace Base.Input
 
             _inputInfo = new InputInfo();
 
-            if (UnityEngine.Input.GetMouseButtonDown(0))
+            if (!IsPointerOverUIObject())
             {
-                _inputInfo.IsLeftButtonDown = true;
+                if (UnityEngine.Input.GetMouseButtonDown(0))
+                {
+                    _inputInfo.IsLeftButtonDown = true;
+                }
             }
 
             if (UnityEngine.Input.GetKeyDown(KeyCode.E))
@@ -50,6 +54,15 @@ namespace Base.Input
         public void RemvoveListener(InputListener listener)
         {
             _listeners.Remove(listener);
+        }
+
+        private bool IsPointerOverUIObject()
+        {
+            PointerEventData eventData = new PointerEventData(EventSystem.current);
+            eventData.position = new Vector2(UnityEngine.Input.mousePosition.x, UnityEngine.Input.mousePosition.y);
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventData, results);
+            return results.Count > 0;
         }
     }
 }

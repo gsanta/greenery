@@ -14,6 +14,7 @@ using UnityEngine.SceneManagement;
 using System;
 using game.character.player;
 using Base.Input;
+using game.Inventory;
 
 public class Injector : MonoBehaviour
 {    
@@ -75,6 +76,10 @@ public class Injector : MonoBehaviour
     // State
     [SerializeField] private StateFactory stateFactory;
 
+    // inventory
+    [SerializeField] private InventoryItemFactory inventoryItemFactory;
+
+    [SerializeField] private InventoryHandler inventoryHandler;
 
     private void Awake()
     {
@@ -95,6 +100,8 @@ public class Injector : MonoBehaviour
         _enemyManager = new EnemyManager(enemyFactory, enemySpawner);
 
         gameManager.Construct(playerManager, panelManager, _enemyManager, followCamera);
+
+        inventoryHandler.Construct(inventoryItemFactory);
 
         panelManager.startGamePanel = startGamePanel;
         

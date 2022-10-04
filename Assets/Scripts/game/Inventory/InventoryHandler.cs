@@ -1,7 +1,6 @@
 ﻿
 
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace game.Inventory
 {
@@ -9,9 +8,17 @@ namespace game.Inventory
     {
         private InventoryItemType _selectedInventoryItem;
 
-        public void OnItemSelected(string item)
+        private InventoryItemFactory _inventoryItemFactory;
+
+        public void Construct(InventoryItemFactory inventoryItemFactory)
         {
-            _selectedInventoryItem = InventoryItemMapper.GetType(item);
+            _inventoryItemFactory = inventoryItemFactory;
+        }
+
+        private void Start()
+        {
+            _inventoryItemFactory.CreateGrass1();       
+            _inventoryItemFactory.CreateGrass2();       
         }
     }
 }
