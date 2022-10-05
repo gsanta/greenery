@@ -15,6 +15,7 @@ using System;
 using game.character.player;
 using Base.Input;
 using game.Inventory;
+using game.Common;
 
 public class Injector : MonoBehaviour
 {    
@@ -81,6 +82,11 @@ public class Injector : MonoBehaviour
 
     [SerializeField] private InventoryHandler inventoryHandler;
 
+    // common
+    [SerializeField] private CursorHandler cursorHandler;
+
+    private InventoryStore _inventoryStore = new InventoryStore();
+
     private void Awake()
     {
         stateFactory.Construct(playerStore);
@@ -101,13 +107,16 @@ public class Injector : MonoBehaviour
 
         gameManager.Construct(playerManager, panelManager, _enemyManager, followCamera);
 
-        inventoryHandler.Construct(inventoryItemFactory);
+        inventoryHandler.Construct(inventoryItemFactory, _inventoryStore);
+        inventoryItemFactory.Construct(_inventoryStore);
 
         panelManager.startGamePanel = startGamePanel;
         
         levelLoader.Construct(this);
         levelLoader.LevelLoadedEventHandler += LevelLoaded;
         levelLoader.Load("Level");
+
+        cursorHandler.SetCursor(cursorHandler.shooting);
     }
 
     private void LevelLoaded(object sender, LevelLoadedEventArgs e)

@@ -14,20 +14,29 @@ namespace game.Inventory
 
         [SerializeField] private Image grass2Prefab;
 
+        private InventoryStore _inventoryStore;
 
-        public Image CreateGrass1()
+        public void Construct(InventoryStore inventoryStore)
         {
-            return CreateInventoryItem(grass1Prefab);
+            _inventoryStore = inventoryStore;
+        }
+
+        public InventoryItem CreateGrass1()
+        {
+            return CreateInventoryItem(InventoryItemType.Grass1, grass1Prefab);
         }
         
-        public Image CreateGrass2()
+        public InventoryItem CreateGrass2()
         {
-            return CreateInventoryItem(grass2Prefab);
+            return CreateInventoryItem(InventoryItemType.Grass2, grass2Prefab);
         }
 
-        private Image CreateInventoryItem(Image prefab)
+        private InventoryItem CreateInventoryItem(InventoryItemType type, Image prefab)
         {
             Image image = Instantiate(prefab, container);
+
+            var item = new InventoryItem(type, image);
+
             GameObject gameObject = image.transform.gameObject;
 
             gameObject.AddComponent<EventTrigger>();
@@ -36,11 +45,11 @@ namespace game.Inventory
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerClick;
             entry.callback.AddListener((eventData) => { 
-                Debug.Log("hello"); 
+                _inventoryStore.SetActiveItem(item); 
             });
             eventTrigger.triggers.Add(entry);
 
-            return image;
+            return item;
         }
 
     }
