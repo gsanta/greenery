@@ -4,7 +4,7 @@ using game.character.ability.health;
 using game.character.movement;
 using game.character.player;
 using game.character.state;
-using game.item;
+using game.Item;
 using game.tool;
 using UnityEngine;
 

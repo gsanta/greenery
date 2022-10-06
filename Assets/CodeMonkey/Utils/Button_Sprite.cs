@@ -123,6 +123,7 @@ namespace CodeMonkey.Utils {
         void OnMouseOver() {
             if (!clickThroughUI && IsPointerOverUI()) return; // Over UI!
 
+
             if (Input.GetMouseButton(1)) {
                 if (MouseRightDownFunc != null) MouseRightDownFunc();
                 if (!draggingMouseRight && triggerMouseRightDragOnEnter) {

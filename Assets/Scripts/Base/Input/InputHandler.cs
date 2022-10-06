@@ -56,7 +56,7 @@ namespace Base.Input
             _listeners.Remove(listener);
         }
 
-        private bool IsPointerOverUIObject()
+        public static bool IsPointerOverUIObject()
         {
             PointerEventData eventData = new PointerEventData(EventSystem.current);
             eventData.position = new Vector2(UnityEngine.Input.mousePosition.x, UnityEngine.Input.mousePosition.y);

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace game.Inventory
+namespace game.Item
 {
     public class InventoryStore
     {

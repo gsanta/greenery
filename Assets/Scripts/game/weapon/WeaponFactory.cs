@@ -1,6 +1,6 @@
 ﻿using Assets.Scripts.game.tool.weapon.bomb;
 using game.character;
-using game.item.bullet;
+using game.Item.bullet;
 using game.tool.weapon.bomb;
 using game.tool.weapon.gun;
 using UnityEngine;

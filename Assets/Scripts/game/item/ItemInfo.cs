@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace game.item
+namespace game.Item
 {
-    public class Item
+    public class ItemInfo
     {
         
         public static bool IsGrass(GameObject gameObject)

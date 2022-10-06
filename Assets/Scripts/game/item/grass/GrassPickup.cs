@@ -1,7 +1,7 @@
 ﻿using game.tool;
 using UnityEngine;
 
-namespace game.item.grass
+namespace game.Item.grass
 {
     public class GrassPickup : MonoBehaviour, ItemPickup
     {
@@ -14,7 +14,7 @@ namespace game.item.grass
 
         public void Entered(GameObject gameObject)
         {
-            if (Item.IsGrass(gameObject))
+            if (ItemInfo.IsGrass(gameObject))
             {
                 _weapon.AddBullet(1);
                 Destroy(gameObject);

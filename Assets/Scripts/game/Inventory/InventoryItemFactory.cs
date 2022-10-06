@@ -1,9 +1,10 @@
 ﻿
+using game.Common;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace game.Inventory
+namespace game.Item
 {
     public class InventoryItemFactory : MonoBehaviour
     {
@@ -16,22 +17,25 @@ namespace game.Inventory
 
         private InventoryStore _inventoryStore;
 
-        public void Construct(InventoryStore inventoryStore)
+        private CursorHandler _cursorHandler;
+
+        public void Construct(InventoryStore inventoryStore, CursorHandler cursorHandler)
         {
             _inventoryStore = inventoryStore;
+            _cursorHandler = cursorHandler;
         }
 
         public InventoryItem CreateGrass1()
         {
-            return CreateInventoryItem(InventoryItemType.Grass1, grass1Prefab);
+            return CreateInventoryItem(ItemType.Grass1, grass1Prefab);
         }
         
         public InventoryItem CreateGrass2()
         {
-            return CreateInventoryItem(InventoryItemType.Grass2, grass2Prefab);
+            return CreateInventoryItem(ItemType.Grass2, grass2Prefab);
         }
 
-        private InventoryItem CreateInventoryItem(InventoryItemType type, Image prefab)
+        private InventoryItem CreateInventoryItem(ItemType type, Image prefab)
         {
             Image image = Instantiate(prefab, container);
 
@@ -42,12 +46,14 @@ namespace game.Inventory
             gameObject.AddComponent<EventTrigger>();
 
             var eventTrigger = gameObject.GetComponent<EventTrigger>();
-            EventTrigger.Entry entry = new EventTrigger.Entry();
-            entry.eventID = EventTriggerType.PointerClick;
-            entry.callback.AddListener((eventData) => { 
-                _inventoryStore.SetActiveItem(item); 
-            });
-            eventTrigger.triggers.Add(entry);
+            EventTrigger.Entry pointerOverEntry = new EventTrigger.Entry();
+            pointerOverEntry.eventID = EventTriggerType.PointerEnter;
+            pointerOverEntry.callback.AddListener((eventData) => _cursorHandler.ClearCursor());
+
+            EventTrigger.Entry pointerClickEntry = new EventTrigger.Entry();
+            pointerClickEntry.eventID = EventTriggerType.PointerClick;
+            pointerClickEntry.callback.AddListener((eventData) => _inventoryStore.SetActiveItem(item));
+            eventTrigger.triggers.Add(pointerClickEntry);
 
             return item;
         }

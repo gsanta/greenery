@@ -1,15 +1,15 @@
 ﻿
 using UnityEngine.UI;
 
-namespace game.Inventory
+namespace game.Item
 {
     public class InventoryItem
     {
-        public InventoryItemType type;
+        public ItemType type;
 
         public Image image;
 
-        public InventoryItem(InventoryItemType type, Image image)
+        public InventoryItem(ItemType type, Image image)
         {
             this.type = type;
             this.image = image;

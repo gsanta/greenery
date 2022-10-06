@@ -1,21 +1,26 @@
 ﻿
 
+using Base.Input;
+using game.Common;
 using UnityEngine;
 
-namespace game.Inventory
+namespace game.Item
 {
     public class InventoryHandler : MonoBehaviour
     {
-        private InventoryItemType _selectedInventoryItem;
+        private ItemType _selectedInventoryItem;
 
         private InventoryItemFactory _inventoryItemFactory;
 
         private InventoryStore _inventoryStore;
 
-        public void Construct(InventoryItemFactory inventoryItemFactory, InventoryStore inventoryStore)
+        private CursorHandler _cursorHandler;
+
+        public void Construct(InventoryItemFactory inventoryItemFactory, InventoryStore inventoryStore, CursorHandler cursorHandler)
         {
             _inventoryItemFactory = inventoryItemFactory;
             _inventoryStore = inventoryStore;
+            _cursorHandler = cursorHandler;
         }
 
         private void Start()
@@ -27,13 +32,15 @@ namespace game.Inventory
 
         public void OnPanelEnter()
         {
-            Cursor.SetCursor(null, new Vector2(0, 0), CursorMode.Auto);
-            Debug.Log("Enter");
+            _cursorHandler.ClearCursor();
         }
 
         public void OnPanelExit()
         {
-            Debug.Log("Exit");
+            if (!InputHandler.IsPointerOverUIObject())
+            {
+                _cursorHandler.SetDefaultCursor();
+            }
         }
     }
 }

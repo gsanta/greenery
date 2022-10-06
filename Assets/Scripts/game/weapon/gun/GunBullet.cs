@@ -2,7 +2,7 @@ using game.character;
 using game.character.ability.health;
 using UnityEngine;
 
-namespace game.item.bullet
+namespace game.Item.bullet
 {
     public class GunBullet : MonoBehaviour
     {

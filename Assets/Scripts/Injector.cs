@@ -2,7 +2,7 @@
 using game.character.characters.enemy;
 using game.character.characters.player;
 using game.character.state;
-using game.item.bullet;
+using game.Item.bullet;
 using game.scene;
 using game.scene.level;
 using GUI;
@@ -14,7 +14,7 @@ using UnityEngine.SceneManagement;
 using System;
 using game.character.player;
 using Base.Input;
-using game.Inventory;
+using game.Item;
 using game.Common;
 
 public class Injector : MonoBehaviour
@@ -107,8 +107,8 @@ public class Injector : MonoBehaviour
 
         gameManager.Construct(playerManager, panelManager, _enemyManager, followCamera);
 
-        inventoryHandler.Construct(inventoryItemFactory, _inventoryStore);
-        inventoryItemFactory.Construct(_inventoryStore);
+        inventoryHandler.Construct(inventoryItemFactory, _inventoryStore, cursorHandler);
+        inventoryItemFactory.Construct(_inventoryStore, cursorHandler);
 
         panelManager.startGamePanel = startGamePanel;
         
@@ -116,7 +116,7 @@ public class Injector : MonoBehaviour
         levelLoader.LevelLoadedEventHandler += LevelLoaded;
         levelLoader.Load("Level");
 
-        cursorHandler.SetCursor(cursorHandler.shooting);
+        cursorHandler.SetDefaultCursor();
     }
 
     private void LevelLoaded(object sender, LevelLoadedEventArgs e)

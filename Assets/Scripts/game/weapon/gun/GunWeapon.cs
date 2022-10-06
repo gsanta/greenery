@@ -1,5 +1,5 @@
 ﻿using game.character;
-using game.item.bullet;
+using game.Item.bullet;
 using gui;
 using UnityEngine;
 

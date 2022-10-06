@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace game.item
+namespace game.Item
 {
     public interface ItemPickup
     {

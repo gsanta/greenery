@@ -2,7 +2,7 @@ using game.character;
 using game.tool.weapon.bomb;
 using UnityEngine;
 
-namespace game.item.bullet
+namespace game.Item.bullet
 {
     public class BulletFactory : MonoBehaviour
     {
