@@ -6,14 +6,15 @@ using UnityEngine;
 
 namespace game.character.player
 {
-    public class GunInputListener : InputListener
+    public class GunInputHandler : InputHandler
     {
         private PlayerStore _playerStore;
 
         private BulletPanel _bulletPanel;
 
-        public GunInputListener(PlayerStore playerStore, BulletPanel bulletPanel)
-        {
+        public GunInputHandler(PlayerStore playerStore, BulletPanel bulletPanel)
+        : base(InputHandlerType.GunHandler
+              ) {
             _playerStore = playerStore;
             _bulletPanel = bulletPanel;
         }

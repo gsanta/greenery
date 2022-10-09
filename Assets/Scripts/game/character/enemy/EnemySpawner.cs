@@ -17,7 +17,7 @@ namespace game.character.characters.enemy
 
         public Vector2 editorSpawnPos;
 
-        public bool IsActive { set; private get; }
+        public bool IsDisabled { set; private get; }
 
         public bool IsManualSpawning { set; get; }
 
@@ -34,7 +34,7 @@ namespace game.character.characters.enemy
         
         private void Update()
         {
-            if (!IsActive || _levelStore.ActiveLevel.Grid == null || IsManualSpawning || _enemyStore.Count() > 0 || isSpawning)
+            if (IsDisabled || _levelStore.ActiveLevel.Grid == null || IsManualSpawning || _enemyStore.Count() > 0 || isSpawning)
             {
                 return;
             }

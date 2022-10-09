@@ -37,7 +37,7 @@ namespace game.Item
 
         public void OnPanelExit()
         {
-            if (!InputHandler.IsPointerOverUIObject())
+            if (!InputManager.IsPointerOverUIObject())
             {
                 _cursorHandler.SetDefaultCursor();
             }

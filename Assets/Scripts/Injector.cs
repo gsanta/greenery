@@ -16,6 +16,8 @@ using game.character.player;
 using Base.Input;
 using game.Item;
 using game.Common;
+using Game.Stage;
+using game.item;
 
 public class Injector : MonoBehaviour
 {    
@@ -23,7 +25,7 @@ public class Injector : MonoBehaviour
 
     // base
 
-    [SerializeField] private InputHandler inputHandler;
+    [SerializeField] private InputManager inputManager;
 
     // weapon
 
@@ -57,8 +59,6 @@ public class Injector : MonoBehaviour
 
     [SerializeField] private PathVisualDecorator pathVisualDecorator;
 
-    private EnemyManager _enemyManager;
-
     // player
 
     [SerializeField] private PlayerFactory playerFactory;
@@ -67,7 +67,7 @@ public class Injector : MonoBehaviour
 
     [SerializeField] public PlayerCommandHandler playerCommandHandler;
 
-    private GunInputListener _gunInputListener;
+    private GunInputHandler _gunInputHandler;
 
     // Scene
     [SerializeField] public LevelLoader levelLoader;
@@ -82,10 +82,18 @@ public class Injector : MonoBehaviour
 
     [SerializeField] private InventoryHandler inventoryHandler;
 
+    private InventoryStore _inventoryStore = new InventoryStore();
+
+    // item
+    private ItemInputHandler _itemInputHandler;
+
+    [SerializeField] private ItemFactory itemFactory;
+
+    // stage
+    [SerializeField] private StageManager stageManager;
+
     // common
     [SerializeField] private CursorHandler cursorHandler;
-
-    private InventoryStore _inventoryStore = new InventoryStore();
 
     private void Awake()
     {
@@ -98,17 +106,23 @@ public class Injector : MonoBehaviour
         playerFactory.Construct(playerStore, healthBar, bulletPanel, weaponFactory, followCamera);
 
         playerCommandHandler.Construct(playerStore, playerFactory);
-        _gunInputListener = new GunInputListener(playerStore, bulletPanel);
-        inputHandler.AddListener(_gunInputListener);
+        _gunInputHandler = new GunInputHandler(playerStore, bulletPanel);
+        inputManager.AddHandler(_gunInputHandler);
 
         playerManager = new PlayerManager(playerFactory);
 
-        _enemyManager = new EnemyManager(enemyFactory, enemySpawner);
-
-        gameManager.Construct(playerManager, panelManager, _enemyManager, followCamera);
+        gameManager.Construct(playerManager, panelManager, followCamera);
 
         inventoryHandler.Construct(inventoryItemFactory, _inventoryStore, cursorHandler);
         inventoryItemFactory.Construct(_inventoryStore, cursorHandler);
+
+        _itemInputHandler = new ItemInputHandler(_inventoryStore, itemFactory);
+        inputManager.AddHandler(_itemInputHandler);
+
+        stageManager.AddStageHandler(new FightStageHandler(_gunInputHandler, enemySpawner));
+        stageManager.AddStageHandler(new BuildStageHandler(_itemInputHandler));
+        stageManager.DeactivateAllStages();
+        stageManager.ActivateStage(StageType.BuildStage);
 
         panelManager.startGamePanel = startGamePanel;
         

@@ -9,7 +9,7 @@ namespace game.Item
         private List<InventoryItem> _items = new();
 
         private InventoryItem _activeItem;
-
+        
         public void AddItem(InventoryItem item)
         {
             _items.Add(item);
@@ -17,6 +17,7 @@ namespace game.Item
 
         public void RemoveItem(InventoryItem item)
         {
+
             _items.Remove(item);
         }
 
@@ -34,6 +35,11 @@ namespace game.Item
             
             _activeItem = item;
             item.image.color = Color.green;
+        }
+
+        public InventoryItem GetActiveItem()
+        {
+            return _activeItem;
         }
     }
 }

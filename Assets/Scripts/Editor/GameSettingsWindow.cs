@@ -10,6 +10,7 @@ public class GameSettingsWindow : EditorWindow
 
     private EnemyDebug _enemyDebug;
 
+    private StageDebug _stageDebug;
 
     [MenuItem("Window/Game Settings")]
     public static void ShowWindow()
@@ -19,6 +20,8 @@ public class GameSettingsWindow : EditorWindow
 
     private void OnGUI()
     {
+        InitMembers();
+
         RenderFovToggle();
 
         RenderPathVisual();
@@ -32,6 +35,8 @@ public class GameSettingsWindow : EditorWindow
         RenderLevelSelect();
 
         RenderEnemySpawnPosition();
+
+        RenderGui();
     }
 
     private void RenderFovToggle()
@@ -93,5 +98,18 @@ public class GameSettingsWindow : EditorWindow
         }
 
         _enemyDebug.RenderGui();
+    }
+
+    private void RenderGui()
+    {
+        _stageDebug.RenderGui();
+    }
+
+    private void InitMembers()
+    {
+        if (!_stageDebug)
+        {
+            _stageDebug = FindObjectOfType<StageDebug>();
+        }
     }
 }

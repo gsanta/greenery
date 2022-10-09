@@ -14,16 +14,13 @@ namespace game
 
         private PanelManager _panelManager;
 
-        private EnemyManager _enemyManager;
-
         private FollowCamera _followCamera;
 
         private bool _isGameStarted;
 
-        public void Construct(PlayerManager playerManager, PanelManager panelManager, EnemyManager enemyManager, FollowCamera followCamera)
+        public void Construct(PlayerManager playerManager, PanelManager panelManager, FollowCamera followCamera)
         {
             _playerManager = playerManager;
-            _enemyManager = enemyManager;
             _panelManager = panelManager;
             _followCamera = followCamera;
         }
@@ -31,7 +28,6 @@ namespace game
         public void StartLevel(Level level)
         {
             _playerManager.Start(level);
-            _enemyManager.Start(level);
             _followCamera.GetConfiner().SetDimensions(level);
             _isGameStarted = true;
         }
@@ -49,7 +45,6 @@ namespace game
         public void EndGame()
         {
             SceneManager.LoadScene("Menu");
-            
         }
     }
 }
