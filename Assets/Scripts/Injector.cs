@@ -18,6 +18,7 @@ using game.Item;
 using game.Common;
 using Game.Stage;
 using game.item;
+using System.Linq;
 
 public class Injector : MonoBehaviour
 {    
@@ -120,15 +121,16 @@ public class Injector : MonoBehaviour
         inputManager.AddHandler(_itemInputHandler);
 
         stageManager.AddStageHandler(new FightStageHandler(_gunInputHandler, enemySpawner));
-        stageManager.AddStageHandler(new BuildStageHandler(_itemInputHandler));
-        stageManager.DeactivateAllStages();
-        stageManager.ActivateStage(StageType.BuildStage);
+        stageManager.AddStageHandler(new BuildStageHandler(_itemInputHandler, LevelStore));
 
         panelManager.startGamePanel = startGamePanel;
-        
-        levelLoader.Construct(this);
+
+        levelLoader.Construct(LevelStore);
+
+        LevelStore.AddLevelToLoad(new LevelLoadingInfo(LevelName.Level, new Vector2(0, 0)));
+        LevelStore.AddLevelToLoad(new LevelLoadingInfo(LevelName.Level2, new Vector2(28, 0)));
         levelLoader.LevelLoadedEventHandler += LevelLoaded;
-        levelLoader.Load("Level");
+        levelLoader.Load();
 
         cursorHandler.SetDefaultCursor();
     }
@@ -136,6 +138,17 @@ public class Injector : MonoBehaviour
     private void LevelLoaded(object sender, LevelLoadedEventArgs e)
     {
         InjectLevel(e.Scene, e.TranslateScene);
+
+        if (LevelStore.GetLevelsToLoad().All(levelLoadingInfo => levelLoadingInfo.IsLoaded))
+        {
+            AllLevelsLoaded();
+        }
+    }
+
+    private void AllLevelsLoaded()
+    {
+        stageManager.DeactivateAllStages();
+        stageManager.ActivateStage(StageType.BuildStage);
     }
 
     private void InjectLevel(Scene scene, Vector2 translate)
@@ -151,8 +164,6 @@ public class Injector : MonoBehaviour
 
 
         level.Construct(gameManager, levelInjector.gridVisualizer);
-
-        levelLoader.AddLevel(level);
 
         rootGameObject.transform.Translate(new Vector3(translate.x, translate.y, 0));
 

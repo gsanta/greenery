@@ -23,7 +23,7 @@ namespace utils
             triangles = new int[6 * quadCount];
         }
 
-		public static void AddToMeshArrays(Vector3[] vertices, Vector2[] uvs, int[] triangles, int index, Vector3 pos, Vector3 baseSize, Vector2 uv00, Vector2 uv11)
+		public static void AddToMeshArrays(Vector3[] vertices, Vector2[] uvs, int[] triangles, int index, Vector3 pos, Vector3 baseSize, Vector2 uvVal)
 		{
 			//Relocate vertices
 			int vIndex = index * 4;
@@ -39,10 +39,10 @@ namespace utils
 			vertices[vIndex3] = pos + baseSize; //GetQuaternionEuler(rot - 0) * baseSize;
 
 			//Relocate UVs
-			uvs[vIndex0] = new Vector2(uv00.x, uv11.y);
-			uvs[vIndex1] = new Vector2(uv00.x, uv00.y);
-			uvs[vIndex2] = new Vector2(uv11.x, uv00.y);
-			uvs[vIndex3] = new Vector2(uv11.x, uv11.y);
+			uvs[vIndex0] = new Vector2(uvVal.x, uvVal.y);
+			uvs[vIndex1] = new Vector2(uvVal.x, uvVal.y);
+			uvs[vIndex2] = new Vector2(uvVal.x, uvVal.y);
+			uvs[vIndex3] = new Vector2(uvVal.x, uvVal.y);
 
 			//Create triangles
 			int tIndex = index * 6;
@@ -54,26 +54,6 @@ namespace utils
 			triangles[tIndex + 3] = vIndex1;
 			triangles[tIndex + 4] = vIndex3;
 			triangles[tIndex + 5] = vIndex2;
-		}
-
-		private static Quaternion GetQuaternionEuler(float rotFloat)
-		{
-			int rot = Mathf.RoundToInt(rotFloat);
-			rot = rot % 360;
-			if (rot < 0) rot += 360;
-			//if (rot >= 360) rot -= 360;
-			if (cachedQuaternionEulerArr == null) CacheQuaternionEuler();
-			return cachedQuaternionEulerArr[rot];
-		}
-
-		private static void CacheQuaternionEuler()
-		{
-			if (cachedQuaternionEulerArr != null) return;
-			cachedQuaternionEulerArr = new Quaternion[360];
-			for (int i = 0; i < 360; i++)
-			{
-				cachedQuaternionEulerArr[i] = Quaternion.Euler(0, 0, i);
-			}
 		}
 	}
 }

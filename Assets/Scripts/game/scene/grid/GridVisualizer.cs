@@ -25,30 +25,27 @@ namespace game.scene.grid
 
         public void ToggleVisualization()
         {
-            isVisualize = !isVisualize;
-
-            if (isVisualize)
+            if (!isVisualize)
             {
                 Show();
-
-                InvokeRepeating(nameof(Show), 0.5f, 0.5f); ;
             } else
             {
-                CancelInvoke(nameof(Show));
-
                 Hide();
             }
         }
 
-        private void Hide()
+        public void Hide()
         {
+            isVisualize = false;
+
             _mesh.vertices = new Vector3[] {};
             _mesh.uv = new Vector2[] {};
             _mesh.triangles = new int[] {};
         }
 
-        private void Show()
+        public void Show()
         {
+            isVisualize = true;
 
             MeshUtils.CreateEmptyMeshArrays(_gridGraph.Width * _gridGraph.Height, out Vector3[] vertices, out Vector2[] uv, out int[] triangles);
 
@@ -60,7 +57,6 @@ namespace game.scene.grid
                     Vector2 quadSize = new Vector3(1, 1) * _gridGraph.CellSize / 2.0f * 0.9f;
 
                     var node = _gridGraph.GetNode(x, y);
-
                     var pos = _gridGraph.GetWorldPosition(x, y);
                     var pos3d = new Vector3(pos.x, pos.y, -0.5f);
 
@@ -68,10 +64,10 @@ namespace game.scene.grid
 
                     if (!node.IsWalkable)
                     {
-                        uvVal = new Vector2(0.5f, 0.5f);
+                        uvVal = new Vector2(0.1f, 0.5f);
                     }
 
-                    MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, pos3d, quadSize, uvVal, uvVal);
+                    MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, pos3d, quadSize, uvVal);
                 }
             }
 

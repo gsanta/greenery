@@ -95,7 +95,7 @@ namespace game.scene.grid
 
                 var uvVal = new Vector2(2f, 0);
 
-                MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, pos3d, quadSize, uvVal, uvVal);
+                MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, pos3d, quadSize, uvVal);
 
                 index++;
             });

@@ -14,38 +14,19 @@ namespace game.scene.level
 
     public class LevelLoader : MonoBehaviour
     {
-        private Injector _injector;
-
-        private GameManager _gameManager;
-
-        private List<Level> _levels = new();
-        
-        private HashSet<LevelName> _loadingLevels = new();
 
         public event EventHandler<LevelLoadedEventArgs> LevelLoadedEventHandler;
 
-        public Level ActiveLevel { set; get; }
+        private LevelStore _levelStore;
 
-        public void Construct(Injector injector)
+        public void Construct(LevelStore levelStore)
         {
-            _injector = injector;
+            _levelStore = levelStore;
         }
 
-        public void AddLevel(Level level)
+        public void Load()
         {
-            _levels.Add(level);
-            _loadingLevels.Remove(level.levelName);
-
-            if (!ActiveLevel)
-            {
-                ActiveLevel = level;
-            }
-        }
-        
-        public void Load(string levelName)
-        {
-            LoadLevel("Level", new Vector2(0, 0));
-            LoadLevel("Level2", new Vector2(28, 0));
+            _levelStore.GetLevelsToLoad().ForEach(levelLoadingInfo => LoadLevel(Levels.LevelNameMap[levelLoadingInfo.levelName], levelLoadingInfo.position));
         }
 
         private void OnLevelLoaded(Scene scene, Vector2 translate)
@@ -69,39 +50,6 @@ namespace game.scene.level
             {
                 OnLevelLoaded(SceneManager.GetSceneByName(levelName), translate);
             };
-        }
-
-        private void Update()
-        {
-            //if (ActiveLevel && _playerStore.GetActivePlayer())
-            //{
-            //    var quarter = ActiveLevel.GetQuarter(_playerStore.GetActivePlayer().GetPosition());
-
-            //    var levels = Levels.GetLevelsAtDirection(ActiveLevel, quarter);
-            //    var oppositeLevels = Levels.GetLevelsAtOppositeDirection(ActiveLevel, quarter);
-
-            //    levels.ForEach(ApplyNewLevel);
-            //    oppositeLevels.ForEach(RemoveLevel);
-            //}
-        }
-
-        private void ApplyNewLevel(LevelName newLevel)
-        {
-            //if (!_levels.Find((level) => level.levelName == newLevel) && !_loadingLevels.Contains(newLevel))
-            //{
-            //    LoadLevel(Levels.LevelNameMap[newLevel]);
-            //    _loadingLevels.Add(newLevel);
-            //}
-        }
-
-        private void RemoveLevel(LevelName levelName)
-        {
-            var level = _levels.Find((level) => level.levelName == levelName);
-            if (level)
-            {
-                SceneManager.UnloadSceneAsync(Levels.LevelNameMap[levelName]);
-                _levels.Remove(level);
-            }
         }
     }
 }

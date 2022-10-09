@@ -8,11 +8,40 @@ namespace game.scene.level
     {
         private List<Level> levels = new();
 
+        private List<LevelLoadingInfo> _levelLoadingInfoList = new();
+
         public Level ActiveLevel { get; set; }
 
         public void AddLevel(Level level)
         {
             levels.Add(level);
+
+            if (!ActiveLevel)
+            {
+                ActiveLevel = level;
+            }
+
+            _levelLoadingInfoList.Find(levelLoadingInfo => levelLoadingInfo.levelName == level.levelName).IsLoaded = true;
+        }
+
+        public void AddLevelToLoad(LevelLoadingInfo levelLoadingInfo)
+        {
+            _levelLoadingInfoList.Add(levelLoadingInfo);
+        }
+
+        public List<LevelLoadingInfo> GetLevelsToLoad()
+        {
+            return _levelLoadingInfoList;
+        }
+
+        public bool IsLevelLoaded(LevelName levelName)
+        {
+            return _levelLoadingInfoList.Find(levelLoadingInfo => levelLoadingInfo.levelName == levelName).IsLoaded;
+        }
+
+        public int LevelCount()
+        {
+            return _levelLoadingInfoList.Count();
         }
 
         public Level GetLevelByName(LevelName levelName)
