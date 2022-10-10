@@ -117,7 +117,7 @@ public class Injector : MonoBehaviour
         inventoryHandler.Construct(inventoryItemFactory, _inventoryStore, cursorHandler);
         inventoryItemFactory.Construct(_inventoryStore, cursorHandler);
 
-        _itemInputHandler = new ItemInputHandler(_inventoryStore, itemFactory);
+        _itemInputHandler = new ItemInputHandler(_inventoryStore, itemFactory, LevelStore);
         inputManager.AddHandler(_itemInputHandler);
 
         stageManager.AddStageHandler(new FightStageHandler(_gunInputHandler, enemySpawner));
@@ -161,7 +161,8 @@ public class Injector : MonoBehaviour
 
         var level = levelInjector.level;
         level.RootGameObject = rootGameObject;
-
+        level.TilemapHandler = levelInjector.tilemapHandler;
+        level.TilemapHandler.GetTileAt(Vector2.right);
 
         level.Construct(gameManager, levelInjector.gridVisualizer);
 

@@ -1,6 +1,7 @@
 ﻿
 using Base.Input;
 using game.Item;
+using game.scene.level;
 using UnityEngine;
 
 namespace game.item
@@ -11,10 +12,13 @@ namespace game.item
 
         private ItemFactory _itemFactory;
 
-        public ItemInputHandler(InventoryStore inventoryStore, ItemFactory itemFactory) : base(InputHandlerType.ItemHandler)
+        private LevelStore _levelStore;
+
+        public ItemInputHandler(InventoryStore inventoryStore, ItemFactory itemFactory, LevelStore levelStore) : base(InputHandlerType.ItemHandler)
         {
             _inventoryStore = inventoryStore;
             _itemFactory = itemFactory;
+            _levelStore = levelStore;
         }
 
         public override void OnClick(InputInfo inputInfo)
@@ -23,9 +27,14 @@ namespace game.item
             if (_inventoryStore.GetActiveItem() != null) {
                 var activeItem = _inventoryStore.GetActiveItem();
 
-                _itemFactory.Create(activeItem.type);
-            }
+                var gridPos = _levelStore.ActiveLevel.Grid.GetGridPosition(pos);
+                if (gridPos.HasValue)
+                {
+                    var tileCenterPos = _levelStore.ActiveLevel.Grid.GetWorldPosition(gridPos.Value.x, gridPos.Value.y);
+                    _itemFactory.Create(activeItem.type, new Vector3(tileCenterPos.x, tileCenterPos.y, 1));
+                }
 
+            }
         }
     }
 }

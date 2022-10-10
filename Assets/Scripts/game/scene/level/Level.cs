@@ -1,4 +1,5 @@
 using game.scene.grid;
+using game.scene.tile;
 using UnityEngine;
 
 namespace game.scene.level
@@ -18,6 +19,8 @@ namespace game.scene.level
         private GameManager _gameManager;
 
         public GridVisualizer gridVisualizer;
+
+        public TilemapHandler TilemapHandler { get; set; } 
 
         public void Construct(GameManager gameManager, GridVisualizer gridVisualizer)
         {

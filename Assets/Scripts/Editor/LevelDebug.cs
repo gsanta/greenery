@@ -22,8 +22,14 @@ public class LevelDebug : MonoBehaviour
 
         if (GUILayout.Button("Visualize grid"))
         {
-            var level = GetSelectedLevel(); 
-            level.gridVisualizer.ToggleVisualization();
+            var level = GetSelectedLevel();
+            if (level.gridVisualizer.IsVisualize)
+            {
+                level.gridVisualizer.Hide();
+            } else
+            {
+                level.gridVisualizer.Show();
+            }
         }
 
         if (GUILayout.Button("Render debug path"))

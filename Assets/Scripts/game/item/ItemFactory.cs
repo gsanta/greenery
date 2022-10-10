@@ -14,18 +14,18 @@ namespace game.item
 
         [SerializeField] private Transform container;
 
-        public GameObject Create(ItemType itemType)
+        public GameObject Create(ItemType itemType, Vector3 pos)
         {
-            var gameObject = InstantiateGameObject(itemPrefab);
+            var gameObject = InstantiateGameObject(itemPrefab, pos);
             var sprite = GetSprite(itemType);
             gameObject.GetComponent<SpriteRenderer>().sprite = sprite;
 
             return gameObject;
         }
 
-        private GameObject InstantiateGameObject(GameObject prefab)
+        private GameObject InstantiateGameObject(GameObject prefab, Vector3 pos)
         {
-            return Instantiate(prefab, container);
+            return Instantiate(prefab, pos, Quaternion.identity, container);
         }
 
 

@@ -1,6 +1,7 @@
 ﻿
 using game.scene.grid;
 using game.scene.level;
+using game.scene.tile;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -17,6 +18,8 @@ namespace game.scene
         [SerializeField]  public Tilemap tilemapGround;
 
         [SerializeField]  public Tilemap tilemapObjects;
+
+        [SerializeField]  public TilemapHandler tilemapHandler;
 
         [SerializeField] public GameObject border;
 
