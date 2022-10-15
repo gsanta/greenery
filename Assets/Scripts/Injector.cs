@@ -10,15 +10,13 @@ using UnityEngine;
 using game.tool.weapon;
 using game.character.enemy;
 using gui;
-using UnityEngine.SceneManagement;
-using System;
 using game.character.player;
 using Base.Input;
 using game.Item;
 using game.Common;
 using Game.Stage;
 using game.item;
-using System.Linq;
+using game.scene.grid;
 
 public class Injector : MonoBehaviour
 {    
@@ -93,11 +91,21 @@ public class Injector : MonoBehaviour
     // stage
     [SerializeField] private StageManager stageManager;
 
+    [SerializeField] private GridVisualizer gridVisualizer;
+
     // common
     [SerializeField] private CursorHandler cursorHandler;
 
+    // debug
+    [SerializeField] private DebugContainer debugContainer;
+    
+    [SerializeField] private GridVisualizer debugGridVisualizer;
+
+
     private void Awake()
     {
+        debugContainer.gridVisualizer = debugGridVisualizer;
+
         stateFactory.Construct(playerStore);
 
         weaponFactory.Construct(bulletFactory);
@@ -120,8 +128,9 @@ public class Injector : MonoBehaviour
         _itemInputHandler = new ItemInputHandler(_inventoryStore, itemFactory, LevelStore);
         inputManager.AddHandler(_itemInputHandler);
 
+        stageManager.Construct(levelLoader);
         stageManager.AddStageHandler(new FightStageHandler(_gunInputHandler, enemySpawner));
-        stageManager.AddStageHandler(new BuildStageHandler(_itemInputHandler, LevelStore));
+        stageManager.AddStageHandler(new BuildStageHandler(_itemInputHandler, LevelStore, debugGridVisualizer, playerStore));
 
         panelManager.startGamePanel = startGamePanel;
 
@@ -135,38 +144,17 @@ public class Injector : MonoBehaviour
         cursorHandler.SetDefaultCursor();
     }
 
-    private void LevelLoaded(object sender, LevelLoadedEventArgs e)
+    private void LevelLoaded(object sender, LevelLoadedEventArgs args)
     {
-        InjectLevel(e.Scene, e.TranslateScene);
-
-        if (LevelStore.GetLevelsToLoad().All(levelLoadingInfo => levelLoadingInfo.IsLoaded))
-        {
-            AllLevelsLoaded();
-        }
-    }
-
-    private void AllLevelsLoaded()
-    {
-        stageManager.DeactivateAllStages();
-        stageManager.ActivateStage(StageType.BuildStage);
-    }
-
-    private void InjectLevel(Scene scene, Vector2 translate)
-    {
-        var levelInjectorGameObject = Array.Find(scene.GetRootGameObjects(), (obj) => obj.name == LevelInjector.UnityName);
-        var rootGameObject = Array.Find(scene.GetRootGameObjects(), (gameObject) => gameObject.name == "Root");
-
-        var levelInjector = levelInjectorGameObject.GetComponent<LevelInjector>();
-        
-
+        var levelInjector = args.LevelInjector;
         var level = levelInjector.level;
-        level.RootGameObject = rootGameObject;
+        level.RootGameObject = args.RootGameObject;
         level.TilemapHandler = levelInjector.tilemapHandler;
         level.TilemapHandler.GetTileAt(Vector2.right);
 
-        level.Construct(gameManager, levelInjector.gridVisualizer);
+        level.Construct(gameManager);
 
-        rootGameObject.transform.Translate(new Vector3(translate.x, translate.y, 0));
+        args.RootGameObject.transform.Translate(new Vector3(args.TranslateScene.x, args.TranslateScene.y, 0));
 
         LevelStore.AddLevel(level);
         if (!LevelStore.ActiveLevel)
@@ -175,5 +163,5 @@ public class Injector : MonoBehaviour
         }
 
         level.EnvironmentData = new EnvironmentData(levelInjector.border, levelInjector.tilemapObjects, levelInjector.blocks);
-    }
+    }    
 }

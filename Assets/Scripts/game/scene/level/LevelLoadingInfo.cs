@@ -8,6 +8,7 @@ namespace game.scene.level
         public LevelName levelName;
         public Vector2 position;
         public bool IsLoaded;
+        public bool IsStarted;
 
         public LevelLoadingInfo(LevelName levelName, Vector2 position)
         {

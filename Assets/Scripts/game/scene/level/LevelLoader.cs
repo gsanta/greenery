@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +9,10 @@ namespace game.scene.level
     {
         public Scene Scene { get; set; }
 
+        public LevelInjector LevelInjector { get; set; }
+        
+        public GameObject RootGameObject { get; set; }
+
         public Vector2 TranslateScene { get; set; }
     }
 
@@ -16,6 +20,8 @@ namespace game.scene.level
     {
 
         public event EventHandler<LevelLoadedEventArgs> LevelLoadedEventHandler;
+
+        public event EventHandler LevelsStartedEventHandler;
 
         private LevelStore _levelStore;
 
@@ -38,7 +44,27 @@ namespace game.scene.level
                 var eventArgs = new LevelLoadedEventArgs();
                 eventArgs.Scene = scene;
                 eventArgs.TranslateScene = translate;
+                eventArgs.LevelInjector = Array.Find(scene.GetRootGameObjects(), (obj) => obj.name == LevelInjector.UnityName).GetComponent<LevelInjector>();
+                eventArgs.RootGameObject = Array.Find(scene.GetRootGameObjects(), (obj) => obj.name == "Root");
+
+                eventArgs.LevelInjector.level.LevelStartedEventHandler += HandleLevelStarted;
+
                 handler(this, eventArgs);
+            }
+        }
+
+        private void HandleLevelStarted(object sender, LevelStartedEventArgs args)
+        {
+            _levelStore.GetLevelLoadingInfoByName(args.Level.levelName).IsStarted = true;
+
+            if (_levelStore.GetLevelsToLoad().All(levelLoadingInfo => levelLoadingInfo.IsStarted))
+            {
+                EventHandler handler = LevelsStartedEventHandler;
+
+                if (handler != null)
+                {
+                    handler(this, EventArgs.Empty);
+                }
             }
         }
 

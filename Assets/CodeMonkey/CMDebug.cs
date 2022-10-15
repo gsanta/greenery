@@ -78,7 +78,6 @@ namespace CodeMonkey {
             Vector3 dir = (to - from).normalized;
             Vector3 pos = from;
             FunctionUpdater.Create(() => {
-                Debug.DrawLine(pos, pos + dir * projectileSize);
                 float distanceBefore = Vector3.Distance(pos, to);
                 pos += dir * speed * Time.deltaTime;
                 float distanceAfter = Vector3.Distance(pos, to);

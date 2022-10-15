@@ -44,6 +44,11 @@ namespace game.scene.level
             return _levelLoadingInfoList.Count();
         }
 
+        public LevelLoadingInfo GetLevelLoadingInfoByName(LevelName levelName)
+        {
+            return _levelLoadingInfoList.Find((level) => level.levelName == levelName);
+        }
+
         public Level GetLevelByName(LevelName levelName)
         {
             return levels.Find((level) => level.levelName == levelName);

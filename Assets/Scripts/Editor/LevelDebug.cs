@@ -1,5 +1,6 @@
 ﻿
 using Assets.Scripts.debug;
+using game.scene.grid;
 using game.scene.level;
 using UnityEditor;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class LevelDebug : MonoBehaviour
     [SerializeField] private Transform gridPositionTester;
 
     private LevelStore _levelStore;
+
+    private GridVisualizer _gridVisualizer;
 
     private int selectedLevelIndex = 0;
 
@@ -23,12 +26,13 @@ public class LevelDebug : MonoBehaviour
         if (GUILayout.Button("Visualize grid"))
         {
             var level = GetSelectedLevel();
-            if (level.gridVisualizer.IsVisualize)
+            if (_gridVisualizer.IsVisualize)
             {
-                level.gridVisualizer.Hide();
+                _gridVisualizer.Hide();
             } else
             {
-                level.gridVisualizer.Show();
+                _gridVisualizer.SetGrid(level.Grid, level.RootGameObject.transform);
+                _gridVisualizer.Show();
             }
         }
 
@@ -46,14 +50,7 @@ public class LevelDebug : MonoBehaviour
             var levelOffset = level.EnvironmentData.Center;
             var pos = new Vector2(gridPositionTester.position.x - levelOffset.x, gridPositionTester.position.y - levelOffset.y);
             var gridPos = level.Grid.GetGridPosition(pos);
-            if (gridPos != null)
-            {
-                var isWalkable = level.Grid.GetNode(gridPos.Value.x, gridPos.Value.y).IsWalkable;
-                Debug.Log("X: " + gridPos.Value.x + " Y: " + gridPos.Value.y + " isWalkable: " + isWalkable);
-            } else
-            {
-                Debug.Log("Outside of grid");
-            }
+
         }
     }
 
@@ -68,6 +65,11 @@ public class LevelDebug : MonoBehaviour
         if (!_levelStore)
         {
             _levelStore = FindObjectOfType<LevelStore>();
+        }
+
+        if (!_gridVisualizer)
+        {
+            _gridVisualizer = FindObjectOfType<GridVisualizer>();
         }
     }
 }
