@@ -2,6 +2,6 @@
 {
     public enum InputHandlerType
     {
-        GunHandler, ItemHandler
+        GunHandler, ItemHandler, TileHandler
     }
 }

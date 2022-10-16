@@ -15,5 +15,7 @@ namespace Base.Input
         public virtual void OnKeyDown(InputInfo inputInfo) { }
 
         public virtual void OnClick(InputInfo inputInfo) { }
+
+        public virtual void OnMouseMove(InputInfo inputInfo) { }
     }
 }

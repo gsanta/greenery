@@ -23,6 +23,6 @@ namespace game.scene
 
         [SerializeField] public GameObject border;
 
-        [SerializeField] public GridVisualizer gridVisualizer;
+        [SerializeField] public TileRenderer gridVisualizer;
     }
 }

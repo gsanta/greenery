@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,9 +13,12 @@ namespace Base.Input
 
         private InputInfo _inputInfo = new InputInfo();
 
+        private InputInfo _prevInputInfo = new InputInfo();
+
         private void Update()
         {
 
+            _prevInputInfo = _inputInfo;
             _inputInfo = new InputInfo();
 
             if (!IsPointerOverUIObject())
@@ -23,6 +27,10 @@ namespace Base.Input
                 {
                     _inputInfo.IsLeftButtonDown = true;
                 }
+
+                var pos = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
+                _inputInfo.xPos = pos.x;
+                _inputInfo.yPos = pos.y;
             }
 
             if (UnityEngine.Input.GetKeyDown(KeyCode.E))
@@ -37,13 +45,24 @@ namespace Base.Input
         {
             if (_inputInfo.IsLeftButtonDown)
             {
-                _handlers.ForEach(handler => {
-                    if (!handler.IsDisabled)
-                    {
-                        handler.OnClick(_inputInfo);
-                    }
-                });
+                InvokeHandlers((handler) => handler.OnClick(_inputInfo));
             }
+
+            if (_prevInputInfo.xPos != _inputInfo.xPos || _prevInputInfo.yPos != _inputInfo.yPos)
+            {
+                InvokeHandlers((handler) => handler.OnMouseMove(_inputInfo));
+            }
+        }
+
+        private void InvokeHandlers(Action<InputHandler> Callback)
+        {
+            _handlers.ForEach(handler => {
+                if (!handler.IsDisabled)
+                {
+                    Callback(handler);
+                }
+            });
+
         }
 
         public void AddHandler(InputHandler handler)

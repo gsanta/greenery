@@ -91,7 +91,7 @@ public class Injector : MonoBehaviour
     // stage
     [SerializeField] private StageManager stageManager;
 
-    [SerializeField] private GridVisualizer gridVisualizer;
+    [SerializeField] private ScopedTileRenderer scopedTileRenderer;
 
     // common
     [SerializeField] private CursorHandler cursorHandler;
@@ -99,12 +99,12 @@ public class Injector : MonoBehaviour
     // debug
     [SerializeField] private DebugContainer debugContainer;
     
-    [SerializeField] private GridVisualizer debugGridVisualizer;
+    [SerializeField] private LevelTileRenderer levelTileRenderer;
 
 
     private void Awake()
     {
-        debugContainer.gridVisualizer = debugGridVisualizer;
+        debugContainer.gridVisualizer = levelTileRenderer;
 
         stateFactory.Construct(playerStore);
 
@@ -128,9 +128,11 @@ public class Injector : MonoBehaviour
         _itemInputHandler = new ItemInputHandler(_inventoryStore, itemFactory, LevelStore);
         inputManager.AddHandler(_itemInputHandler);
 
+        scopedTileRenderer.Construct(playerStore, LevelStore, 4);
+
         stageManager.Construct(levelLoader);
         stageManager.AddStageHandler(new FightStageHandler(_gunInputHandler, enemySpawner));
-        stageManager.AddStageHandler(new BuildStageHandler(_itemInputHandler, LevelStore, debugGridVisualizer, playerStore));
+        stageManager.AddStageHandler(new BuildStageHandler(_itemInputHandler, LevelStore, scopedTileRenderer, inputManager));
 
         panelManager.startGamePanel = startGamePanel;
 

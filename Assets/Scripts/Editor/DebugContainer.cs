@@ -17,5 +17,5 @@ public class DebugContainer : MonoBehaviour
         }
     }
 
-    public GridVisualizer gridVisualizer;
+    public TileRenderer gridVisualizer;
 }

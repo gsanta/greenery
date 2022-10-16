@@ -12,6 +12,10 @@ namespace Base.Input
 
         public bool IsLeftButtonDown { get; set; }
 
+        public float xPos;
+
+        public float yPos;
+
         public void AddKeyDown(KeyCode keyCode)
         {
             downKeys.Add(keyCode);

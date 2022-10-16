@@ -11,7 +11,7 @@ public class LevelDebug : MonoBehaviour
 
     private LevelStore _levelStore;
 
-    private GridVisualizer _gridVisualizer;
+    private LevelTileRenderer _tileRenderer;
 
     private int selectedLevelIndex = 0;
 
@@ -26,13 +26,13 @@ public class LevelDebug : MonoBehaviour
         if (GUILayout.Button("Visualize grid"))
         {
             var level = GetSelectedLevel();
-            if (_gridVisualizer.IsVisualize)
+            _tileRenderer.SetLevel(level);
+            if (_tileRenderer.IsVisualize)
             {
-                _gridVisualizer.Hide();
+                _tileRenderer.Hide();
             } else
             {
-                _gridVisualizer.SetGrid(level.Grid, level.RootGameObject.transform);
-                _gridVisualizer.Show();
+                _tileRenderer.Show();
             }
         }
 
@@ -67,9 +67,9 @@ public class LevelDebug : MonoBehaviour
             _levelStore = FindObjectOfType<LevelStore>();
         }
 
-        if (!_gridVisualizer)
+        if (!_tileRenderer)
         {
-            _gridVisualizer = FindObjectOfType<GridVisualizer>();
+            _tileRenderer = FindObjectOfType<LevelTileRenderer>();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿
-using game.character.characters.player;
+using Base.Input;
 using game.item;
 using game.scene.grid;
 using game.scene.level;
@@ -8,38 +8,44 @@ namespace Game.Stage
 {
     public class BuildStageHandler : StageHandler
     {
-        private ItemInputHandler _inputHandler;
+        private ItemInputHandler _itemInputHandler;
 
-        private LevelStore _levelStore;
+        private readonly LevelStore _levelStore;
+        
+        private ScopedTileRenderer _tileRenderer;
 
-        private GridVisualizer _gridVisualizer;
+        private readonly InputManager _inputManager;
 
-        private PlayerStore _playerStore;
+        private TileInputHandler _tileInputHandler;
 
         public StageType Type { get; } = StageType.BuildStage;
 
-        public BuildStageHandler(ItemInputHandler inputHandler, LevelStore levelStore, GridVisualizer gridVisualizer, PlayerStore playerStore)
+        public BuildStageHandler(ItemInputHandler inputHandler, LevelStore levelStore, ScopedTileRenderer tileRenderer, InputManager inputManager)
         {
-            _inputHandler = inputHandler;
+            _itemInputHandler = inputHandler;
             _levelStore = levelStore;
-            _gridVisualizer = gridVisualizer;
-            _playerStore = playerStore;
+            _tileRenderer = tileRenderer;
+            _inputManager = inputManager;
         }
 
         public void Activate()
         {
-            _inputHandler.IsDisabled = false;
-            var level = _levelStore.ActiveLevel;
-            _gridVisualizer.SetGrid(level.Grid, level.RootGameObject.transform);
-            _gridVisualizer.Show();
-
-            _gridVisualizer.SetRadiusOrigin(_playerStore.GetActivePlayer().gameObject);
+            _itemInputHandler.IsDisabled = false;
+            _tileRenderer.Show();
+            _tileInputHandler = new TileInputHandler(_levelStore.ActiveLevel);
+            _tileInputHandler.OnHoverTile += HandleTileHoverChange;
+            _inputManager.AddHandler(_tileInputHandler);
         }
 
         public void Deactivate()
         {
-            _inputHandler.IsDisabled = true;
-            _gridVisualizer.Hide();
+            _itemInputHandler.IsDisabled = true;
+            _tileRenderer.Hide();
+        }
+
+        private void HandleTileHoverChange(object sender, OnHoverTileEventArgs args)
+        {
+            _tileRenderer.SetActiveNode(args.node);
         }
     }
 }
