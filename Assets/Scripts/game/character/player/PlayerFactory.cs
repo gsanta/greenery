@@ -1,3 +1,4 @@
+using Assets.Scripts.game.character.characters.player;
 using game.character.ability.field_of_view;
 using game.character.ability.health;
 using game.Item.grass;
@@ -39,9 +40,10 @@ namespace game.character.characters.player
             _camera = camera;
         }
 
+
         public Player Create(Vector3 position, CharacterType playerType)
         {
-            var prevPlayer = _playerStore.GetActivePlayer();
+            //var prevPlayer = _playerStore.GetActivePlayer();
 
             Player newPlayer;
             switch(playerType)
@@ -56,7 +58,9 @@ namespace game.character.characters.player
                     throw new ArgumentException("Player type not supported: " + playerType);
             }
 
-            ActivatePlayer(newPlayer);
+            var movement = newPlayer.GetComponent<InputMovement>();
+            movement.Construct(newPlayer);
+
             _playerStore.Add(newPlayer);
             var stat = _playerStore.GetStat(playerType);
             newPlayer.Weapon.Bullets = stat.Bullets;
@@ -65,11 +69,11 @@ namespace game.character.characters.player
             _bulletPanel.SetBullets(newPlayer.Weapon.Bullets);
 
 
-            if (prevPlayer)
-            {
-                prevPlayer.Stats.Bullets = prevPlayer.Weapon.Bullets;
-                _playerStore.DestroyActivePlayer();
-            }
+            //if (prevPlayer)
+            //{
+            //    prevPlayer.Stats.Bullets = prevPlayer.Weapon.Bullets;
+            //    _playerStore.DestroyActivePlayer();
+            //}
 
 
             return newPlayer;
@@ -98,12 +102,6 @@ namespace game.character.characters.player
             
 
             return player;
-        }
-
-        private void ActivatePlayer(Player player)
-        {
-            player.IsActive = true;
-            _camera.SetTarget(player);
         }
     }
 }

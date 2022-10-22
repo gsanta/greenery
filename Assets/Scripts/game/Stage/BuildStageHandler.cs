@@ -8,33 +8,33 @@ namespace Game.Stage
 {
     public class BuildStageHandler : StageHandler
     {
-        private ItemInputHandler _itemInputHandler;
+        private ItemHandler _itemInputHandler;
 
         private readonly LevelStore _levelStore;
         
         private ScopedTileRenderer _tileRenderer;
 
-        private readonly InputManager _inputManager;
+        private readonly InputHandler _inputHandler;
 
-        private TileInputHandler _tileInputHandler;
+        private TileHandler _tileInputHandler;
 
         public StageType Type { get; } = StageType.BuildStage;
 
-        public BuildStageHandler(ItemInputHandler inputHandler, LevelStore levelStore, ScopedTileRenderer tileRenderer, InputManager inputManager)
+        public BuildStageHandler(ItemHandler inputHandler, LevelStore levelStore, ScopedTileRenderer tileRenderer, InputHandler inputManager)
         {
             _itemInputHandler = inputHandler;
             _levelStore = levelStore;
             _tileRenderer = tileRenderer;
-            _inputManager = inputManager;
+            _inputHandler = inputManager;
         }
 
         public void Activate()
         {
             _itemInputHandler.IsDisabled = false;
             _tileRenderer.Show();
-            _tileInputHandler = new TileInputHandler(_levelStore.ActiveLevel);
+            _tileInputHandler = new TileHandler(_levelStore.ActiveLevel);
             _tileInputHandler.OnHoverTile += HandleTileHoverChange;
-            _inputManager.AddHandler(_tileInputHandler);
+            _inputHandler.AddHandler(_tileInputHandler);
         }
 
         public void Deactivate()

@@ -6,26 +6,36 @@ using UnityEngine;
 
 namespace game.character
 {
-    public interface ICharacter
+    public abstract class ICharacter : MonoBehaviour
     {
-        StateHandler States { get; }
-        
-        AbilityHandler Abilities { get; }
+        private bool _isActive;
 
-        Health GetHealth();
+        public StateHandler States { get; private set; }
 
-        void Die();
-        
-        Vector2 GetPosition();
-        
-        void SetMovement(Vector2 movement);
-        
-        Vector2 GetMovement();
+        public void Construct()
+        {
+            States = new StateHandler();
+        }
 
-        public IMovement Movement { get; }
+        public bool IsActive()
+        {
+            return _isActive;
+        }
 
-        public void AddDestroyable(GameObject gameObject);
+        public void SetActive(bool isActive)
+        {
+            _isActive = isActive;
+        }
 
-        GameObject GetGameObject();
+        public virtual void Die() {}
+
+        public Vector2 GetPosition()
+        {
+            return transform.position;
+        }
+
+        public IMovement Movement { get; protected set; }
+
+        public GameObject GetGameObject() { return gameObject; }
     }
 }

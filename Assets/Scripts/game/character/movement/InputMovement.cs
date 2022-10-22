@@ -1,12 +1,11 @@
 ﻿
 using game.character.movement;
 using game.character.utils;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.game.character.characters.player
 {
-    public class InputMovement : MonoBehaviour, IMovement
+    public class InputMovement : IMovement
     {
         public float moveSpeed = 2.5f;
 
@@ -16,24 +15,10 @@ namespace Assets.Scripts.game.character.characters.player
 
         private Vector3 _movement;
 
-        private Direction _moveDirection = Direction.Down;
         
         private Rigidbody2D _rigidBody;
 
         private bool _isPaused;
-
-        private bool _isFlipped;
-
-        public void PauseUntil(float time)
-        {
-            _isPaused = true;
-            Invoke(nameof(Unpause), time);
-        }
-
-        private void Unpause()
-        {
-            _isPaused = false;
-        }
 
         void Start()
         {
@@ -43,7 +28,7 @@ namespace Assets.Scripts.game.character.characters.player
 
         void Update()
         {
-            if (_isPaused)
+            if (_isPaused || !_character.IsActive())
             {
                 return;
             }
@@ -81,16 +66,6 @@ namespace Assets.Scripts.game.character.characters.player
                 _animator.SetFloat("verticalMovement", _movement.y);
                 _animator.SetBool("isMoving", true);
             }
-        }
-
-        public Direction GetDirection()
-        {
-            return _moveDirection;
-        }
-
-        public List<Vector2> GetPath()
-        {
-            return new List<Vector2>();
         }
     }
 }

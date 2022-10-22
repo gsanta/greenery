@@ -16,6 +16,10 @@ namespace Base.Input
 
         public float yPos;
 
+        public bool IsTabPressed { get; set; }
+
+        public bool IsScrollUp { get; set; }
+
         public void AddKeyDown(KeyCode keyCode)
         {
             downKeys.Add(keyCode);

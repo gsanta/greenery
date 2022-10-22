@@ -18,8 +18,6 @@ namespace Assets.Scripts.game.scene
         private void Start()
         {
             _collider = GetComponent<PolygonCollider2D>();
-
-
         }
 
         public void SetDimensions(Level level)

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace game.item
 {
-    public class ItemInputHandler : InputHandler
+    public class ItemHandler : InputListener
     {
         private InventoryStore _inventoryStore;
 
@@ -14,7 +14,7 @@ namespace game.item
 
         private LevelStore _levelStore;
 
-        public ItemInputHandler(InventoryStore inventoryStore, ItemFactory itemFactory, LevelStore levelStore) : base(InputHandlerType.ItemHandler)
+        public ItemHandler(InventoryStore inventoryStore, ItemFactory itemFactory, LevelStore levelStore)
         {
             _inventoryStore = inventoryStore;
             _itemFactory = itemFactory;

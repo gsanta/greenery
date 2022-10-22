@@ -4,7 +4,7 @@ namespace game.character.utils
 {
     public static class MovementUtil
     {
-        public static Direction UpdateMoveDirection(Vector3 movement, Direction? currentDirection)
+        public static Direction UpdateMoveDirection(Vector2 movement, Direction? currentDirection)
         {
             if (movement.x != 0 && movement.y != 0)
             {

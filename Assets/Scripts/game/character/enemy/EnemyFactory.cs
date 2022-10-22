@@ -75,7 +75,7 @@ namespace game.character.characters.enemy
             health.Construct(enemy, null, new PlayerStats(3));
 
             var pathMovement = obj.AddComponent(typeof(PathMovement)) as PathMovement;
-            pathMovement.Construct(level.Grid, enemy);
+            pathMovement.Construct(level.Grid);
 
             //var roamingState = _stateFactory.CreateRoamingState(enemy, enemy.gameObject);
             //enemy.States.AddState(roamingState, true);

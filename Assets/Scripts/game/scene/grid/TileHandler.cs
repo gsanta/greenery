@@ -15,7 +15,7 @@ namespace game.scene.grid
         }
     }
 
-    public class TileInputHandler : InputHandler
+    public class TileHandler : InputListener
     {
         private Level _level;
 
@@ -23,7 +23,7 @@ namespace game.scene.grid
 
         public event EventHandler<OnHoverTileEventArgs> OnHoverTile;
 
-        public TileInputHandler(Level level) : base(InputHandlerType.TileHandler)
+        public TileHandler(Level level)
         {
             _level = level;
         }

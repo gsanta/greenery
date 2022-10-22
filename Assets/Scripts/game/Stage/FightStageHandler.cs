@@ -6,13 +6,13 @@ namespace Game.Stage
 {
     public class FightStageHandler : StageHandler
     {
-        private GunInputHandler _inputHandler;
+        private GunHandler _inputHandler;
 
         private EnemySpawner _enemySpawner;
 
         public StageType Type { get; } = StageType.FightStage;
 
-        public FightStageHandler(GunInputHandler inputHandler, EnemySpawner enemySpawner)
+        public FightStageHandler(GunHandler inputHandler, EnemySpawner enemySpawner)
         {
             _inputHandler = inputHandler;
             _enemySpawner = enemySpawner;

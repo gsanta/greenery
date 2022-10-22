@@ -1,21 +1,102 @@
 ﻿
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+
 namespace Base.Input
 {
-    public abstract class InputHandler
+    public class InputHandler : MonoBehaviour
     {
-        public InputHandlerType Type { get; private set; }
 
-        public bool IsDisabled { get; set; }
+        private List<InputListener> _handlers = new();
 
-        protected InputHandler(InputHandlerType type)
+        private InputInfo _inputInfo = new InputInfo();
+
+        private InputInfo _prevInputInfo = new InputInfo();
+
+        private void Update()
         {
-            Type = type;
+
+            _prevInputInfo = _inputInfo;
+            _inputInfo = new InputInfo();
+
+            if (!IsPointerOverUIObject())
+            {
+                if (UnityEngine.Input.GetMouseButtonDown(0))
+                {
+                    _inputInfo.IsLeftButtonDown = true;
+                }
+
+                var pos = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
+                _inputInfo.xPos = pos.x;
+                _inputInfo.yPos = pos.y;
+            }
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.E))
+            {
+                _inputInfo.AddKeyDown(KeyCode.E);
+            }
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Tab))
+            {
+                _inputInfo.IsTabPressed = true;
+            }
+
+            if (UnityEngine.Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
+            {
+                _inputInfo.IsScrollUp = true;
+            }
+
+            FireEvents();
         }
 
-        public virtual void OnKeyDown(InputInfo inputInfo) { }
+        private void FireEvents()
+        {
+            if (_inputInfo.IsLeftButtonDown)
+            {
+                InvokeHandlers((handler) => handler.OnClick(_inputInfo));
+            }
 
-        public virtual void OnClick(InputInfo inputInfo) { }
+            if (_prevInputInfo.xPos != _inputInfo.xPos || _prevInputInfo.yPos != _inputInfo.yPos)
+            {
+                InvokeHandlers((handler) => handler.OnMouseMove(_inputInfo));
+            }
 
-        public virtual void OnMouseMove(InputInfo inputInfo) { }
+            if (_inputInfo.IsTabPressed)
+            {
+                InvokeHandlers((handler) => handler.OnTabPressed(_inputInfo));
+            }
+
+            if (_inputInfo.IsScrollUp)
+            {
+                InvokeHandlers((handler) => handler.OnScroll(_inputInfo));
+            }
+        }
+
+        private void InvokeHandlers(Action<InputListener> Callback)
+        {
+            _handlers.ForEach(handler => {
+                if (!handler.IsDisabled)
+                {
+                    Callback(handler);
+                }
+            });
+
+        }
+
+        public void AddHandler(InputListener handler)
+        {
+            _handlers.Add(handler);
+        }
+
+        public static bool IsPointerOverUIObject()
+        {
+            PointerEventData eventData = new PointerEventData(EventSystem.current);
+            eventData.position = new Vector2(UnityEngine.Input.mousePosition.x, UnityEngine.Input.mousePosition.y);
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventData, results);
+            return results.Count > 0;
+        }
     }
 }

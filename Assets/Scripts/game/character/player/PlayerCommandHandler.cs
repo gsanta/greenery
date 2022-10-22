@@ -18,14 +18,6 @@ namespace game.character.characters.player
             _playerFactory = playerFactory;
         }
 
-        public void Update()
-        {
-            if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
-            {
-                ChangePlayer();
-            }
-        }
-
         private void ChangePlayer()
         {
             var currentPlayer = _playerStore.GetActivePlayer();

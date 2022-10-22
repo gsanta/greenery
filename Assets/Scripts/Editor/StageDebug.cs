@@ -20,10 +20,10 @@ public class StageDebug : MonoBehaviour
 
     private void InitMembers()
     {
-        if (!_stageManager)
-        {
-            _stageManager = FindObjectOfType<StageManager>();
-        }
+        //if (!_stageManager)
+        //{
+        //    _stageManager = FindObjectOfType<StageManager>();
+        //}
 
     }
 
@@ -51,10 +51,10 @@ public class StageDebug : MonoBehaviour
 
         if (GUILayout.Button("Set stage"))
         {
-            if (_stageManager)
-            {
-                _stageManager.ActivateStage(_selectedStageType);
-            }
+            //if (_stageManager)
+            //{
+            //    _stageManager.ActivateStage(_selectedStageType);
+            //}
         }
     }
 }

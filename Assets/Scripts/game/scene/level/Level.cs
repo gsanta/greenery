@@ -53,8 +53,6 @@ namespace game.scene.level
 
             Grid = _gridFactory.CreateGrid();
 
-            _gameManager.StartLevel(this);
-
             HandleLevelStarted();
         }
     }

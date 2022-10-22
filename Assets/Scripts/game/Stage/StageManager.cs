@@ -1,25 +1,15 @@
-﻿using game.scene.level;
-using System;
+﻿using Base.Input;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Game.Stage
 {
-    public class StageManager : MonoBehaviour
+    public class StageManager : InputListener
     {
-        private StageType _currentStage;
+        private StageHandler _activeStage;
 
         private List<StageHandler> _stageHandlers = new();
 
-        private LevelLoader _levelLoader;
-
-        public void Construct(LevelLoader levelLoader)
-        {
-            _levelLoader = levelLoader;
-            _levelLoader.LevelsStartedEventHandler += HandleLevelsStarted;
-        }
-
-        private void HandleLevelsStarted(object sender, EventArgs args)
+        public void Init()
         {
             DeactivateAllStages();
             ActivateStage(StageType.BuildStage);
@@ -37,10 +27,31 @@ namespace Game.Stage
 
         public void ActivateStage(StageType newStageType)
         {
-            GetStageHandler(_currentStage).Deactivate();
+            if (_activeStage != null)
+            {
+                _activeStage.Deactivate();
+            }
             GetStageHandler(newStageType).Activate();
             
-            _currentStage = newStageType;
+            _activeStage = GetStageHandler(newStageType);
+        }
+
+        public override void OnScroll(InputInfo inputInfo)
+        {
+            var nextStage = GetNextStage();
+            ActivateStage(nextStage.Type);
+        }
+
+        private StageHandler GetNextStage()
+        {
+            var index = _stageHandlers.IndexOf(_activeStage);
+            if (index == _stageHandlers.Count - 1)
+            {
+                return _stageHandlers[0];
+            } else
+            {
+                return _stageHandlers[index + 1];
+            }
         }
 
         private StageHandler GetStageHandler(StageType type)

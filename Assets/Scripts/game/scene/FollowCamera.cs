@@ -1,6 +1,7 @@
 using Assets.Scripts.game.scene;
 using Cinemachine;
 using game.character.characters.player;
+using game.scene.level;
 using UnityEngine;
 
 namespace game.scene
@@ -9,8 +10,20 @@ namespace game.scene
     {
         private CinemachineVirtualCamera _vcam;
 
+        private LevelStore _levelStore;
+
         [SerializeField] public CameraConfiner confiner;
  
+        public void Constuct(LevelStore levelStore)
+        {
+            _levelStore = levelStore;
+        }
+
+        public void Init()
+        {
+            GetConfiner().SetDimensions(_levelStore.ActiveLevel);
+        }
+
         void Awake()
         {
             confiner.Construct(this);

@@ -3,12 +3,38 @@ using UnityEngine;
 
 namespace game.character.movement
 {
-    public interface IMovement
+    public abstract class IMovement : MonoBehaviour
     {
-        public void PauseUntil(float time);
+        protected bool _isPaused;
 
-        public Direction GetDirection();
+        protected Direction _moveDirection = Direction.Down;
 
-        public List<Vector2> GetPath();
+        protected ICharacter _character;
+
+        public void Construct(ICharacter character)
+        {
+            _character = character;
+        }
+
+        public void PauseUntil(float time)
+        {
+            _isPaused = true;
+            Invoke(nameof(Unpause), time);
+        }
+
+        private void Unpause()
+        {
+            _isPaused = false;
+        }
+
+        public Direction GetDirection()
+        {
+            return _moveDirection;
+        }
+
+        public List<Vector2> GetPath()
+        {
+            return new List<Vector2>();
+        }
     }
 }
