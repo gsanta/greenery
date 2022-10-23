@@ -25,6 +25,11 @@ namespace game.Item
             _cursorHandler = cursorHandler;
         }
 
+        public GameObject GetContainer()
+        {
+            return container.gameObject;
+        }
+
         public InventoryItem CreateGrass1()
         {
             return CreateInventoryItem(ItemType.Grass1, grass1Prefab);

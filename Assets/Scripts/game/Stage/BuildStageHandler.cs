@@ -1,6 +1,7 @@
 ﻿
 using Base.Input;
 using game.item;
+using game.Item;
 using game.scene.grid;
 using game.scene.level;
 
@@ -18,14 +19,17 @@ namespace Game.Stage
 
         private TileHandler _tileInputHandler;
 
+        private InventoryHandler _inventoryHandler;
+
         public StageType Type { get; } = StageType.BuildStage;
 
-        public BuildStageHandler(ItemHandler inputHandler, LevelStore levelStore, ScopedTileRenderer tileRenderer, InputHandler inputManager)
+        public BuildStageHandler(ItemHandler inputHandler, LevelStore levelStore, ScopedTileRenderer tileRenderer, InputHandler inputManager, InventoryHandler inventoryHandler)
         {
             _itemInputHandler = inputHandler;
             _levelStore = levelStore;
             _tileRenderer = tileRenderer;
             _inputHandler = inputManager;
+            _inventoryHandler = inventoryHandler;
         }
 
         public void Activate()
@@ -35,12 +39,14 @@ namespace Game.Stage
             _tileInputHandler = new TileHandler(_levelStore.ActiveLevel);
             _tileInputHandler.OnHoverTile += HandleTileHoverChange;
             _inputHandler.AddHandler(_tileInputHandler);
+            _inventoryHandler.SetActive(true);
         }
 
         public void Deactivate()
         {
             _itemInputHandler.IsDisabled = true;
             _tileRenderer.Hide();
+            _inventoryHandler.SetActive(false);
         }
 
         private void HandleTileHoverChange(object sender, OnHoverTileEventArgs args)

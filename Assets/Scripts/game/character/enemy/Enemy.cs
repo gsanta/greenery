@@ -28,8 +28,6 @@ namespace game.character.characters.enemy
 
         public ShootingBehaviour ShootingBehaviour { get; private set; }
         
-        public IWeapon Weapon;
-
         private static readonly int HorizontalMovement = Animator.StringToHash("horizontalMovement");
         
         private static readonly int VerticalMovement = Animator.StringToHash("verticalMovement");
@@ -45,7 +43,7 @@ namespace game.character.characters.enemy
         
         public void Construct(EnemyStore enemyStore, PlayerStore playerStore, GameManager gameManager)
         {
-            base.Construct();
+            base.Construct(new WeaponHolder());
             _playerStore = playerStore;
             _enemyStore = enemyStore;
             _gameManager = gameManager;

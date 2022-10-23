@@ -2,6 +2,7 @@
 
 using Base.Input;
 using game.Common;
+using game.weapon;
 using UnityEngine;
 
 namespace game.Item
@@ -28,6 +29,20 @@ namespace game.Item
             _inventoryStore.AddItem(_inventoryItemFactory.CreateGrass1());
             _inventoryStore.AddItem(_inventoryItemFactory.CreateGrass2());
             _inventoryStore.SetActiveItem(_inventoryStore.GetItemAt(0));
+
+            _inventoryItemFactory.GetContainer().SetActive(true);
+        }
+
+        public void SetActive(bool isActive)
+        {
+            if (isActive)
+            {
+                _inventoryItemFactory.GetContainer().SetActive(true);
+            }
+            else
+            {
+                _inventoryItemFactory.GetContainer().SetActive(false);
+            }
         }
 
         public void OnPanelEnter()

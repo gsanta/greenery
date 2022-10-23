@@ -1,7 +1,6 @@
 using Assets.Scripts.game.character.characters.player;
 using game.character.ability.field_of_view;
 using game.character.ability.health;
-using game.Item.grass;
 using game.scene;
 using game.tool.weapon;
 using gui;
@@ -63,10 +62,12 @@ namespace game.character.characters.player
 
             _playerStore.Add(newPlayer);
             var stat = _playerStore.GetStat(playerType);
-            newPlayer.Weapon.Bullets = stat.Bullets;
-            newPlayer.Weapon.SetBulletPanel(_bulletPanel);
 
-            _bulletPanel.SetBullets(newPlayer.Weapon.Bullets);
+            var gun = _weaponFactory.CreateGun(newPlayer);
+            var bomb = _weaponFactory.CreateBomb(newPlayer);
+            newPlayer.WeaponHolder.AddWeapon(gun);
+            newPlayer.WeaponHolder.AddWeapon(bomb);
+            newPlayer.WeaponHolder.ActivateWeapontAt(0);
 
 
             //if (prevPlayer)
@@ -84,7 +85,12 @@ namespace game.character.characters.player
             var stat = _playerStore.GetStat(CharacterType.Cat);
             player.Construct(CharacterType.Cat, stat);
             player.GetComponent<Health>().Construct(player, _healthPanel, _playerStore.GetStat(CharacterType.Cat));
-            player.Weapon = _weaponFactory.CreateGun(player);
+            
+            var gun = _weaponFactory.CreateGun(player);
+            var bomb = _weaponFactory.CreateBomb(player);
+            player.WeaponHolder.AddWeapon(gun);
+            player.WeaponHolder.AddWeapon(bomb);
+            player.WeaponHolder.ActivateWeapontAt(0);
 
             return player;
         }
@@ -95,11 +101,6 @@ namespace game.character.characters.player
             var stat = _playerStore.GetStat(CharacterType.Cow);
             player.Construct(CharacterType.Cow, stat);
             player.GetComponent<Health>().Construct(player, _healthPanel, _playerStore.GetStat(CharacterType.Cow));
-            player.Weapon = _weaponFactory.CreateBomb(player);
-            var grassPickup = player.GetComponent<GrassPickup>();
-            grassPickup.Construct(player.Weapon);
-            player.ItemPickup = grassPickup;
-            
 
             return player;
         }

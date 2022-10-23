@@ -33,14 +33,28 @@ namespace Base.Input
                 _inputInfo.yPos = pos.y;
             }
 
-            if (UnityEngine.Input.GetKeyDown(KeyCode.E))
-            {
-                _inputInfo.AddKeyDown(KeyCode.E);
-            }
-
             if (UnityEngine.Input.GetKeyDown(KeyCode.Tab))
             {
+                _inputInfo.IsKeyPressed = true;
                 _inputInfo.IsTabPressed = true;
+            }
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                _inputInfo.IsKeyPressed = true;
+                _inputInfo.Is1Pressed = true;
+            }
+            
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                _inputInfo.IsKeyPressed = true;
+                _inputInfo.Is2Pressed = true;
+            }
+            
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                _inputInfo.IsKeyPressed = true;
+                _inputInfo.Is3Pressed = true;
             }
 
             if (UnityEngine.Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
@@ -63,9 +77,9 @@ namespace Base.Input
                 InvokeHandlers((handler) => handler.OnMouseMove(_inputInfo));
             }
 
-            if (_inputInfo.IsTabPressed)
+            if (_inputInfo.IsKeyPressed)
             {
-                InvokeHandlers((handler) => handler.OnTabPressed(_inputInfo));
+                InvokeHandlers((handler) => handler.OnKeyPressed(_inputInfo));
             }
 
             if (_inputInfo.IsScrollUp)

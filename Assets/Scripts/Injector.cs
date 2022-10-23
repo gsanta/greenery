@@ -17,6 +17,8 @@ using game.Common;
 using Game.Stage;
 using game.item;
 using game.scene.grid;
+using game.weapon;
+using Assetsgame.weapon;
 
 public class Injector : MonoBehaviour
 {    
@@ -31,6 +33,14 @@ public class Injector : MonoBehaviour
     [SerializeField] private BulletFactory bulletFactory;
 
     [SerializeField] private WeaponFactory weaponFactory;
+
+    [SerializeField] private WeaponImageFactory weaponImageFactory;
+
+    [SerializeField] private WeaponHandler weaponHandler;
+
+    private WeaponImageStore _weaponImageStore = new WeaponImageStore();
+
+    private WeaponSelector _weaponSelector;
 
     [SerializeField] public GameManager gameManager;
 
@@ -112,7 +122,11 @@ public class Injector : MonoBehaviour
 
         stateFactory.Construct(playerStore);
 
+        // weapon
         weaponFactory.Construct(bulletFactory);
+        weaponImageFactory.Construct(_weaponImageStore);
+        _weaponSelector = new WeaponSelector(playerStore);
+        weaponHandler.Construct(weaponImageFactory, _weaponSelector);
 
         enemyFactory.Construct(enemyStore, playerStore, weaponFactory, gameManager, stateFactory, new EnemyDecorator[] { fovVisualDecorator, pathVisualDecorator });
         enemySpawner.Construct(enemyFactory, enemyStore, LevelStore);
@@ -136,11 +150,12 @@ public class Injector : MonoBehaviour
         inputHandler.AddHandler(_itemHandler);
         inputHandler.AddHandler(_playerSelector);
         inputHandler.AddHandler(stageManager);
+        inputHandler.AddHandler(_weaponSelector);
 
         scopedTileRenderer.Construct(playerStore, LevelStore, 4);
 
-        stageManager.AddStageHandler(new FightStageHandler(_gunHandler, enemySpawner));
-        stageManager.AddStageHandler(new BuildStageHandler(_itemHandler, LevelStore, scopedTileRenderer, inputHandler));
+        stageManager.AddStageHandler(new FightStageHandler(_gunHandler, enemySpawner, weaponHandler));
+        stageManager.AddStageHandler(new BuildStageHandler(_itemHandler, LevelStore, scopedTileRenderer, inputHandler, inventoryHandler));
 
         panelManager.startGamePanel = startGamePanel;
 

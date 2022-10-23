@@ -5,7 +5,7 @@ namespace Base.Input
     {
         public bool IsDisabled { get; set; }
 
-        public virtual void OnTabPressed(InputInfo inputInfo) { }
+        public virtual void OnKeyPressed(InputInfo inputInfo) { }
 
         public virtual void OnClick(InputInfo inputInfo) { }
 

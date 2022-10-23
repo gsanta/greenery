@@ -54,7 +54,10 @@ namespace game.character.characters.enemy
 
             var enemy = obj.AddComponent(typeof(Enemy)) as Enemy;
             enemy.Construct(_enemyStore, _playerStore, _gameManager);
-            enemy.Weapon = _weaponFactory.CreateGun(enemy);
+            
+            var gun = _weaponFactory.CreateGun(enemy);
+            enemy.WeaponHolder.AddWeapon(gun);
+            enemy.WeaponHolder.ActivateWeapontAt(0);
             enemy.Level = level;
 
             var fieldOfView = new FieldOfView(enemy, _playerStore, "Characters");

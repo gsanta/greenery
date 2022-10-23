@@ -1,5 +1,3 @@
-using game.character.ability;
-using game.character.ability.health;
 using game.character.movement;
 using game.character.state;
 using UnityEngine;
@@ -10,10 +8,13 @@ namespace game.character
     {
         private bool _isActive;
 
+        public WeaponHolder WeaponHolder;
+
         public StateHandler States { get; private set; }
 
-        public void Construct()
+        public void Construct(WeaponHolder weaponHolder)
         {
+            WeaponHolder = weaponHolder;
             States = new StateHandler();
         }
 

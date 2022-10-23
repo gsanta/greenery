@@ -1,33 +1,42 @@
 ﻿
 
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Base.Input
 {
     public struct InputInfo
     {
-
-        private HashSet<KeyCode> downKeys;
-
         public bool IsLeftButtonDown { get; set; }
 
         public float xPos;
 
         public float yPos;
 
+        public bool IsKeyPressed { get; set; }
+
         public bool IsTabPressed { get; set; }
+        public bool Is1Pressed{ get; set; }
+        public bool Is2Pressed { get; set; }
+        public bool Is3Pressed { get; set; }
 
         public bool IsScrollUp { get; set; }
-
-        public void AddKeyDown(KeyCode keyCode)
+        public int GetNumberKeyPressed()
         {
-            downKeys.Add(keyCode);
+            if (Is1Pressed)
+            {
+                return 0;
+            }
+            else if (Is2Pressed)
+            {
+                return 1;
+            }
+            else if (Is3Pressed)
+            {
+                return 2;
+            }
+
+            return -1;
         }
 
-        public bool IsKeyDown(KeyCode keyCode)
-        {
-            return downKeys.Contains(keyCode);
-        }
     }
 }

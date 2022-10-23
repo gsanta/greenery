@@ -13,10 +13,13 @@ namespace game.character.player
             _playerStore = playerStore;
         }
 
-        public override void OnTabPressed(InputInfo inputInfo)
+        public override void OnKeyPressed(InputInfo inputInfo)
         {
-            var nextPlayer = _playerStore.GetNextPlayer(_playerStore.GetActivePlayer());
-            _playerStore.SetActivePlayer(nextPlayer);
+            if (inputInfo.IsTabPressed)
+            {
+                var nextPlayer = _playerStore.GetNextPlayer(_playerStore.GetActivePlayer());
+                _playerStore.SetActivePlayer(nextPlayer);
+            }
         }
     }
 }
