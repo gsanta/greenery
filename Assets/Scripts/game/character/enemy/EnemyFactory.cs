@@ -3,6 +3,7 @@ using game.character.ability.health;
 using game.character.ability.shoot;
 using game.character.characters.player;
 using game.character.enemy;
+using game.character.movement;
 using game.character.player;
 using game.character.state;
 using game.scene.grid.path;
@@ -57,7 +58,7 @@ namespace game.character.characters.enemy
             
             var gun = _weaponFactory.CreateGun(enemy);
             enemy.WeaponHolder.AddWeapon(gun);
-            enemy.WeaponHolder.ActivateWeapontAt(0);
+            enemy.WeaponHolder.ActivateWeapon(gun);
             enemy.Level = level;
 
             var fieldOfView = new FieldOfView(enemy, _playerStore, "Characters");
@@ -77,8 +78,11 @@ namespace game.character.characters.enemy
             var health = obj.AddComponent(typeof(Health)) as Health;
             health.Construct(enemy, null, new PlayerStats(3));
 
+            var movementMethod = obj.AddComponent(typeof(PathMovementMethod)) as PathMovementMethod;
+            movementMethod.Construct(enemy, level.Grid);
+
             var pathMovement = obj.AddComponent(typeof(PathMovement)) as PathMovement;
-            pathMovement.Construct(level.Grid);
+            pathMovement.Construct(enemy);
 
             //var roamingState = _stateFactory.CreateRoamingState(enemy, enemy.gameObject);
             //enemy.States.AddState(roamingState, true);

@@ -7,26 +7,33 @@ namespace game.character
     public class WeaponHolder
     {
 
-        private List<IWeapon> weapons = new();
+        private List<IWeapon> _weapons = new();
 
         private IWeapon _activeWeapon;
 
         public void AddWeapon(IWeapon weapon)
         {
-            weapons.Add(weapon);
+            _weapons.Add(weapon);
         }
 
-        public void ActivateWeapontAt(int index)
+        public void ActivateWeapon(IWeapon weapon)
+        {
+            _activeWeapon = weapon;
+        }
+
+        public IWeapon GetWeaponAt(int index)
         {
             if (HasWeaponAt(index))
             {
-                _activeWeapon = weapons[index];
+                return _weapons[index];
             }
+
+            return null;
         }
 
-        private  bool HasWeaponAt(int index)
+        private bool HasWeaponAt(int index)
         {
-            return index >= 0 && weapons.Count > index;
+            return index >= 0 && _weapons.Count > index;
         }
 
         public IWeapon GetActiveWeapon()

@@ -1,5 +1,6 @@
 ﻿using game.character;
 using game.Item.bullet;
+using game.weapon;
 using gui;
 using UnityEngine;
 
@@ -16,6 +17,8 @@ namespace game.tool.weapon.gun
         private float _speed = 15f;
 
         public int Bullets { get; set; } = -1;
+
+        public WeaponType Type => WeaponType.Gun;
 
         public GunWeapon(ICharacter character, BulletFactory bulletFactory)
         {

@@ -4,6 +4,7 @@ using game.character.ability.field_of_view;
 using game.character.ability.health;
 using game.character.ability.shoot;
 using game.character.characters.player;
+using game.character.movement;
 using game.character.utils;
 using game.scene.grid.path;
 using game.scene.level;

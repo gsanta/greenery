@@ -12,6 +12,8 @@ namespace game.character
 
         public StateHandler States { get; private set; }
 
+        public Movement Movement { get; protected set; }
+
         public void Construct(WeaponHolder weaponHolder)
         {
             WeaponHolder = weaponHolder;
@@ -34,8 +36,6 @@ namespace game.character
         {
             return transform.position;
         }
-
-        public IMovement Movement { get; protected set; }
 
         public GameObject GetGameObject() { return gameObject; }
     }

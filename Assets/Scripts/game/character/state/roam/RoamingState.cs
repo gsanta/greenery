@@ -1,4 +1,5 @@
 using game.character.characters.player;
+using game.character.movement;
 using game.scene.grid.path;
 using UnityEngine;
 
@@ -14,14 +15,14 @@ namespace game.character.state.roam
         
         private readonly ICharacter _character;
         
-        private readonly PathMovement _pathMovement;
+        private readonly PathMovementMethod _pathMovementMethod;
         
         private PlayerStore _playerStore;
 
-        public RoamingState(ICharacter character, PathMovement pathMovement, PlayerStore playerStore)
+        public RoamingState(ICharacter character, PathMovementMethod pathMovementMethod, PlayerStore playerStore)
         {
             _character = character;
-            _pathMovement = pathMovement;
+            _pathMovementMethod = pathMovementMethod;
             _playerStore = playerStore;
 
             character.States.AddState(this);
@@ -40,8 +41,8 @@ namespace game.character.state.roam
 
         public void UpdateState()
         {
-            _pathMovement.MoveTo(_roamPosition);
-            if (_pathMovement.IsTargetReached)
+            _pathMovementMethod.MoveTo(_roamPosition);
+            if (_character.Movement.IsMoving())
             {
                 _roamPosition = GetRoamingPosition();
             }
@@ -60,7 +61,7 @@ namespace game.character.state.roam
             var player = _playerStore.GetActivePlayer();
             if (Vector2.Distance(_character.GetPosition(), player.GetPosition()) < targetRange)
             {
-                _pathMovement.FinishMovement();
+                _pathMovementMethod.FinishMovement();
                 _character.States.SetActiveState(CharacterStateType.ChasingState);
             }
         }

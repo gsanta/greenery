@@ -1,6 +1,6 @@
-using Assets.Scripts.game.character.characters.player;
 using game.character.ability.field_of_view;
 using game.character.ability.health;
+using game.character.movement;
 using game.scene;
 using game.tool.weapon;
 using gui;
@@ -42,8 +42,6 @@ namespace game.character.characters.player
 
         public Player Create(Vector3 position, CharacterType playerType)
         {
-            //var prevPlayer = _playerStore.GetActivePlayer();
-
             Player newPlayer;
             switch(playerType)
             {
@@ -57,7 +55,7 @@ namespace game.character.characters.player
                     throw new ArgumentException("Player type not supported: " + playerType);
             }
 
-            var movement = newPlayer.GetComponent<InputMovement>();
+            var movement = newPlayer.GetComponent<Movement>();
             movement.Construct(newPlayer);
 
             _playerStore.Add(newPlayer);
@@ -67,7 +65,7 @@ namespace game.character.characters.player
             var bomb = _weaponFactory.CreateBomb(newPlayer);
             newPlayer.WeaponHolder.AddWeapon(gun);
             newPlayer.WeaponHolder.AddWeapon(bomb);
-            newPlayer.WeaponHolder.ActivateWeapontAt(0);
+            newPlayer.WeaponHolder.ActivateWeapon(gun);
 
 
             //if (prevPlayer)
@@ -83,15 +81,10 @@ namespace game.character.characters.player
         private Player CreateCat(Vector3 position) {
             var player = Instantiate(playerPrefab, position, transform.rotation, playerList);
             var stat = _playerStore.GetStat(CharacterType.Cat);
-            player.Construct(CharacterType.Cat, stat);
+            player.Construct(CharacterType.Cat, stat
+                );
             player.GetComponent<Health>().Construct(player, _healthPanel, _playerStore.GetStat(CharacterType.Cat));
             
-            var gun = _weaponFactory.CreateGun(player);
-            var bomb = _weaponFactory.CreateBomb(player);
-            player.WeaponHolder.AddWeapon(gun);
-            player.WeaponHolder.AddWeapon(bomb);
-            player.WeaponHolder.ActivateWeapontAt(0);
-
             return player;
         }
 
@@ -99,7 +92,8 @@ namespace game.character.characters.player
         {
             var player = Instantiate(cowPrefab, position, transform.rotation, playerList);
             var stat = _playerStore.GetStat(CharacterType.Cow);
-            player.Construct(CharacterType.Cow, stat);
+            player.Construct(CharacterType.Cow, stat
+                );
             player.GetComponent<Health>().Construct(player, _healthPanel, _playerStore.GetStat(CharacterType.Cow));
 
             return player;

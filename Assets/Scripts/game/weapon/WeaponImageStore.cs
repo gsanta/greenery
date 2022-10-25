@@ -1,6 +1,7 @@
 ﻿
 using game.weapon;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assetsgame.weapon
 {
@@ -17,7 +18,13 @@ namespace Assetsgame.weapon
 
         public void SetActiveItem(WeaponImage item)
         {
+            if (_activeItem != null)
+            {
+                _activeItem.Image.color = Color.white;
+            }
+
             _activeItem = item;
+            item.Image.color = Color.green;
         }
 
         public WeaponImage GetByType(WeaponType type)

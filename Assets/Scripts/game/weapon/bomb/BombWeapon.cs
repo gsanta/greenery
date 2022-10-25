@@ -1,5 +1,6 @@
 ﻿using game.Item.bullet;
 using game.tool;
+using game.weapon;
 using gui;
 using UnityEngine;
 
@@ -17,6 +18,8 @@ namespace Assets.Scripts.game.tool.weapon.bomb
         }
 
         public int Bullets { get; set; } = -1;
+
+        public WeaponType Type => WeaponType.Bomb;
 
         public void AddBullet(int amount) {
             Bullets += amount;

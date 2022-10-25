@@ -36,7 +36,8 @@ namespace game.Item.bullet
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.gameObject != _character.GetGameObject() && collision.gameObject.tag == "Target") {
+            var isSelfCollission = _character.GetGameObject() != null && collision.gameObject == _character.GetGameObject();
+            if (!isSelfCollission && collision.gameObject.tag == "Target") {
 
                 var character = collision.GetComponent<ICharacter>();
                 if (character != null)

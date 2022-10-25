@@ -1,4 +1,4 @@
-using Assets.Scripts.game.character.characters.player;
+using game.character.movement;
 using game.character.player;
 using game.Item;
 using UnityEngine;
@@ -22,7 +22,7 @@ namespace game.character.characters.player
 
         void Start()
         {
-            Movement = GetComponent<InputMovement>();
+            Movement = GetComponent<Movement>();
         }
        
         private void OnTriggerEnter2D(Collider2D collision)

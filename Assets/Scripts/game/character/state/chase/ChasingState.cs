@@ -1,5 +1,6 @@
 using game.character.characters.enemy;
 using game.character.characters.player;
+using game.character.movement;
 using game.scene.grid.path;
 using UnityEngine;
 
@@ -15,16 +16,16 @@ namespace game.character.state.chase
         
         private Enemy _enemy;
         
-        private PathMovement _pathMovement;
+        private PathMovementMethod _pathMovementMethod;
 
         private PlayerStore _playerStore;
         
         public float targetTime = TimerMax;
 
-        public void Construct(Enemy enemy, PathMovement pathMovement, PlayerStore playerStore)
+        public void Construct(Enemy enemy, PathMovementMethod pathMovementMethod, PlayerStore playerStore)
         {
             _enemy = enemy;
-            _pathMovement = pathMovement;
+            _pathMovementMethod = pathMovementMethod;
             _playerStore = playerStore;
             
             _enemy.States.AddState(this);
@@ -47,7 +48,7 @@ namespace game.character.state.chase
                 _enemy.ShootingBehaviour.IsActive = true;
             }
 
-            _pathMovement.MoveTo(_targetPosition);
+            _pathMovementMethod.MoveTo(_targetPosition);
             UpdateTimer();
             if (CheckFinishState())
             {
@@ -83,7 +84,7 @@ namespace game.character.state.chase
         {
             targetTime = TimerMax;
             _enemy.ShootingBehaviour.IsActive = true;
-            _pathMovement.FinishMovement();
+            _pathMovementMethod.FinishMovement();
             _enemy.States.SetActiveState(CharacterStateType.RoamingState);
         }
     }

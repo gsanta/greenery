@@ -1,4 +1,5 @@
-﻿using Base.Input;
+﻿using Assetsgame.weapon;
+using Base.Input;
 using game.character.characters.player;
 
 namespace game.weapon
@@ -8,15 +9,21 @@ namespace game.weapon
 
         private PlayerStore _playerStore;
 
-        public WeaponSelector(PlayerStore playerStore)
+        private WeaponImageStore _weaponImageStore;
+
+        public WeaponSelector(PlayerStore playerStore, WeaponImageStore weaponImageStore)
         {
             _playerStore = playerStore;
+            _weaponImageStore = weaponImageStore;
         }
 
         public override void OnKeyPressed(InputInfo inputInfo)
         {
             var weaponHolder = _playerStore.GetActivePlayer().WeaponHolder;
-            weaponHolder.ActivateWeapontAt(inputInfo.GetNumberKeyPressed());
+            var weapon = weaponHolder.GetWeaponAt(inputInfo.GetNumberKeyPressed());
+            weaponHolder.ActivateWeapon(weapon);
+
+            _weaponImageStore.SetActiveItem(_weaponImageStore.GetByType(weapon.Type));
         }
     }
 }

@@ -74,8 +74,6 @@ public class Injector : MonoBehaviour
 
     [SerializeField] public PlayerStore playerStore;
 
-    [SerializeField] public PlayerCommandHandler playerCommandHandler;
-
     private PlayerSelector _playerSelector;
 
     private GunHandler _gunHandler;
@@ -125,14 +123,13 @@ public class Injector : MonoBehaviour
         // weapon
         weaponFactory.Construct(bulletFactory);
         weaponImageFactory.Construct(_weaponImageStore);
-        _weaponSelector = new WeaponSelector(playerStore);
+        _weaponSelector = new WeaponSelector(playerStore, _weaponImageStore);
         weaponHandler.Construct(weaponImageFactory, _weaponSelector);
 
         enemyFactory.Construct(enemyStore, playerStore, weaponFactory, gameManager, stateFactory, new EnemyDecorator[] { fovVisualDecorator, pathVisualDecorator });
         enemySpawner.Construct(enemyFactory, enemyStore, LevelStore);
         playerFactory.Construct(playerStore, healthBar, bulletPanel, weaponFactory, followCamera);
 
-        playerCommandHandler.Construct(playerStore, playerFactory);
         _gunHandler = new GunHandler(playerStore, bulletPanel);
 
         playerManager = new PlayerManager(playerFactory, playerStore, LevelStore, followCamera);
