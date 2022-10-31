@@ -19,11 +19,11 @@ namespace game.character.state
 
         public RoamingState CreateRoamingState(ICharacter character, GameObject parent)
         {
-            var pathMovementMethod = parent.GetComponent<PathMover>();
+            var pathMovementMethod = parent.GetComponent<TargetPathFinder>();
             return new RoamingState(character, pathMovementMethod, _playerStore);
         } 
         
-        public ChasingState CreateChasingState(Enemy enemy, GameObject parent, PathMover pathMover)
+        public ChasingState CreateChasingState(Enemy enemy, GameObject parent, TargetPathFinder pathMover)
         {
             var chasingState = enemy.gameObject.AddComponent<ChasingState>();
             chasingState.Construct(enemy, pathMover, _playerStore);

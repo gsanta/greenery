@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace game.character.movement
 {
-    public class MovementAnimation : MonoBehaviour
+    public class MovementAnimator : MonoBehaviour
     {
 
         private Animator _animator;

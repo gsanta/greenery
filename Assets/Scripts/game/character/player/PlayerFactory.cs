@@ -71,13 +71,13 @@ namespace game.character.characters.player
 
             newPlayer.MovementPath = movementPath;
 
-            var movementPathCalc = new KeyboardPathMovement(newPlayer, level, movementPath);
+            var movementPathCalc = new KeyboardPathFinder(newPlayer, level, movementPath);
             _inputHandler.AddHandler(movementPathCalc);
 
             //var movementPathCalc = gameObject.AddComponent(typeof(KeyboardPathMovement)) as KeyboardDirectionMovement;
             //movementPathCalc.Construct(movementPath);
 
-            var movement = gameObject.AddComponent(typeof(Movement)) as Movement;
+            var movement = gameObject.AddComponent(typeof(LerpMover)) as LerpMover;
             movement.Construct(newPlayer, movementPath);
 
             //newPlayer.Movement = movement;
@@ -85,7 +85,7 @@ namespace game.character.characters.player
             //var mover = gameObject.AddComponent(typeof(PathMover)) as PathMover;
             //mover.Construct(movement, level.Grid);
 
-            var movementAnimation = gameObject.AddComponent(typeof(MovementAnimation)) as MovementAnimation;
+            var movementAnimation = gameObject.AddComponent(typeof(MovementAnimator)) as MovementAnimator;
             movementAnimation.Construct(true, movementPath);
 
             newPlayer.Construct(playerType, _playerStore.GetStat(playerType), _playerEvents, movementPath);

@@ -15,11 +15,11 @@ namespace game.character.state.roam
         
         private readonly ICharacter _character;
         
-        private readonly PathMover _pathMovementMethod;
+        private readonly TargetPathFinder _pathMovementMethod;
         
         private PlayerStore _playerStore;
 
-        public RoamingState(ICharacter character, PathMover pathMovementMethod, PlayerStore playerStore)
+        public RoamingState(ICharacter character, TargetPathFinder pathMovementMethod, PlayerStore playerStore)
         {
             _character = character;
             _pathMovementMethod = pathMovementMethod;

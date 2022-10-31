@@ -13,7 +13,7 @@ namespace game.character
 
         public StateHandler States { get; private set; }
 
-        public Movement Movement { get; set; }
+        public LerpMover Movement { get; set; }
 
         public MovementPath MovementPath { get; set; }
 

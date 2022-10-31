@@ -81,10 +81,10 @@ namespace game.character.characters.enemy
             var movementPath = new MovementPath();
             enemy.MovementPath = movementPath;
 
-            var movementPathCalc = obj.AddComponent(typeof(PathMover)) as PathMover;
+            var movementPathCalc = obj.AddComponent(typeof(TargetPathFinder)) as TargetPathFinder;
             movementPathCalc.Construct(level.Grid, movementPath);
 
-            var movement = obj.AddComponent(typeof(Movement)) as Movement;
+            var movement = obj.AddComponent(typeof(LerpMover)) as LerpMover;
             movement.Construct(enemy, movementPath);
 
             //enemy.Movement = movement;

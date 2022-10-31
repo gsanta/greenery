@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace game.character.movement.path
 {
-    public class KeyboardPathMovement : InputListener
+    public class KeyboardPathFinder : InputListener
     {
         private ICharacter _character;
 
@@ -12,7 +12,7 @@ namespace game.character.movement.path
 
         private MovementPath _movementPath;
 
-        public KeyboardPathMovement(ICharacter character, Level level, MovementPath movementPath)
+        public KeyboardPathFinder(ICharacter character, Level level, MovementPath movementPath)
         {
             _character = character;
             _level = level;

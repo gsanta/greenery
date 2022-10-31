@@ -5,12 +5,10 @@ using game.scene.grid;
 using UnityEngine;
 using System.Collections.Generic;
 using game.character.movement.path;
-using TMPro;
-using UnityEngine.UIElements;
 
 namespace game.character.movement
 {
-    public class PathMover : MonoBehaviour, MovementMethod
+    public class TargetPathFinder : MonoBehaviour
     {
         private List<Vector2> _pathVectorList = new();
 
@@ -73,7 +71,6 @@ namespace game.character.movement
         {
             _isTargetReached = true;
             _pathVectorList = null;
-            //_movement.SetPosition(_targetPosition);
         }
 
         private void SetTargetPosition(Vector2 targetPosition)

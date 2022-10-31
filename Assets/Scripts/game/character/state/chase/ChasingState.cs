@@ -16,13 +16,13 @@ namespace game.character.state.chase
         
         private Enemy _enemy;
         
-        private PathMover _mover;
+        private TargetPathFinder _mover;
 
         private PlayerStore _playerStore;
         
         public float targetTime = TimerMax;
 
-        public void Construct(Enemy enemy, PathMover mover, PlayerStore playerStore)
+        public void Construct(Enemy enemy, TargetPathFinder mover, PlayerStore playerStore)
         {
             _enemy = enemy;
             _mover = mover;

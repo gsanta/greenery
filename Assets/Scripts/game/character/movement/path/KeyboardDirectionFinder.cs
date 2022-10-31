@@ -2,7 +2,7 @@
 
 namespace game.character.movement.path
 {
-    internal class KeyboardDirectionMovement : MonoBehaviour
+    internal class KeyboardDirectionFinder : MonoBehaviour
     {
 
         private MovementPath _movementPath;

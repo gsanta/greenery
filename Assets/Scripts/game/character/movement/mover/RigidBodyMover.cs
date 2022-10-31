@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace game.character.movement
 {
-    public class RigidBodyMovement : MonoBehaviour
+    public class RigidBodyMover : MonoBehaviour
     {
         [SerializeField] private float speed = 6f;
 

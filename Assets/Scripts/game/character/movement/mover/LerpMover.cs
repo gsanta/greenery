@@ -5,7 +5,7 @@ using Time = UnityEngine.Time;
 
 namespace game.character.movement
 {
-    public class Movement : MonoBehaviour
+    public class LerpMover : MonoBehaviour
     {
         [SerializeField] private float speed = 6f;
 

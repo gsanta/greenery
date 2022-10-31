@@ -15,7 +15,7 @@ namespace game.character.characters.player
 
         private PlayerEvents _playerEvents;
 
-        public KeyboardPathMovement MovementPathCalc { get; set; }
+        public KeyboardPathFinder MovementPathCalc { get; set; }
 
         public ItemPickup ItemPickup;
 
