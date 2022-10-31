@@ -62,8 +62,8 @@ namespace game.scene.grid
                 return;
             }
 
-            var path = _character.Movement.GetPath();
-            UpdateMesh(path);
+            //var path = _character.Movement.GetPath();
+            //UpdateMesh(path);
             UpdateDirection(_character);
 
         }
@@ -103,15 +103,15 @@ namespace game.scene.grid
 
         private void UpdateDirection(ICharacter character)
         {
-            if (character.Movement.GetPath() == null || character.Movement.GetPath().Count == 0)
-            {
-                return;
-            }
+            //if (character.Movement.GetPath() == null || character.Movement.GetPath().Count == 0)
+            //{
+            //    return;
+            //}
 
-            var startPos = character.GetPosition();
-            var endPos = character.Movement.GetPath()[0];
-            _lineRenderer.SetPosition(0, new Vector3(startPos.x, startPos.y, 0));
-            _lineRenderer.SetPosition(1, new Vector3(endPos.x, endPos.y, 0));
+            //var startPos = character.GetPosition();
+            //var endPos = character.Movement.GetPath()[0];
+            //_lineRenderer.SetPosition(0, new Vector3(startPos.x, startPos.y, 0));
+            //_lineRenderer.SetPosition(1, new Vector3(endPos.x, endPos.y, 0));
         }
     }
 }

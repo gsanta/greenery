@@ -1,11 +1,9 @@
 ﻿using game.character.movement.path;
-using game.character.utils;
 using UnityEngine;
-using Time = UnityEngine.Time;
 
 namespace game.character.movement
 {
-    public class Movement : MonoBehaviour
+    public class RigidBodyMovement : MonoBehaviour
     {
         [SerializeField] private float speed = 6f;
 
@@ -48,7 +46,7 @@ namespace game.character.movement
 
         private void Update()
         {
-            if (_movementPath.IsPaused)
+            if (_isPaused)
             {
                 return;
             }
@@ -58,25 +56,21 @@ namespace game.character.movement
 
         private void HandleMovement()
         {
-            if (_movementPath.GetDestination().HasValue && _movementPath.GetDestination().Value != target)
-            {
-                UpdateDestination();
-            }
-
             if (!_movementPath.IsTargetReached)
             {
+                _rigidBody.AddForce(_movementPath.GetDirection() * speed);
+            }
 
-                t += Time.deltaTime / timeToReachTarget;
-                transform.position = Vector3.Lerp(startPosition, target, t);
-
-                if (t >= 1)
+            if (_movementPath.GetDestination().HasValue)
+            {
+                var destination = _movementPath.GetDestination().Value;
+                var position = transform.position;
+                if (Vector2.Distance(position, destination) < 0.2f)
                 {
                     _movementPath.IsTargetReached = true;
                 }
-
-                _moveDirection = MovementUtil.UpdateMoveDirection(_movementPath.GetDirection(), _moveDirection);
             }
-        }        
+        }
 
         public void PauseUntil(float time)
         {
@@ -87,34 +81,6 @@ namespace game.character.movement
         private void Unpause()
         {
             _isPaused = false;
-        }
-
-        Vector2 GetDirection()
-        {
-            return _direction;
-        }
-
-        public void SetDirection(Vector2 direction)
-        {
-            _direction = direction;
-        }
-
-        public void UpdateDestination()
-        {
-            t = 0;
-            startPosition = transform.position;
-            timeToReachTarget = 0.5f;
-            target = _movementPath.GetDestination().Value;
-        }
-
-        public void SetIsMoving(bool isMoving)
-        {
-            _isMoving = isMoving;
-        }
-
-        public bool IsMoving()
-        {
-            return _isMoving;
         }
     }
 }

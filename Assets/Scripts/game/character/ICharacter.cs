@@ -1,4 +1,5 @@
 using game.character.movement;
+using game.character.movement.path;
 using game.character.state;
 using UnityEngine;
 
@@ -8,15 +9,16 @@ namespace game.character
     {
         private bool _isActive;
 
-        public WeaponHolder WeaponHolder;
+        public WeaponHolder WeaponHolder { get; private set; } = new WeaponHolder();
 
         public StateHandler States { get; private set; }
 
-        public Movement Movement { get; protected set; }
+        public Movement Movement { get; set; }
 
-        public void Construct(WeaponHolder weaponHolder)
+        public MovementPath MovementPath { get; set; }
+
+        public void Construct()
         {
-            WeaponHolder = weaponHolder;
             States = new StateHandler();
         }
 

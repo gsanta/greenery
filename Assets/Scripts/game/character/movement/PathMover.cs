@@ -4,10 +4,13 @@ using game.scene.grid.path;
 using game.scene.grid;
 using UnityEngine;
 using System.Collections.Generic;
+using game.character.movement.path;
+using TMPro;
+using UnityEngine.UIElements;
 
 namespace game.character.movement
 {
-    public class PathMovementMethod : MonoBehaviour, MovementMethod
+    public class PathMover : MonoBehaviour, MovementMethod
     {
         private List<Vector2> _pathVectorList = new();
 
@@ -19,16 +22,16 @@ namespace game.character.movement
 
         private Vector2 _targetPosition;
 
-        private ICharacter _character;
+        private MovementPath _movementPath;
 
         public bool _isTargetReached { get; private set; }
 
-        public void Construct(ICharacter character, GridGraph gridGraph)
+        public void Construct(GridGraph gridGraph, MovementPath movementPath)
         {
-            _character = character;
             _pathFinding = new PathFinding();
             _isTargetReached = false;
             _gridGraph = gridGraph;
+            _movementPath = movementPath;
         }
 
         public void MoveTo(Vector2 targetPosition)
@@ -53,33 +56,29 @@ namespace game.character.movement
                 return;
             }
 
-            var position = (Vector2)transform.position;
-            var targetPosition = _pathVectorList[_currentPathIndex];
-            if (Vector2.Distance(position, targetPosition) > 0.2f)
-            {
-                var _direction = (_targetPosition - position).normalized;
-                _character.Movement.SetDirection(_direction);
-            }
-            else
+            if (_movementPath.IsTargetReached)
             {
                 _currentPathIndex++;
                 if (_currentPathIndex >= _pathVectorList.Count)
                 {
                     FinishMovement();
+                } else
+                {
+                    UpdateTarget();
                 }
             }
-
-            _character.Movement.SetIsMoving(!_isTargetReached);
         }
 
         public void FinishMovement()
         {
             _isTargetReached = true;
             _pathVectorList = null;
+            //_movement.SetPosition(_targetPosition);
         }
 
         private void SetTargetPosition(Vector2 targetPosition)
         {
+            
             _isTargetReached = false;
             _targetPosition = targetPosition;
             _currentPathIndex = 0;
@@ -91,6 +90,19 @@ namespace game.character.movement
             {
                 _pathVectorList.RemoveAt(0);
             }
+
+            UpdateTarget();
+        }
+
+        private void UpdateTarget()
+        {
+            var position = (Vector2)transform.position;
+            var targetPosition = _pathVectorList[_currentPathIndex];
+
+            var _direction = (targetPosition - position).normalized;
+            _movementPath.SetDirection(_direction);
+            _movementPath.SetDestination(targetPosition);
+            _movementPath.IsTargetReached = false;
         }
     }
 }

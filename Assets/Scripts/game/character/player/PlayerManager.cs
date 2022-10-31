@@ -29,11 +29,11 @@ namespace game.character.characters.player
             var level = _levelStore.ActiveLevel;
             PathNode randomNode = level.Grid.GetRandomNode();
             var worldPos = level.Grid.GetWorldPosition(randomNode.X, randomNode.Y);
-            _playerFactory.Create(worldPos, CharacterType.Cow);
+            var player = _playerFactory.Create(worldPos, CharacterType.Cow, level);
 
-            randomNode = level.Grid.GetRandomNode();
-            worldPos = level.Grid.GetWorldPosition(randomNode.X, randomNode.Y);
-            var player = _playerFactory.Create(worldPos, CharacterType.Cow);
+            //randomNode = level.Grid.GetRandomNode();
+            //worldPos = level.Grid.GetWorldPosition(randomNode.X, randomNode.Y);
+            //var player = _playerFactory.Create(worldPos, CharacterType.Cow, level);
             _playerStore.SetActivePlayer(player);
             //var player2 = _playerFactory.Create(new Vector3(0, 0, 0));
             //player2.GetComponent<SpriteRenderer>().material = new Material(Shader.Find("Shader Graphs/Outline Shader"));

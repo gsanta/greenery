@@ -44,7 +44,7 @@ namespace game.character.characters.enemy
         
         public void Construct(EnemyStore enemyStore, PlayerStore playerStore, GameManager gameManager)
         {
-            base.Construct(new WeaponHolder());
+            base.Construct();
             _playerStore = playerStore;
             _enemyStore = enemyStore;
             _gameManager = gameManager;
@@ -56,7 +56,6 @@ namespace game.character.characters.enemy
         {
             _animator = GetComponent<Animator>();
             ShootingBehaviour = GetComponent<ShootingBehaviour>();
-            Movement = GetComponent<PathMovement>();
         }
 
         private void Update()

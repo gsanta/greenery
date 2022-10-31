@@ -19,11 +19,15 @@ namespace game.weapon
 
         public override void OnKeyPressed(InputInfo inputInfo)
         {
-            var weaponHolder = _playerStore.GetActivePlayer().WeaponHolder;
-            var weapon = weaponHolder.GetWeaponAt(inputInfo.GetNumberKeyPressed());
-            weaponHolder.ActivateWeapon(weapon);
+            if (inputInfo.Is1Pressed || inputInfo.Is2Pressed || inputInfo.Is3Pressed)
+            {
+                var weaponHolder = _playerStore.GetActivePlayer().WeaponHolder;
+                var weapon = weaponHolder.GetWeaponAt(inputInfo.GetNumberKeyPressed());
+                weaponHolder.ActivateWeapon(weapon);
 
-            _weaponImageStore.SetActiveItem(_weaponImageStore.GetByType(weapon.Type));
+                _weaponImageStore.SetActiveItem(_weaponImageStore.GetByType(weapon.Type));
+            }
+
         }
     }
 }

@@ -43,7 +43,7 @@ namespace game.Item.bullet
                 if (character != null)
                 {
                     var health = collision.GetComponent<Health>();
-                    character.Movement.PauseUntil(0.3f);
+                    //character.Movement.PauseUntil(0.3f);
                     collision.GetComponent<Rigidbody2D>().AddForce(_shootDir * force);
                     health.Decrease(_damage);
                 }

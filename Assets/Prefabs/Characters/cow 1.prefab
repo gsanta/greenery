@@ -17,7 +17,6 @@ GameObject:
   - component: {fileID: 6121675893045768829}
   - component: {fileID: 2106265010118575312}
   - component: {fileID: 5484530958465200930}
-  - component: {fileID: 3811236910880186259}
   - component: {fileID: -7987129884526221206}
   m_Layer: 7
   m_Name: cow 1
@@ -40,7 +39,7 @@ Transform:
   m_Children:
   - {fileID: 2670270946889398465}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &293078777468923133
 SpriteRenderer:
@@ -116,8 +115,8 @@ MonoBehaviour:
   - {fileID: 5596325611256683043}
   - {fileID: 3063094280925608564}
   m_Bounds:
-    m_Center: {x: 0.05886188, y: 0.17142436, z: 0}
-    m_Extent: {x: 0.5213319, y: 0.64288354, z: 0}
+    m_Center: {x: 0.04080707, y: 0.16938347, z: 0}
+    m_Extent: {x: 0.51643384, y: 0.64772785, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
@@ -145,7 +144,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1948285678224878508}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -217,20 +216,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248acf1a748940e4974091064ce39532, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3811236910880186259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1948285678224878508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c0a2dedf1631724d94cd0f5bfc6e460, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 2.5
-  _flipWhenMovingRight: 1
 --- !u!114 &-7987129884526221206
 MonoBehaviour:
   m_ObjectHideFlags: 0

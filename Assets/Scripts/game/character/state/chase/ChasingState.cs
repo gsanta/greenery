@@ -16,16 +16,16 @@ namespace game.character.state.chase
         
         private Enemy _enemy;
         
-        private PathMovementMethod _pathMovementMethod;
+        private PathMover _mover;
 
         private PlayerStore _playerStore;
         
         public float targetTime = TimerMax;
 
-        public void Construct(Enemy enemy, PathMovementMethod pathMovementMethod, PlayerStore playerStore)
+        public void Construct(Enemy enemy, PathMover mover, PlayerStore playerStore)
         {
             _enemy = enemy;
-            _pathMovementMethod = pathMovementMethod;
+            _mover = mover;
             _playerStore = playerStore;
             
             _enemy.States.AddState(this);
@@ -48,7 +48,7 @@ namespace game.character.state.chase
                 _enemy.ShootingBehaviour.IsActive = true;
             }
 
-            _pathMovementMethod.MoveTo(_targetPosition);
+            _mover.MoveTo(_targetPosition);
             UpdateTimer();
             if (CheckFinishState())
             {
@@ -84,7 +84,7 @@ namespace game.character.state.chase
         {
             targetTime = TimerMax;
             _enemy.ShootingBehaviour.IsActive = true;
-            _pathMovementMethod.FinishMovement();
+            _mover.FinishMovement();
             _enemy.States.SetActiveState(CharacterStateType.RoamingState);
         }
     }

@@ -1,7 +1,11 @@
+using Base.Input;
 using game.character.ability.field_of_view;
 using game.character.ability.health;
 using game.character.movement;
+using game.character.movement.path;
+using game.character.player;
 using game.scene;
+using game.scene.level;
 using game.tool.weapon;
 using gui;
 using GUI;
@@ -30,17 +34,23 @@ namespace game.character.characters.player
 
         private FollowCamera _camera;
 
-        public void Construct(PlayerStore playerStore, HealthPanel healthPanel, BulletPanel bulletPanel, WeaponFactory weaponFactory, FollowCamera camera)
+        private InputHandler _inputHandler;
+
+        PlayerEvents _playerEvents;
+
+        public void Construct(PlayerStore playerStore, HealthPanel healthPanel, BulletPanel bulletPanel, WeaponFactory weaponFactory, FollowCamera camera, InputHandler inputHandler, PlayerEvents playerEvents)
         {
             _playerStore = playerStore;
             _healthPanel = healthPanel;
             _bulletPanel = bulletPanel;
             _weaponFactory = weaponFactory;
             _camera = camera;
+            _inputHandler = inputHandler;
+            _playerEvents = playerEvents;
         }
 
 
-        public Player Create(Vector3 position, CharacterType playerType)
+        public Player Create(Vector3 position, CharacterType playerType, Level level)
         {
             Player newPlayer;
             switch(playerType)
@@ -55,8 +65,34 @@ namespace game.character.characters.player
                     throw new ArgumentException("Player type not supported: " + playerType);
             }
 
-            var movement = newPlayer.GetComponent<Movement>();
-            movement.Construct(newPlayer);
+            var gameObject = newPlayer.gameObject;
+
+            var movementPath = new MovementPath();
+
+            newPlayer.MovementPath = movementPath;
+
+            var movementPathCalc = new KeyboardPathMovement(newPlayer, level, movementPath);
+            _inputHandler.AddHandler(movementPathCalc);
+
+            //var movementPathCalc = gameObject.AddComponent(typeof(KeyboardPathMovement)) as KeyboardDirectionMovement;
+            //movementPathCalc.Construct(movementPath);
+
+            var movement = gameObject.AddComponent(typeof(Movement)) as Movement;
+            movement.Construct(newPlayer, movementPath);
+
+            //newPlayer.Movement = movement;
+
+            //var mover = gameObject.AddComponent(typeof(PathMover)) as PathMover;
+            //mover.Construct(movement, level.Grid);
+
+            var movementAnimation = gameObject.AddComponent(typeof(MovementAnimation)) as MovementAnimation;
+            movementAnimation.Construct(true, movementPath);
+
+            newPlayer.Construct(playerType, _playerStore.GetStat(playerType), _playerEvents, movementPath);
+
+
+            //var mover = gameObject.AddComponent(typeof(KeyboardMover)) as KeyboardMover;
+            //mover.Construct(movement);
 
             _playerStore.Add(newPlayer);
             var stat = _playerStore.GetStat(playerType);
@@ -80,9 +116,6 @@ namespace game.character.characters.player
 
         private Player CreateCat(Vector3 position) {
             var player = Instantiate(playerPrefab, position, transform.rotation, playerList);
-            var stat = _playerStore.GetStat(CharacterType.Cat);
-            player.Construct(CharacterType.Cat, stat
-                );
             player.GetComponent<Health>().Construct(player, _healthPanel, _playerStore.GetStat(CharacterType.Cat));
             
             return player;
@@ -91,9 +124,6 @@ namespace game.character.characters.player
         private Player CreateCow(Vector3 position)
         {
             var player = Instantiate(cowPrefab, position, transform.rotation, playerList);
-            var stat = _playerStore.GetStat(CharacterType.Cow);
-            player.Construct(CharacterType.Cow, stat
-                );
             player.GetComponent<Health>().Construct(player, _healthPanel, _playerStore.GetStat(CharacterType.Cow));
 
             return player;

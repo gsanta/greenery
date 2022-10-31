@@ -4,6 +4,7 @@ using game.character.ability.shoot;
 using game.character.characters.player;
 using game.character.enemy;
 using game.character.movement;
+using game.character.movement.path;
 using game.character.player;
 using game.character.state;
 using game.scene.grid.path;
@@ -54,7 +55,6 @@ namespace game.character.characters.enemy
             var obj = enemyBase.gameObject;
 
             var enemy = obj.AddComponent(typeof(Enemy)) as Enemy;
-            enemy.Construct(_enemyStore, _playerStore, _gameManager);
             
             var gun = _weaponFactory.CreateGun(enemy);
             enemy.WeaponHolder.AddWeapon(gun);
@@ -78,15 +78,25 @@ namespace game.character.characters.enemy
             var health = obj.AddComponent(typeof(Health)) as Health;
             health.Construct(enemy, null, new PlayerStats(3));
 
-            var movementMethod = obj.AddComponent(typeof(PathMovementMethod)) as PathMovementMethod;
-            movementMethod.Construct(enemy, level.Grid);
+            var movementPath = new MovementPath();
+            enemy.MovementPath = movementPath;
 
-            var pathMovement = obj.AddComponent(typeof(PathMovement)) as PathMovement;
-            pathMovement.Construct(enemy);
+            var movementPathCalc = obj.AddComponent(typeof(PathMover)) as PathMover;
+            movementPathCalc.Construct(level.Grid, movementPath);
+
+            var movement = obj.AddComponent(typeof(Movement)) as Movement;
+            movement.Construct(enemy, movementPath);
+
+            //enemy.Movement = movement;
+
+            //var mover = obj.AddComponent(typeof(PathMover)) as PathMover;
+            //mover.Construct(movement, level.Grid);
+
+            enemy.Construct(_enemyStore, _playerStore, _gameManager);
 
             //var roamingState = _stateFactory.CreateRoamingState(enemy, enemy.gameObject);
             //enemy.States.AddState(roamingState, true);
-            var chasingState = _stateFactory.CreateChasingState(enemy, enemy.gameObject);
+            var chasingState = _stateFactory.CreateChasingState(enemy, enemyBase, movementPathCalc);
             enemy.States.AddState(chasingState);
             enemy.States.SetActiveState(CharacterStateType.ChasingState);
 

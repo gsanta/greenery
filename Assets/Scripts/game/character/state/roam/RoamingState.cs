@@ -15,11 +15,11 @@ namespace game.character.state.roam
         
         private readonly ICharacter _character;
         
-        private readonly PathMovementMethod _pathMovementMethod;
+        private readonly PathMover _pathMovementMethod;
         
         private PlayerStore _playerStore;
 
-        public RoamingState(ICharacter character, PathMovementMethod pathMovementMethod, PlayerStore playerStore)
+        public RoamingState(ICharacter character, PathMover pathMovementMethod, PlayerStore playerStore)
         {
             _character = character;
             _pathMovementMethod = pathMovementMethod;
@@ -42,7 +42,7 @@ namespace game.character.state.roam
         public void UpdateState()
         {
             _pathMovementMethod.MoveTo(_roamPosition);
-            if (_character.Movement.IsMoving())
+            if (!_character.MovementPath.IsTargetReached)
             {
                 _roamPosition = GetRoamingPosition();
             }

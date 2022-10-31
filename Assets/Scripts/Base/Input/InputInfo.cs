@@ -18,6 +18,10 @@ namespace Base.Input
         public bool Is1Pressed{ get; set; }
         public bool Is2Pressed { get; set; }
         public bool Is3Pressed { get; set; }
+        public bool IsAPressed { get; set; }
+        public bool IsWPressed { get; set; }
+        public bool IsDPressed { get; set; }
+        public bool IsSPressed { get; set; }
 
         public bool IsScrollUp { get; set; }
         public int GetNumberKeyPressed()

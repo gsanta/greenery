@@ -32,7 +32,7 @@ namespace game.scene.grid
             var grid = _levelStore.ActiveLevel.Grid;
             var player = _playerStore.GetActivePlayer();
 
-            if (grid == null || player == null && !IsVisualize)
+            if (grid == null || player == null || !IsVisualize)
             {
                 return;
             }

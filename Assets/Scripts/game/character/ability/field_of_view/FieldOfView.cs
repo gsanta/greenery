@@ -38,7 +38,7 @@ namespace game.character.ability.field_of_view
             if (Vector2.Distance(_character.GetPosition(), target.GetPosition()) < ViewDistance)
             {
                 Vector2 targetDirection = (target.GetPosition() - _character.GetPosition()).normalized;
-                Direction dir = _character.Movement.GetLookDirection();
+                Direction dir = _character.MovementPath.GetMoveDirection();
                 Vector2 aimDirection = DirectionHelper.DirToVector(dir);
 
                 return Vector2.Angle(aimDirection, targetDirection) < Fov / 2f;

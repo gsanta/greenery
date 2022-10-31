@@ -19,6 +19,7 @@ using game.item;
 using game.scene.grid;
 using game.weapon;
 using Assetsgame.weapon;
+using game.character.movement;
 
 public class Injector : MonoBehaviour
 {    
@@ -76,6 +77,10 @@ public class Injector : MonoBehaviour
 
     private PlayerSelector _playerSelector;
 
+    private PlayerEvents _playerEvents = new PlayerEvents();
+
+    private MovementManager _movementManager;
+
     private GunHandler _gunHandler;
 
     // Scene
@@ -120,6 +125,8 @@ public class Injector : MonoBehaviour
 
         stateFactory.Construct(playerStore);
 
+        _movementManager = new MovementManager(_playerEvents, enemyStore);
+
         // weapon
         weaponFactory.Construct(bulletFactory);
         weaponImageFactory.Construct(_weaponImageStore);
@@ -128,7 +135,7 @@ public class Injector : MonoBehaviour
 
         enemyFactory.Construct(enemyStore, playerStore, weaponFactory, gameManager, stateFactory, new EnemyDecorator[] { fovVisualDecorator, pathVisualDecorator });
         enemySpawner.Construct(enemyFactory, enemyStore, LevelStore);
-        playerFactory.Construct(playerStore, healthBar, bulletPanel, weaponFactory, followCamera);
+        playerFactory.Construct(playerStore, healthBar, bulletPanel, weaponFactory, followCamera, inputHandler, _playerEvents);
 
         _gunHandler = new GunHandler(playerStore, bulletPanel);
 
@@ -148,6 +155,8 @@ public class Injector : MonoBehaviour
         inputHandler.AddHandler(_playerSelector);
         inputHandler.AddHandler(stageManager);
         inputHandler.AddHandler(_weaponSelector);
+        //inputHandler.AddHandler(new PlayerCommander(playerStore, LevelStore));
+
 
         scopedTileRenderer.Construct(playerStore, LevelStore, 4);
 
