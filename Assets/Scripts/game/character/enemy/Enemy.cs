@@ -70,7 +70,7 @@ namespace game.character.characters.enemy
             //    return;
             //}
             
-            var player = _playerStore.GetActivePlayer();
+            var player = _playerStore.GetCurrentPlayer();
             var direction = player.transform.position - transform.position;
             var radians = Mathf.Atan2(direction.y, direction.x);
             var rotationVector = new Vector2((float) Math.Cos(radians), (float) Math.Sin(radians));

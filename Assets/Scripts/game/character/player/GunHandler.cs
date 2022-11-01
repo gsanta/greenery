@@ -21,7 +21,7 @@ namespace game.character.player
         public override void OnClick(InputInfo inputInfo)
         {
             var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            var weapon = _playerStore.GetActivePlayer().WeaponHolder.GetActiveWeapon();
+            var weapon = _playerStore.GetCurrentPlayer().WeaponHolder.GetActiveWeapon();
             weapon.OnFire(pos);
             _bulletPanel.SetBullets(weapon.Bullets);
         }

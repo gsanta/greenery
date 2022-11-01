@@ -34,17 +34,17 @@ namespace Game.Stage
 
         public void Activate()
         {
-            _itemInputHandler.IsDisabled = false;
+            _itemInputHandler.IsListenerDisabled = false;
             _tileRenderer.Show();
             _tileInputHandler = new TileHandler(_levelStore.ActiveLevel);
             _tileInputHandler.OnHoverTile += HandleTileHoverChange;
-            _inputHandler.AddHandler(_tileInputHandler);
+            _tileInputHandler.Register(_inputHandler);
             _inventoryHandler.SetActive(true);
         }
 
         public void Deactivate()
         {
-            _itemInputHandler.IsDisabled = true;
+            _itemInputHandler.IsListenerDisabled = true;
             _tileRenderer.Hide();
             _inventoryHandler.SetActive(false);
         }

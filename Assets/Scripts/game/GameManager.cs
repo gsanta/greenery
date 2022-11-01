@@ -37,7 +37,7 @@ namespace game
         private void HandleLevelsStarted(object sender, EventArgs args)
         {
             _stageManager.Init();
-            _playerManager.Init();
+            _playerManager.Activate();
             _followCamera.Init();
             _isGameStarted = true;
         }

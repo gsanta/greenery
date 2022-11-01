@@ -20,12 +20,12 @@ namespace game.character.movement
 
         private void HandleTargetEnd(object sender, EventArgs args)
         {
-            _enemyStore.GetAll().ForEach((enemy) => enemy.MovementPath.IsPaused = true);
+            _enemyStore.GetAll().ForEach((enemy) => enemy.Movement.IsPaused = true);
         }
         
         private void HandleTargetStart(object sender, EventArgs args)
         {
-            _enemyStore.GetAll().ForEach((enemy) => enemy.MovementPath.IsPaused = false);
+            _enemyStore.GetAll().ForEach((enemy) => enemy.Movement.IsPaused = false);
         }
     }
 }

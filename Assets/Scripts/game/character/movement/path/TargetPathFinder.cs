@@ -20,11 +20,11 @@ namespace game.character.movement
 
         private Vector2 _targetPosition;
 
-        private MovementPath _movementPath;
+        private Movement _movementPath;
 
         public bool _isTargetReached { get; private set; }
 
-        public void Construct(GridGraph gridGraph, MovementPath movementPath)
+        public void Construct(GridGraph gridGraph, Movement movementPath)
         {
             _pathFinding = new PathFinding();
             _isTargetReached = false;

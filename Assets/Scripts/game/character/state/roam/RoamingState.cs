@@ -42,7 +42,7 @@ namespace game.character.state.roam
         public void UpdateState()
         {
             _pathMovementMethod.MoveTo(_roamPosition);
-            if (!_character.MovementPath.IsTargetReached)
+            if (!_character.Movement.IsTargetReached)
             {
                 _roamPosition = GetRoamingPosition();
             }
@@ -58,7 +58,7 @@ namespace game.character.state.roam
         private void CheckTarget()
         {
             const float targetRange = 5f;
-            var player = _playerStore.GetActivePlayer();
+            var player = _playerStore.GetCurrentPlayer();
             if (Vector2.Distance(_character.GetPosition(), player.GetPosition()) < targetRange)
             {
                 _pathMovementMethod.FinishMovement();

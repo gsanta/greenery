@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace game.character.movement.path
 {
-    public class MovementPath
+    public class Movement
     {
         private Vector2 _direction;
 
@@ -17,7 +17,7 @@ namespace game.character.movement.path
 
         public event EventHandler OnTargetStart;
 
-        private bool _isTargetReached;
+        private bool _isTargetReached = true;
         
         public bool IsTargetReached { 
             get { return _isTargetReached; } 

@@ -67,12 +67,14 @@ namespace game.character.characters.player
 
             var gameObject = newPlayer.gameObject;
 
-            var movementPath = new MovementPath();
+            var movementPath = new Movement();
 
-            newPlayer.MovementPath = movementPath;
+            newPlayer.Movement = movementPath;
 
-            var movementPathCalc = new KeyboardPathFinder(newPlayer, level, movementPath);
-            _inputHandler.AddHandler(movementPathCalc);
+            var pathFinder = new KeyboardPathFinder(newPlayer, level, movementPath);
+            pathFinder.Register(_inputHandler);
+
+            newPlayer.PathFinder = pathFinder;
 
             //var movementPathCalc = gameObject.AddComponent(typeof(KeyboardPathMovement)) as KeyboardDirectionMovement;
             //movementPathCalc.Construct(movementPath);

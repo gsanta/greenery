@@ -21,7 +21,7 @@ namespace game.character.player
         {
             var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            var player = _playerStore.GetActivePlayer();
+            var player = _playerStore.GetCurrentPlayer();
 
             var level = _levelStore.ActiveLevel;
 

@@ -27,11 +27,11 @@ namespace game.weapon
             if (isActive)
             {
                 _weaponImageFactory.GetContainer().SetActive(true);
-                _weaponSelector.IsDisabled = false;
+                _weaponSelector.IsListenerDisabled = false;
             } else
             {
                 _weaponImageFactory.GetContainer().SetActive(false);
-                _weaponSelector.IsDisabled = true;
+                _weaponSelector.IsListenerDisabled = true;
             }
         }
     }

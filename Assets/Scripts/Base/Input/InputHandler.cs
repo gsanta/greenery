@@ -9,7 +9,7 @@ namespace Base.Input
     public class InputHandler : MonoBehaviour
     {
 
-        private List<InputListener> _handlers = new();
+        private List<InputListener> _listeners = new();
 
         private InputInfo _inputInfo = new InputInfo();
 
@@ -86,6 +86,11 @@ namespace Base.Input
                 _inputInfo.IsScrollUp = true;
             }
 
+            if (UnityEngine.Input.GetKey(KeyCode.LeftShift))
+            {
+                _inputInfo.IsShiftPressed = true;
+            }
+
             FireEvents();
         }
 
@@ -114,8 +119,8 @@ namespace Base.Input
 
         private void InvokeHandlers(Action<InputListener> Callback)
         {
-            _handlers.ForEach(handler => {
-                if (!handler.IsDisabled)
+            _listeners.ForEach(handler => {
+                if (!handler.IsListenerDisabled)
                 {
                     Callback(handler);
                 }
@@ -123,10 +128,15 @@ namespace Base.Input
 
         }
 
-        public void AddHandler(InputListener handler)
+        public void AddListener(InputListener listener)
         {
 
-            _handlers.Add(handler);
+            _listeners.Add(listener);
+        }
+
+        public void RemoveListener(InputListener listener)
+        {
+            _listeners.Remove(listener);
         }
 
         public static bool IsPointerOverUIObject()

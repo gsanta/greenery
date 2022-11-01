@@ -24,14 +24,14 @@ namespace Game.Stage
 
         public void Activate()
         {
-            _inputHandler.IsDisabled = false;
+            _inputHandler.IsListenerDisabled = false;
             _enemySpawner.IsDisabled = false;
             _weaponHandler.SetActive(true);
         }
 
         public void Deactivate()
         {
-            _inputHandler.IsDisabled = true;
+            _inputHandler.IsListenerDisabled = true;
             _enemySpawner.IsDisabled = true;
             _weaponHandler.SetActive(false);
         }

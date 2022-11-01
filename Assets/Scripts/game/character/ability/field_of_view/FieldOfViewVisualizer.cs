@@ -25,11 +25,11 @@ namespace game.character.ability.field_of_view
 
         public ICharacter FindTarget()
         {
-            var player = _playerStore.GetActivePlayer();
+            var player = _playerStore.GetCurrentPlayer();
             if (Vector2.Distance(_character.GetPosition(), player.GetPosition()) < _fieldOfView.ViewDistance)
             {
                 Vector2 targetDirection = (player.GetPosition() - _character.GetPosition()).normalized;
-                Direction dir = _character.MovementPath.GetMoveDirection();
+                Direction dir = _character.Movement.GetMoveDirection();
                 Vector2 aimDirection = DirectionHelper.DirToVector(dir);
                 if (Vector2.Angle(aimDirection, targetDirection) < _fieldOfView.Fov / 2f)
                 {
@@ -62,7 +62,7 @@ namespace game.character.ability.field_of_view
 
         private float GetStartAngle()
         {
-            var direction = _character.MovementPath.GetMoveDirection();
+            var direction = _character.Movement.GetMoveDirection();
             var vector = Utilities.ToVector3(DirectionHelper.DirToVector(direction));
             var angle = Utilities.GetAngleFromVectorFloat(vector) + _fieldOfView.Fov / 2f;
             return angle;

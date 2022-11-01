@@ -78,8 +78,8 @@ namespace game.character.characters.enemy
             var health = obj.AddComponent(typeof(Health)) as Health;
             health.Construct(enemy, null, new PlayerStats(3));
 
-            var movementPath = new MovementPath();
-            enemy.MovementPath = movementPath;
+            var movementPath = new Movement();
+            enemy.Movement = movementPath;
 
             var movementPathCalc = obj.AddComponent(typeof(TargetPathFinder)) as TargetPathFinder;
             movementPathCalc.Construct(level.Grid, movementPath);

@@ -22,7 +22,7 @@ namespace Base.Input
         public bool IsWPressed { get; set; }
         public bool IsDPressed { get; set; }
         public bool IsSPressed { get; set; }
-
+        public bool IsShiftPressed { get; set; }
         public bool IsScrollUp { get; set; }
         public int GetNumberKeyPressed()
         {

@@ -30,7 +30,7 @@ namespace game.scene.grid
         private void Update()
         {
             var grid = _levelStore.ActiveLevel.Grid;
-            var player = _playerStore.GetActivePlayer();
+            var player = _playerStore.GetCurrentPlayer();
 
             if (grid == null || player == null || !IsVisualize)
             {
@@ -86,7 +86,7 @@ namespace game.scene.grid
 
         private bool IsWithinRadius(int x, int y)
         {
-            var player = _playerStore.GetActivePlayer();
+            var player = _playerStore.GetCurrentPlayer();
 
             if (_radius == -1 || player == null)
             {

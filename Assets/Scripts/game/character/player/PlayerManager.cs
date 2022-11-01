@@ -1,5 +1,7 @@
 ﻿using game.scene;
+using game.scene.grid;
 using game.scene.level;
+using game.weapon;
 using System;
 
 namespace game.character.characters.player
@@ -14,27 +16,37 @@ namespace game.character.characters.player
 
         private LevelStore _levelStore;
 
-        public PlayerManager(PlayerFactory playerFactory, PlayerStore playerStore, LevelStore levelStore, FollowCamera camera)
+        private ScopedTileRenderer _tileRenderer;
+
+        private WeaponHandler _weaponHandler;
+
+        public PlayerManager(PlayerFactory playerFactory, PlayerStore playerStore, LevelStore levelStore, ScopedTileRenderer tileRenderer, FollowCamera camera, WeaponHandler weaponHandler)
         {
             _playerFactory = playerFactory;
             _levelStore = levelStore;
             _playerStore = playerStore;
+            _tileRenderer = tileRenderer;
+            _weaponHandler = weaponHandler;
 
             _playerStore.OnActivePlayerChange += HandleActivePlayerChange;
             _camera = camera;
         }
 
-        public void Init()
+        public void Activate()
         {
+            _tileRenderer.Show();
+            _weaponHandler.SetActive(true);
+
+
             var level = _levelStore.ActiveLevel;
             PathNode randomNode = level.Grid.GetRandomNode();
             var worldPos = level.Grid.GetWorldPosition(randomNode.X, randomNode.Y);
-            var player = _playerFactory.Create(worldPos, CharacterType.Cow, level);
+            _playerFactory.Create(worldPos, CharacterType.Cow, level);
 
-            //randomNode = level.Grid.GetRandomNode();
-            //worldPos = level.Grid.GetWorldPosition(randomNode.X, randomNode.Y);
-            //var player = _playerFactory.Create(worldPos, CharacterType.Cow, level);
-            _playerStore.SetActivePlayer(player);
+            randomNode = level.Grid.GetRandomNode();
+            worldPos = level.Grid.GetWorldPosition(randomNode.X, randomNode.Y);
+            var player = _playerFactory.Create(worldPos, CharacterType.Cow, level);
+            _playerStore.SetCurrentPlayer(player);
             //var player2 = _playerFactory.Create(new Vector3(0, 0, 0));
             //player2.GetComponent<SpriteRenderer>().material = new Material(Shader.Find("Shader Graphs/Outline Shader"));
 
@@ -44,7 +56,7 @@ namespace game.character.characters.player
 
         private void HandleActivePlayerChange(object sender, EventArgs args)
         {
-            _camera.SetTarget(_playerStore.GetActivePlayer());
+            _camera.SetTarget(_playerStore.GetCurrentPlayer());
         }
     }
 }

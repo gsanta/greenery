@@ -13,7 +13,7 @@ namespace game.character.characters.player
 
         private Dictionary<CharacterType, PlayerStats> _stats = new Dictionary<CharacterType, PlayerStats>();
 
-        private Player _activePlayer;
+        private Player _currentPlayer;
 
         public PlayerStore()
         {
@@ -37,7 +37,7 @@ namespace game.character.characters.player
 
             if (isActive)
             {
-                SetActivePlayer(player);
+                SetCurrentPlayer(player);
             }
         }
 
@@ -54,34 +54,27 @@ namespace game.character.characters.player
             }
         }
 
-        public void SetActivePlayer(Player player)
+        public void SetCurrentPlayer(Player player)
         {
-            if (player == _activePlayer)
+            if (player == _currentPlayer)
             {
                 return;
             }
 
             _players.ForEach((player) =>
             {
-                player.SetActive(false);
+                player.IsCurrentPlayer = false;
             });
 
-            player.SetActive(true);
-            _activePlayer = player;
+            player.IsCurrentPlayer = true;
+            _currentPlayer = player;
 
-            HandleActivePlayerChange();
+            HandleCurrentPlayerChange();
         }
 
-        public void DestroyActivePlayer()
+        public Player GetCurrentPlayer()
         {
-            var activePlayer = GetActivePlayer();
-            _players.Remove(activePlayer);
-            DestroyPlayer(activePlayer);
-        }
-
-        public Player GetActivePlayer()
-        {
-            return _activePlayer;
+            return _currentPlayer;
         }
 
         public void DestroyAll()
@@ -102,7 +95,7 @@ namespace game.character.characters.player
             return _stats[type];
         }
 
-        private void HandleActivePlayerChange()
+        private void HandleCurrentPlayerChange()
         {
             OnActivePlayerChange?.Invoke(this, EventArgs.Empty);
         }

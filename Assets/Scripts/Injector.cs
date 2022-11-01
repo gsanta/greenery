@@ -20,6 +20,7 @@ using game.scene.grid;
 using game.weapon;
 using Assetsgame.weapon;
 using game.character.movement;
+using Codice.CM.Interfaces;
 
 public class Injector : MonoBehaviour
 {    
@@ -139,7 +140,7 @@ public class Injector : MonoBehaviour
 
         _gunHandler = new GunHandler(playerStore, bulletPanel);
 
-        playerManager = new PlayerManager(playerFactory, playerStore, LevelStore, followCamera);
+        playerManager = new PlayerManager(playerFactory, playerStore, LevelStore, scopedTileRenderer, followCamera, weaponHandler);
         _playerSelector = new PlayerSelector(playerStore);
 
         gameManager.Construct(playerManager, panelManager, stageManager, followCamera, levelLoader);
@@ -150,11 +151,11 @@ public class Injector : MonoBehaviour
         _itemHandler = new ItemHandler(_inventoryStore, itemFactory, LevelStore);
 
         // input handlers
-        inputHandler.AddHandler(_gunHandler);
-        inputHandler.AddHandler(_itemHandler);
-        inputHandler.AddHandler(_playerSelector);
-        inputHandler.AddHandler(stageManager);
-        inputHandler.AddHandler(_weaponSelector);
+        _gunHandler.Register(inputHandler);
+        _itemHandler.Register(inputHandler);
+        _playerSelector.Register(inputHandler);
+        stageManager.Register(inputHandler);
+        _weaponSelector.Register(inputHandler);
         //inputHandler.AddHandler(new PlayerCommander(playerStore, LevelStore));
 
 

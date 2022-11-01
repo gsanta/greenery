@@ -15,7 +15,7 @@ namespace game.character.movement
 
         protected ICharacter _character;
 
-        private MovementPath _movementPath;
+        private Movement _movementPath;
 
         protected Vector2 _direction;
 
@@ -37,7 +37,7 @@ namespace game.character.movement
 
         float timeToReachTarget;
 
-        public void Construct(ICharacter character, MovementPath movementPath)
+        public void Construct(ICharacter character, Movement movementPath)
         {
             _character = character;
             _movementPath = movementPath;

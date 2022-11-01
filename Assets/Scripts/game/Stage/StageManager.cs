@@ -11,8 +11,8 @@ namespace Game.Stage
 
         public void Init()
         {
-            DeactivateAllStages();
-            ActivateStage(StageType.BuildStage);
+            //DeactivateAllStages();
+            //ActivateStage(StageType.BuildStage);
         }
 
         public void AddStageHandler(StageHandler stageHandler)
@@ -38,8 +38,8 @@ namespace Game.Stage
 
         public override void OnScroll(InputInfo inputInfo)
         {
-            var nextStage = GetNextStage();
-            ActivateStage(nextStage.Type);
+            //var nextStage = GetNextStage();
+            //ActivateStage(nextStage.Type);
         }
 
         private StageHandler GetNextStage()

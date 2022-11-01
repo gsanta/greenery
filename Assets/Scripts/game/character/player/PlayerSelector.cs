@@ -17,8 +17,8 @@ namespace game.character.player
         {
             if (inputInfo.IsTabPressed)
             {
-                var nextPlayer = _playerStore.GetNextPlayer(_playerStore.GetActivePlayer());
-                _playerStore.SetActivePlayer(nextPlayer);
+                var nextPlayer = _playerStore.GetNextPlayer(_playerStore.GetCurrentPlayer());
+                _playerStore.SetCurrentPlayer(nextPlayer);
             }
         }
     }

@@ -1,4 +1,3 @@
-using game.character.movement;
 using game.character.movement.path;
 using game.character.player;
 using game.Item;
@@ -15,20 +14,40 @@ namespace game.character.characters.player
 
         private PlayerEvents _playerEvents;
 
-        public KeyboardPathFinder MovementPathCalc { get; set; }
-
         public ItemPickup ItemPickup;
 
-        public void Construct(CharacterType playerType, PlayerStats stats, PlayerEvents playerEvents, MovementPath movementPath)
+        private bool _isCurrentPlayer;
+
+        public bool IsCurrentPlayer {
+            get => _isCurrentPlayer;
+            set
+            {
+                _isCurrentPlayer = value;
+                HandleSetCurrentPlayer();
+            } 
+        }
+
+        private void HandleSetCurrentPlayer()
+        {
+            if (_isCurrentPlayer)
+            {
+                PathFinder.Activate();
+            } else
+            {
+                PathFinder.Deactivate();
+            }
+        }
+
+        public void Construct(CharacterType playerType, PlayerStats stats, PlayerEvents playerEvents, Movement movementPath)
         {
             base.Construct();
             PlayerType = playerType;
             Stats = stats;
             _playerEvents = playerEvents;
-            MovementPath = movementPath;
+            Movement = movementPath;
 
-            MovementPath.OnTargetEnd += HandleTargetEnd;
-            MovementPath.OnTargetStart += HandleTargetStart;
+            Movement.OnTargetEnd += HandleTargetEnd;
+            Movement.OnTargetStart += HandleTargetStart;
         }
 
         private void HandleTargetStart(object sender, EventArgs e)

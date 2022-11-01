@@ -69,7 +69,7 @@ namespace game.character.state.chase
         private void UpdateTarget()
         {
             targetTime = TimerMax;
-            _targetPosition = _playerStore.GetActivePlayer().GetPosition();
+            _targetPosition = _playerStore.GetCurrentPlayer().GetPosition();
         }
         
         private bool CheckFinishState()

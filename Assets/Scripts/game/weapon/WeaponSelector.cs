@@ -21,7 +21,7 @@ namespace game.weapon
         {
             if (inputInfo.Is1Pressed || inputInfo.Is2Pressed || inputInfo.Is3Pressed)
             {
-                var weaponHolder = _playerStore.GetActivePlayer().WeaponHolder;
+                var weaponHolder = _playerStore.GetCurrentPlayer().WeaponHolder;
                 var weapon = weaponHolder.GetWeaponAt(inputInfo.GetNumberKeyPressed());
                 weaponHolder.ActivateWeapon(weapon);
 

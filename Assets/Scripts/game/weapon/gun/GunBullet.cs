@@ -31,6 +31,11 @@ namespace game.Item.bullet
 
         private void Update()
         {
+            if (_character.Movement.IsPaused)
+            {
+                return;
+            }
+
             transform.position += _shootDir * _speed * Time.deltaTime;
         }
 

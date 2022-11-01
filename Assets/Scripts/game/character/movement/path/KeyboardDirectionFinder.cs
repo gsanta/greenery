@@ -5,9 +5,9 @@ namespace game.character.movement.path
     internal class KeyboardDirectionFinder : MonoBehaviour
     {
 
-        private MovementPath _movementPath;
+        private Movement _movementPath;
 
-        public void Construct(MovementPath movementPath)
+        public void Construct(Movement movementPath)
         {
             _movementPath = movementPath;
         }

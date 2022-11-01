@@ -10,9 +10,9 @@ namespace game.character.movement
 
         private bool _flipWhenMovingRight;
 
-        private MovementPath _movementPath;
+        private Movement _movementPath;
 
-        public void Construct(bool flipWhenMovingRight, MovementPath movementPath)
+        public void Construct(bool flipWhenMovingRight, Movement movementPath)
         {
             _flipWhenMovingRight = flipWhenMovingRight;
             _movementPath = movementPath;
