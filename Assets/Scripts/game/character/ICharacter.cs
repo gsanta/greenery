@@ -8,6 +8,8 @@ namespace game.character
 {
     public abstract class ICharacter : MonoBehaviour
     {
+        [SerializeField] public Direction defaultHorizontalAnimationDirection = Direction.Left;
+
         public WeaponHolder WeaponHolder { get; private set; } = new WeaponHolder();
 
         public StateHandler States { get; private set; }

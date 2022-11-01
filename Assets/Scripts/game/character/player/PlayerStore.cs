@@ -24,6 +24,8 @@ namespace game.character.characters.player
             var cowStat = new PlayerStats(5);
             cowStat.Bullets = 3;
             _stats.Add(CharacterType.Cow, catStat);
+
+            _stats.Add(CharacterType.Player1, catStat);
         }
 
         public List<Player> GetAll()

@@ -5,6 +5,7 @@
         Cat,
         Cow,
         Beetle,
-        Bumblebee
+        Bumblebee,
+        Player1
     }
 }

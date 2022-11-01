@@ -18,6 +18,8 @@ namespace game.character.characters.player
     {
         [SerializeField] private Player playerPrefab;
 
+        [SerializeField] private Player player1Prefab;
+
         [SerializeField] private Player cowPrefab;
 
         [SerializeField] private FieldOfView fieldOfViewPrefab;
@@ -61,6 +63,9 @@ namespace game.character.characters.player
                 case CharacterType.Cow:
                     newPlayer = CreateCow(position);
                     break;
+                case CharacterType.Player1:
+                    newPlayer = CreatePlayer1(position);
+                    break;
                 default:
                     throw new ArgumentException("Player type not supported: " + playerType);
             }
@@ -88,7 +93,7 @@ namespace game.character.characters.player
             //mover.Construct(movement, level.Grid);
 
             var movementAnimation = gameObject.AddComponent(typeof(MovementAnimator)) as MovementAnimator;
-            movementAnimation.Construct(true, movementPath);
+            movementAnimation.Construct(newPlayer, movementPath);
 
             newPlayer.Construct(playerType, _playerStore.GetStat(playerType), _playerEvents, movementPath);
 
@@ -127,6 +132,14 @@ namespace game.character.characters.player
         {
             var player = Instantiate(cowPrefab, position, transform.rotation, playerList);
             player.GetComponent<Health>().Construct(player, _healthPanel, _playerStore.GetStat(CharacterType.Cow));
+
+            return player;
+        }
+
+        private Player CreatePlayer1(Vector3 position)
+        {
+            var player = Instantiate(player1Prefab, position, transform.rotation, playerList);
+            //player.GetComponent<Health>().Construct(player, _healthPanel, _playerStore.GetStat(CharacterType.Cow));
 
             return player;
         }

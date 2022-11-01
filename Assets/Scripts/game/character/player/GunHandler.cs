@@ -20,9 +20,12 @@ namespace game.character.player
 
         public override void OnClick(InputInfo inputInfo)
         {
-            var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var player = _playerStore.GetCurrentPlayer();
+            var direction = player.Movement.GetMoveDirection();
+            var playerPos = player.GetPosition();
+
             var weapon = _playerStore.GetCurrentPlayer().WeaponHolder.GetActiveWeapon();
-            weapon.OnFire(pos);
+            weapon.OnFire(playerPos + DirectionHelper.DirToVector(direction));
             _bulletPanel.SetBullets(weapon.Bullets);
         }
     }

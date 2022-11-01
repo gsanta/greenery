@@ -8,13 +8,13 @@ namespace game.character.movement
 
         private Animator _animator;
 
-        private bool _flipWhenMovingRight;
+        private ICharacter _character;
 
         private Movement _movementPath;
 
-        public void Construct(bool flipWhenMovingRight, Movement movementPath)
+        public void Construct(ICharacter character, Movement movementPath)
         {
-            _flipWhenMovingRight = flipWhenMovingRight;
+            _character = character;
             _movementPath = movementPath;
         }
 
@@ -56,16 +56,15 @@ namespace game.character.movement
                 return;
             }
 
-            if (_flipWhenMovingRight)
+            var isDefaultLeft = _character.defaultHorizontalAnimationDirection == Direction.Left;
+
+            if (_movementPath.GetMoveDirection() == Direction.Right)
             {
-                if (_movementPath.GetMoveDirection() == Direction.Right)
-                {
-                    transform.localScale = new Vector3(-1, 1, 1);
-                }
-                else
-                {
-                    transform.localScale = new Vector3(1, 1, 1);
-                }
+                transform.localScale = isDefaultLeft ? new Vector3(-1, 1, 1) : new Vector3(1, 1, 1);
+            }
+            else if (_movementPath.GetMoveDirection() == Direction.Left)
+            {
+                transform.localScale = isDefaultLeft ? new Vector3(1, 1, 1) : new Vector3(-1, 1, 1);
             }
         }
     }
