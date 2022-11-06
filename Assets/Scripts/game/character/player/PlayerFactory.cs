@@ -38,9 +38,9 @@ namespace game.character.characters.player
 
         private InputHandler _inputHandler;
 
-        PlayerEvents _playerEvents;
+        CharacterEvents _playerEvents;
 
-        public void Construct(PlayerStore playerStore, HealthPanel healthPanel, BulletPanel bulletPanel, WeaponFactory weaponFactory, FollowCamera camera, InputHandler inputHandler, PlayerEvents playerEvents)
+        public void Construct(PlayerStore playerStore, HealthPanel healthPanel, BulletPanel bulletPanel, WeaponFactory weaponFactory, FollowCamera camera, InputHandler inputHandler, CharacterEvents playerEvents)
         {
             _playerStore = playerStore;
             _healthPanel = healthPanel;
@@ -72,14 +72,14 @@ namespace game.character.characters.player
 
             var gameObject = newPlayer.gameObject;
 
-            var movementPath = new Movement();
+            var movementPath = new Movement(_playerEvents);
 
             newPlayer.Movement = movementPath;
 
-            var pathFinder = new KeyboardPathFinder(newPlayer, level, movementPath);
-            pathFinder.Register(_inputHandler);
+            //var pathFinder = new KeyboardPathFinder();
+            //pathFinder.Register(_inputHandler);
 
-            newPlayer.PathFinder = pathFinder;
+            //newPlayer.PathFinder = pathFinder;
 
             //var movementPathCalc = gameObject.AddComponent(typeof(KeyboardPathMovement)) as KeyboardDirectionMovement;
             //movementPathCalc.Construct(movementPath);
@@ -95,7 +95,7 @@ namespace game.character.characters.player
             var movementAnimation = gameObject.AddComponent(typeof(MovementAnimator)) as MovementAnimator;
             movementAnimation.Construct(newPlayer, movementPath);
 
-            newPlayer.Construct(playerType, _playerStore.GetStat(playerType), _playerEvents, movementPath);
+            newPlayer.Construct(playerType, _playerStore.GetStat(playerType), movementPath);
 
 
             //var mover = gameObject.AddComponent(typeof(KeyboardMover)) as KeyboardMover;

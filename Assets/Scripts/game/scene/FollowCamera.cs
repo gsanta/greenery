@@ -1,6 +1,6 @@
 using Assets.Scripts.game.scene;
 using Cinemachine;
-using game.character.characters.player;
+using game.character;
 using game.scene.level;
 using UnityEngine;
 
@@ -30,9 +30,9 @@ namespace game.scene
             _vcam = GetComponent<CinemachineVirtualCamera>();
         }
 
-        public void SetTarget(Player player)
+        public void SetTarget(ICharacter character)
         {
-            _vcam.Follow = player.transform;
+            _vcam.Follow = character.transform;
         }
 
         public CinemachineConfiner2D GetCameraConfiner()

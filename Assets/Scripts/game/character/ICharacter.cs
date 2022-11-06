@@ -1,7 +1,7 @@
-using game.character.movement;
+using game.character.characters.enemy;
+using game.character.characters.player;
 using game.character.movement.path;
 using game.character.state;
-using game.Common;
 using UnityEngine;
 
 namespace game.character
@@ -16,7 +16,9 @@ namespace game.character
 
         public Movement Movement { get; set; }
 
-        public Activateable PathFinder { get; set; }
+        public bool IsEnemy { get => this.GetType() == typeof(Enemy);  }
+ 
+        public bool IsPlayer { get => this.GetType() == typeof(Player);  }
 
         public void Construct()
         {

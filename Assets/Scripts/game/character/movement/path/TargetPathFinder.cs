@@ -1,10 +1,9 @@
 ﻿
 
 using game.scene.grid.path;
-using game.scene.grid;
 using UnityEngine;
 using System.Collections.Generic;
-using game.character.movement.path;
+using game.scene.level;
 
 namespace game.character.movement
 {
@@ -14,22 +13,24 @@ namespace game.character.movement
 
         private int _currentPathIndex = 0;
 
-        private PathFinding _pathFinding;
-
-        private GridGraph _gridGraph;
+        private PathFinding _pathFinding = new PathFinding();
 
         private Vector2 _targetPosition;
 
-        private Movement _movementPath;
+        private Level _level;
 
-        public bool _isTargetReached { get; private set; }
+        private ICharacter _character;
 
-        public void Construct(GridGraph gridGraph, Movement movementPath)
+        public bool _isTargetReached { get; private set; } = false;
+
+        public void SetLevel(Level level)
         {
-            _pathFinding = new PathFinding();
-            _isTargetReached = false;
-            _gridGraph = gridGraph;
-            _movementPath = movementPath;
+            _level = level;
+        }
+
+        public void SetCharacter(ICharacter character)
+        {
+            _character = character;
         }
 
         public void MoveTo(Vector2 targetPosition)
@@ -54,7 +55,7 @@ namespace game.character.movement
                 return;
             }
 
-            if (_movementPath.IsTargetReached)
+            if (_character.Movement.IsTargetReached)
             {
                 _currentPathIndex++;
                 if (_currentPathIndex >= _pathVectorList.Count)
@@ -80,7 +81,7 @@ namespace game.character.movement
             _targetPosition = targetPosition;
             _currentPathIndex = 0;
             var pathNodeList = new List<PathNode>();
-            _pathVectorList = _pathFinding.FindPath(_gridGraph, transform.position, targetPosition, out pathNodeList);
+            _pathVectorList = _pathFinding.FindPath(_level.Grid, _character.GetPosition(), targetPosition, out pathNodeList);
 
 
             if (_pathVectorList is { Count: > 1 })
@@ -93,13 +94,15 @@ namespace game.character.movement
 
         private void UpdateTarget()
         {
+            var movement = _character.Movement;
+
             var position = (Vector2)transform.position;
             var targetPosition = _pathVectorList[_currentPathIndex];
 
             var _direction = (targetPosition - position).normalized;
-            _movementPath.SetDirection(_direction);
-            _movementPath.SetDestination(targetPosition);
-            _movementPath.IsTargetReached = false;
+            movement.SetDirection(_direction);
+            movement.SetDestination(targetPosition);
+            movement.IsTargetReached = false;
         }
     }
 }

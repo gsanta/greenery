@@ -43,17 +43,26 @@ namespace game.character.characters.player
             }
         }
 
-        public Player GetNextPlayer(Player player)
+        public Player SetNextPlayer()
         {
-            var index = _players.IndexOf(player);
-
-            if (index == _players.Count - 1)
+            if (!_currentPlayer)
             {
-                return _players[0];
+                _currentPlayer = _players[0];
             } else
             {
-                return _players[index + 1];
+                var index = _players.IndexOf(_currentPlayer);
+
+                if (index == _players.Count - 1)
+                {
+                    _currentPlayer = _players[0];
+                }
+                else
+                {
+                    _currentPlayer = _players[index + 1];
+                }
             }
+
+            return _currentPlayer;
         }
 
         public void SetCurrentPlayer(Player player)

@@ -33,19 +33,19 @@ namespace game.character.characters.enemy
 
         private WeaponFactory _weaponFactory;
 
-        private GameManager _gameManager;
-
         private StateFactory _stateFactory;
+
+        private CharacterEvents _characterEvents;
 
         private EnemyDecorator[] _enemyDecorators;
 
-        public void Construct(EnemyStore enemyStore, PlayerStore playerStore, WeaponFactory weaponFactory, GameManager gameManager, StateFactory stateFactory, EnemyDecorator[] enemyDecorators)
+        public void Construct(EnemyStore enemyStore, PlayerStore playerStore, WeaponFactory weaponFactory, StateFactory stateFactory, CharacterEvents characterEvents, EnemyDecorator[] enemyDecorators)
         {
             _enemyStore = enemyStore;
             _playerStore = playerStore;
             _weaponFactory = weaponFactory;
-            _gameManager = gameManager;
             _stateFactory = stateFactory;
+            _characterEvents = characterEvents;
             _enemyDecorators = enemyDecorators;
         }
 
@@ -78,11 +78,11 @@ namespace game.character.characters.enemy
             var health = obj.AddComponent(typeof(Health)) as Health;
             health.Construct(enemy, null, new PlayerStats(3));
 
-            var movementPath = new Movement();
+            var movementPath = new Movement(_characterEvents);
             enemy.Movement = movementPath;
 
-            var movementPathCalc = obj.AddComponent(typeof(TargetPathFinder)) as TargetPathFinder;
-            movementPathCalc.Construct(level.Grid, movementPath);
+            //var movementPathCalc = obj.AddComponent(typeof(TargetPathFinder)) as TargetPathFinder;
+            //movementPathCalc.Construct();
 
             var movement = obj.AddComponent(typeof(LerpMover)) as LerpMover;
             movement.Construct(enemy, movementPath);
@@ -92,11 +92,11 @@ namespace game.character.characters.enemy
             //var mover = obj.AddComponent(typeof(PathMover)) as PathMover;
             //mover.Construct(movement, level.Grid);
 
-            enemy.Construct(_enemyStore, _playerStore, _gameManager);
+            enemy.Construct(_enemyStore, _playerStore);
 
             //var roamingState = _stateFactory.CreateRoamingState(enemy, enemy.gameObject);
             //enemy.States.AddState(roamingState, true);
-            var chasingState = _stateFactory.CreateChasingState(enemy, enemyBase, movementPathCalc);
+            var chasingState = _stateFactory.CreateChasingState(enemy, enemyBase);
             enemy.States.AddState(chasingState);
             enemy.States.SetActiveState(CharacterStateType.ChasingState);
 

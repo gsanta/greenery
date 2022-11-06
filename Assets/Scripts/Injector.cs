@@ -21,6 +21,8 @@ using game.weapon;
 using Assetsgame.weapon;
 using game.character.movement;
 using Codice.CM.Interfaces;
+using game.character.movement.path;
+using game.GamePlay;
 
 public class Injector : MonoBehaviour
 {    
@@ -65,6 +67,8 @@ public class Injector : MonoBehaviour
     [SerializeField] public EnemyFactory enemyFactory;
 
     [SerializeField] private EnemySpawner enemySpawner;
+    
+    private EnemyManager _enemyManager;
 
     [SerializeField] private FovVisualDecorator fovVisualDecorator;
 
@@ -78,11 +82,17 @@ public class Injector : MonoBehaviour
 
     private PlayerSelector _playerSelector;
 
-    private PlayerEvents _playerEvents = new PlayerEvents();
+    private CharacterEvents _playerEvents = new CharacterEvents();
 
     private MovementManager _movementManager;
 
     private GunHandler _gunHandler;
+
+    // movement
+
+    [SerializeField] TargetPathFinder targetPathFinder;
+
+    private KeyboardPathFinder _keyboardPathFinder = new KeyboardPathFinder();
 
     // Scene
     [SerializeField] public LevelLoader levelLoader;
@@ -124,9 +134,11 @@ public class Injector : MonoBehaviour
 
         followCamera.Constuct(LevelStore);
 
-        stateFactory.Construct(playerStore);
+        stateFactory.Construct(playerStore, targetPathFinder);
 
-        _movementManager = new MovementManager(_playerEvents, enemyStore);
+        _enemyManager = new EnemyManager(enemySpawner);
+
+        _movementManager = new MovementManager(_playerEvents, playerStore, enemyStore, _keyboardPathFinder, targetPathFinder, LevelStore, followCamera);
 
         // weapon
         weaponFactory.Construct(bulletFactory);
@@ -134,7 +146,7 @@ public class Injector : MonoBehaviour
         _weaponSelector = new WeaponSelector(playerStore, _weaponImageStore);
         weaponHandler.Construct(weaponImageFactory, _weaponSelector);
 
-        enemyFactory.Construct(enemyStore, playerStore, weaponFactory, gameManager, stateFactory, new EnemyDecorator[] { fovVisualDecorator, pathVisualDecorator });
+        enemyFactory.Construct(enemyStore, playerStore, weaponFactory, stateFactory, _playerEvents, new EnemyDecorator[] { fovVisualDecorator, pathVisualDecorator });
         enemySpawner.Construct(enemyFactory, enemyStore, LevelStore);
         playerFactory.Construct(playerStore, healthBar, bulletPanel, weaponFactory, followCamera, inputHandler, _playerEvents);
 
@@ -143,7 +155,7 @@ public class Injector : MonoBehaviour
         playerManager = new PlayerManager(playerFactory, playerStore, LevelStore, scopedTileRenderer, followCamera, weaponHandler);
         _playerSelector = new PlayerSelector(playerStore);
 
-        gameManager.Construct(playerManager, panelManager, stageManager, followCamera, levelLoader);
+        gameManager.Construct(playerManager, panelManager, stageManager, followCamera, levelLoader, _movementManager, _enemyManager);
 
         inventoryHandler.Construct(inventoryItemFactory, _inventoryStore, cursorHandler);
         inventoryItemFactory.Construct(_inventoryStore, cursorHandler);
@@ -156,6 +168,7 @@ public class Injector : MonoBehaviour
         _playerSelector.Register(inputHandler);
         stageManager.Register(inputHandler);
         _weaponSelector.Register(inputHandler);
+        _keyboardPathFinder.Register(inputHandler);
         //inputHandler.AddHandler(new PlayerCommander(playerStore, LevelStore));
 
 

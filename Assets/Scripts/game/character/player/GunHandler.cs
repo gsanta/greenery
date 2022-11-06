@@ -2,7 +2,6 @@
 using Base.Input;
 using game.character.characters.player;
 using gui;
-using UnityEngine;
 
 namespace game.character.player
 {

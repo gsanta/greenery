@@ -1,4 +1,5 @@
 ﻿
+using game.character.player;
 using game.character.utils;
 using System;
 using UnityEngine;
@@ -11,11 +12,9 @@ namespace game.character.movement.path
 
         private Vector2? _destination = null;
 
+        private CharacterEvents _characterEvents;
+
         protected Direction _moveDirection = Direction.Down;
-
-        public event EventHandler OnTargetEnd;
-
-        public event EventHandler OnTargetStart;
 
         private bool _isTargetReached = true;
         
@@ -25,15 +24,20 @@ namespace game.character.movement.path
                 _isTargetReached = value;
                 if (_isTargetReached)
                 {
-                    OnTargetEnd?.Invoke(this, EventArgs.Empty);
+                    _characterEvents.EmitTargetEnd();
                 } else
                 {
-                    OnTargetStart?.Invoke(this, EventArgs.Empty);
+                    _characterEvents.EmitTargetStart();
                 }
             }
         }
 
         public bool IsPaused { get; set; }
+
+        public Movement(CharacterEvents characterEvents)
+        {
+            _characterEvents = characterEvents;
+        }
 
         public Vector2 GetDirection()
         {

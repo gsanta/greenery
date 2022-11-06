@@ -25,15 +25,15 @@ namespace Game.Stage
         public void Activate()
         {
             _inputHandler.IsListenerDisabled = false;
-            _enemySpawner.IsDisabled = false;
-            _weaponHandler.SetActive(true);
+            //_enemySpawner.IsDisabled = false;
+            //_weaponHandler.SetActive(true);
         }
 
         public void Deactivate()
         {
             _inputHandler.IsListenerDisabled = true;
-            _enemySpawner.IsDisabled = true;
-            _weaponHandler.SetActive(false);
+            //_enemySpawner.IsDisabled = true;
+            //_weaponHandler.SetActive(false);
         }
     }
 }

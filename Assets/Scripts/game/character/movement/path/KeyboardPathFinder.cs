@@ -1,5 +1,4 @@
 ﻿using Base.Input;
-using game.character.characters.player;
 using game.Common;
 using game.scene.level;
 using UnityEngine;
@@ -8,17 +7,18 @@ namespace game.character.movement.path
 {
     public class KeyboardPathFinder : InputListener, Activateable
     {
-        private Player _player;
+        private ICharacter _character;
 
         private Level _level;
 
-        private Movement _movementPath;
-
-        public KeyboardPathFinder(Player player, Level level, Movement movementPath)
+        public void SetLevel(Level level)
         {
-            _player = player;
             _level = level;
-            _movementPath = movementPath;
+        }
+
+        public void SetCharacter(ICharacter character)
+        {
+            _character = character;
         }
 
         public void Activate()
@@ -33,12 +33,13 @@ namespace game.character.movement.path
 
         public override void OnKeyPressed(InputInfo inputInfo)
         {
-            if (!_movementPath.IsTargetReached)
+            var movement = _character.Movement;
+            if (!movement.IsTargetReached)
             {
                 return;
             }
 
-            var playerGridPos = _level.Grid.GetGridPosition(_player.GetPosition());
+            var playerGridPos = _level.Grid.GetGridPosition(_character.GetPosition());
             Vector2Int targetGridPos = playerGridPos.Value;
 
             Vector2 direction = default;
@@ -75,9 +76,9 @@ namespace game.character.movement.path
             {
                 var targetWorldPos = _level.Grid.GetWorldPosition(targetGridPos.x, targetGridPos.y);
 
-                _movementPath.SetDestination(targetWorldPos);
-                _movementPath.SetDirection(direction);
-                _movementPath.IsTargetReached = false;
+                movement.SetDestination(targetWorldPos);
+                movement.SetDirection(direction);
+                movement.IsTargetReached = false;
             }
 
         }

@@ -28,7 +28,7 @@ namespace game.character.characters.player
             _tileRenderer = tileRenderer;
             _weaponHandler = weaponHandler;
 
-            _playerStore.OnActivePlayerChange += HandleActivePlayerChange;
+            //_playerStore.OnActivePlayerChange += HandleActivePlayerChange;
             _camera = camera;
         }
 

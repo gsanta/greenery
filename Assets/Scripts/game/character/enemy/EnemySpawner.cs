@@ -17,7 +17,7 @@ namespace game.character.characters.enemy
 
         public Vector2 editorSpawnPos;
 
-        public bool IsDisabled { set; private get; }
+        public bool IsDisabled { set; private get; } = true;
 
         public bool IsManualSpawning { set; get; }
 
@@ -71,7 +71,7 @@ namespace game.character.characters.enemy
             StartCoroutine(Spawn(type, manualSpawnPoint.transform.position));
         }
 
-        private IEnumerator Spawn(CharacterType type, Vector3 spawnPos)
+        public IEnumerator Spawn(CharacterType type, Vector3 spawnPos)
         {
             var level = _levelStore.ActiveLevel;
 

@@ -2,6 +2,7 @@ using game.character.characters.enemy;
 using game.character.characters.player;
 using game.character.movement;
 using game.scene.grid.path;
+using System.Linq;
 using UnityEngine;
 
 namespace game.character.state.chase
@@ -48,12 +49,13 @@ namespace game.character.state.chase
                 _enemy.ShootingBehaviour.IsActive = true;
             }
 
+            UpdateTarget();
             _mover.MoveTo(_targetPosition);
-            UpdateTimer();
-            if (CheckFinishState())
-            {
-                FinishState();
-            }
+            //UpdateTimer();
+            //if (CheckFinishState())
+            //{
+            //    FinishState();
+            //}
         }
 
         private void UpdateTimer()
@@ -69,7 +71,21 @@ namespace game.character.state.chase
         private void UpdateTarget()
         {
             targetTime = TimerMax;
-            _targetPosition = _playerStore.GetCurrentPlayer().GetPosition();
+
+            Player minDistPlayer = null;
+            float minDist = float.MaxValue;
+
+            _playerStore.GetAll().ForEach(player =>
+            {
+                var newDist = Vector2.Distance(player.GetPosition(), _enemy.GetPosition());
+                if (newDist < minDist)
+                {
+                    minDistPlayer = player;
+                    minDist = newDist;
+                }
+            });
+
+            _targetPosition = minDistPlayer.GetPosition();
         }
         
         private bool CheckFinishState()

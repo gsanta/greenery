@@ -6,15 +6,9 @@ namespace game.character.movement
 {
     public class LerpMover : MonoBehaviour
     {
-        protected bool _isPaused;
-
         protected ICharacter _character;
 
-        private Movement _movementPath;
-
-        protected Vector2 _direction;
-
-        protected bool _isMoving;
+        private Movement _movement;
 
         float t;
 
@@ -24,15 +18,15 @@ namespace game.character.movement
 
         float timeToReachTarget;
 
-        public void Construct(ICharacter character, Movement movementPath)
+        public void Construct(ICharacter character, Movement movement)
         {
             _character = character;
-            _movementPath = movementPath;
+            _movement = movement;
         }
 
         private void Update()
         {
-            if (_movementPath.IsPaused)
+            if (_movement.IsPaused)
             {
                 return;
             }
@@ -44,7 +38,7 @@ namespace game.character.movement
         private void HandleMovement()
         {
 
-            if (!target.HasValue || _movementPath.IsTargetReached)
+            if (!target.HasValue || _movement.IsTargetReached)
             {
                 return;
             }
@@ -54,13 +48,13 @@ namespace game.character.movement
 
             if (t >= 1)
             {
-                _movementPath.IsTargetReached = true;
+                _movement.IsTargetReached = true;
             }
         }
 
         public void HandleDestination()
         {
-            if (!_movementPath.GetDestination().HasValue || _movementPath.GetDestination().Value == target)
+            if (!_movement.GetDestination().HasValue || _movement.GetDestination().Value == target)
             {
                 return;
             }
@@ -68,7 +62,7 @@ namespace game.character.movement
             t = 0;
             startPosition = transform.position;
             timeToReachTarget = 0.5f;
-            target = _movementPath.GetDestination();
+            target = _movement.GetDestination();
         }
     }
 }

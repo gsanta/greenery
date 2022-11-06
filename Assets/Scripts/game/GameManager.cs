@@ -1,5 +1,6 @@
 using game.character.characters.player;
-using game.character.enemy;
+using game.character.movement;
+using game.GamePlay;
 using game.scene;
 using game.scene.level;
 using Game.Stage;
@@ -22,22 +23,30 @@ namespace game
 
         private StageManager _stageManager;
 
+        private MovementManager _movementManager;
+
+        private EnemyManager _enemyManager;
+
         private bool _isGameStarted;
 
-        public void Construct(PlayerManager playerManager, PanelManager panelManager, StageManager stageManager, FollowCamera followCamera, LevelLoader levelLoader)
+        public void Construct(PlayerManager playerManager, PanelManager panelManager, StageManager stageManager, FollowCamera followCamera, LevelLoader levelLoader, MovementManager movementManager, EnemyManager enemyManager)
         {
             _playerManager = playerManager;
             _panelManager = panelManager;
             _followCamera = followCamera;
             _levelLoader = levelLoader;
             _stageManager = stageManager;
+            _movementManager = movementManager;
+            _enemyManager = enemyManager;
             _levelLoader.LevelsStartedEventHandler += HandleLevelsStarted;
         }
 
         private void HandleLevelsStarted(object sender, EventArgs args)
         {
-            _stageManager.Init();
             _playerManager.Activate();
+            _enemyManager.Activate();
+            _movementManager.Activate();
+            _stageManager.Init();
             _followCamera.Init();
             _isGameStarted = true;
         }

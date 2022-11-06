@@ -3,7 +3,7 @@ using System;
 
 namespace game.character.player
 {
-    public class PlayerEvents
+    public class CharacterEvents
     {
 
         public event EventHandler OnTargetEnd;

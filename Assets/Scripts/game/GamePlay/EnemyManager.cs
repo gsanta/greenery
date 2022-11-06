@@ -1,6 +1,6 @@
 ﻿using game.character.characters.enemy;
 
-namespace Assets.Scripts.game.GamePlay
+namespace game.GamePlay
 {
     public class EnemyManager
     {
@@ -13,7 +13,7 @@ namespace Assets.Scripts.game.GamePlay
 
         public void Activate()
         {
-            _enemySpawner.IsDisabled = false;
+            _enemySpawner.SpawnRandom();
         }
     }
 }
