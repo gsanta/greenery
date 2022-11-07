@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using game.character.ability.field_of_view;
 using game.character.ability.shoot;
 using game.character.characters.player;
+using game.scene.grid;
 using game.scene.level;
 using UnityEngine;
 
@@ -16,8 +17,6 @@ namespace game.character.characters.enemy
         
         private PlayerStore _playerStore;
 
-        private EnemyStore _enemyStore;
-
         public ShootingBehaviour ShootingBehaviour { get; private set; }
 
         // TODO: get rid of this reference
@@ -25,17 +24,12 @@ namespace game.character.characters.enemy
 
         public FieldOfView FieldOfView { get; set; }
 
-        private bool _isInitialized = false;
-
         private List<GameObject> destroyables = new();
         
-        public void Construct(EnemyStore enemyStore, PlayerStore playerStore)
+        public void Construct(PlayerStore playerStore, GridGraph grid, PlayerType playerType)
         {
-            base.Construct();
+            base.Construct(playerType, grid);
             _playerStore = playerStore;
-            _enemyStore = enemyStore;
-
-            _isInitialized = true;
         }
 
         private void Start()
@@ -44,43 +38,14 @@ namespace game.character.characters.enemy
             ShootingBehaviour = GetComponent<ShootingBehaviour>();
         }
 
-        private void Update()
-        {
-            if (!_isInitialized)
-            {
-                return;
-            }
-
-            var player = _playerStore.GetCurrentPlayer();
-            var direction = player.transform.position - transform.position;
-            direction.Normalize();
-
-            //States.ActiveState?.UpdateState();
-        }
-
         public override void Die()
         {
-            _enemyStore.Remove(this);
+            _playerStore.Remove(this);
             _animator.SetBool("isDead", true);
 
             destroyables.ForEach((destroyable) => Destroy(destroyable));
 
             Destroy(gameObject, 1);
-        }
-
-        public void  AddDestroyable(GameObject gameObject)
-        {
-            destroyables.Add(gameObject);
-        }
-
-        public List<GameObject> GetDestroyables()
-        {
-            return destroyables;
-        }
-
-        public void RemoveDestoyable(GameObject gameObject)
-        {
-            destroyables.Remove(gameObject);
         }
     }
 }

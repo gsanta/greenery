@@ -12,7 +12,7 @@ namespace game.character.movement.path
 
         private Vector2? _destination = null;
 
-        private CharacterEvents _characterEvents;
+        private ICharacter _character;
 
         protected Direction _moveDirection = Direction.Down;
 
@@ -24,19 +24,16 @@ namespace game.character.movement.path
                 _isTargetReached = value;
                 if (_isTargetReached)
                 {
-                    _characterEvents.EmitTargetEnd();
-                } else
-                {
-                    _characterEvents.EmitTargetStart();
+                    _character.States.ActiveState.ActionFinished();
                 }
             }
         }
 
         public bool IsPaused { get; set; }
 
-        public Movement(CharacterEvents characterEvents)
+        public Movement(ICharacter character)
         {
-            _characterEvents = characterEvents;
+            _character = character;
         }
 
         public Vector2 GetDirection()

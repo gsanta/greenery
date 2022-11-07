@@ -7,5 +7,7 @@ namespace game.character.state
         public void StartState();
         
         public void UpdateState();
+
+        public void ActionFinished();
     }
 }

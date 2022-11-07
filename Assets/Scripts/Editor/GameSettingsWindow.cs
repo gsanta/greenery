@@ -75,19 +75,6 @@ public class GameSettingsWindow : EditorWindow
 
     private void HandleDecoratorChange(string decoratorName, bool isOn)
     {
-        if (isOn)
-        {
-            var enemyFactory = FindObjectOfType<EnemyFactory>();
-            if (enemyFactory)
-            {
-                enemyFactory.ApplyDecorator(decoratorName);
-            }
-        }
-        else
-        {
-            var enemyFactory = FindObjectOfType<EnemyFactory>();
-            enemyFactory.RemoveDecorator(decoratorName);
-        }
     }
 
     private void RenderEnemySpawnPosition()

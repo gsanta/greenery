@@ -1,6 +1,7 @@
 using game.character.characters.enemy;
 using game.character.characters.player;
 using game.character.movement;
+using game.character.player;
 using game.scene.grid.path;
 using System.Linq;
 using UnityEngine;
@@ -19,15 +20,18 @@ namespace game.character.state.chase
         
         private TargetPathFinder _mover;
 
+        private CharacterEvents _characterEvents;
+
         private PlayerStore _playerStore;
         
         public float targetTime = TimerMax;
 
-        public void Construct(Enemy enemy, TargetPathFinder mover, PlayerStore playerStore)
+        public void Construct(Enemy enemy, TargetPathFinder mover, PlayerStore playerStore, CharacterEvents characterEvents)
         {
             _enemy = enemy;
             _mover = mover;
             _playerStore = playerStore;
+            _characterEvents = characterEvents;
             
             _enemy.States.AddState(this);
         }
@@ -72,10 +76,10 @@ namespace game.character.state.chase
         {
             targetTime = TimerMax;
 
-            Player minDistPlayer = null;
+            ICharacter minDistPlayer = null;
             float minDist = float.MaxValue;
 
-            _playerStore.GetAll().ForEach(player =>
+            _playerStore.GetAll(PlayerType.Friend).ForEach(player =>
             {
                 var newDist = Vector2.Distance(player.GetPosition(), _enemy.GetPosition());
                 if (newDist < minDist)
@@ -102,6 +106,11 @@ namespace game.character.state.chase
             _enemy.ShootingBehaviour.IsActive = true;
             _mover.FinishMovement();
             _enemy.States.SetActiveState(CharacterStateType.RoamingState);
+        }
+
+        public void ActionFinished()
+        {
+            _characterEvents.EmitTargetEnd();
         }
     }
 }

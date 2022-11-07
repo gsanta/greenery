@@ -62,7 +62,7 @@ public class EnemyDebug : MonoBehaviour {
 
         if (GUILayout.Button("Create enemy"))
         {
-            enemySpawner.SpawnAtManualPosition(selectedEnemyType);
+            enemySpawner.SpawnAtManualPosition(PlayerType.Enemy, selectedEnemyType);
         }
 
         isEnemySpawnPointOn = GUILayout.Toggle(isEnemySpawnPointOn, "Manual spawn");

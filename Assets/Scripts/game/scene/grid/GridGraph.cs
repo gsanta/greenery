@@ -56,6 +56,16 @@ namespace game.scene.grid
             }
             return _gridArray[index];
         }
+
+        public PathNode GetNodeAtWorldPos(Vector2 pos)
+        {
+            var gridPos = GetGridPosition(pos);
+            if (gridPos.HasValue)
+            {
+                return GetNode(gridPos.Value.x, gridPos.Value.y);
+            }
+            return null;
+        }
         
         public Vector3 GetWorldPosition(int x, int y, float worldZ)
         {

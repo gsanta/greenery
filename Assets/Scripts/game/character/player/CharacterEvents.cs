@@ -14,10 +14,5 @@ namespace game.character.player
         {
             OnTargetEnd?.Invoke(this, EventArgs.Empty);
         }
-        
-        public void EmitTargetStart()
-        {
-            OnTargetStart?.Invoke(this, EventArgs.Empty);
-        }
     }
 }

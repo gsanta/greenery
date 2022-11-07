@@ -1,4 +1,5 @@
-﻿using game.character.characters.enemy;
+﻿using game.character;
+using game.character.characters.enemy;
 
 namespace game.GamePlay
 {
@@ -13,7 +14,8 @@ namespace game.GamePlay
 
         public void Activate()
         {
-            _enemySpawner.SpawnRandom();
+            _enemySpawner.SpawnRandom(PlayerType.Enemy);
+            _enemySpawner.SpawnRandom(PlayerType.Neutral);
         }
     }
 }

@@ -29,7 +29,6 @@ namespace game.character.characters.enemy
 
         private PlayerStore _playerStore;
 
-        private EnemyStore _enemyStore;
 
         private WeaponFactory _weaponFactory;
 
@@ -39,9 +38,8 @@ namespace game.character.characters.enemy
 
         private EnemyDecorator[] _enemyDecorators;
 
-        public void Construct(EnemyStore enemyStore, PlayerStore playerStore, WeaponFactory weaponFactory, StateFactory stateFactory, CharacterEvents characterEvents, EnemyDecorator[] enemyDecorators)
+        public void Construct(PlayerStore playerStore, WeaponFactory weaponFactory, StateFactory stateFactory, CharacterEvents characterEvents, EnemyDecorator[] enemyDecorators)
         {
-            _enemyStore = enemyStore;
             _playerStore = playerStore;
             _weaponFactory = weaponFactory;
             _stateFactory = stateFactory;
@@ -49,7 +47,7 @@ namespace game.character.characters.enemy
             _enemyDecorators = enemyDecorators;
         }
 
-        public Enemy Create(CharacterType characterType, Vector3 pos, Level level)
+        public Enemy Create(PlayerType playerType, CharacterType characterType, Vector3 pos, Level level)
         {
             var enemyBase = Instantiate(GetPrefab(characterType), pos, transform.rotation);
             var obj = enemyBase.gameObject;
@@ -78,7 +76,7 @@ namespace game.character.characters.enemy
             var health = obj.AddComponent(typeof(Health)) as Health;
             health.Construct(enemy, null, new PlayerStats(3));
 
-            var movementPath = new Movement(_characterEvents);
+            var movementPath = new Movement(enemy);
             enemy.Movement = movementPath;
 
             //var movementPathCalc = obj.AddComponent(typeof(TargetPathFinder)) as TargetPathFinder;
@@ -92,27 +90,19 @@ namespace game.character.characters.enemy
             //var mover = obj.AddComponent(typeof(PathMover)) as PathMover;
             //mover.Construct(movement, level.Grid);
 
-            enemy.Construct(_enemyStore, _playerStore);
+            enemy.Construct(_playerStore, level.Grid, playerType);
 
             //var roamingState = _stateFactory.CreateRoamingState(enemy, enemy.gameObject);
             //enemy.States.AddState(roamingState, true);
             var chasingState = _stateFactory.CreateChasingState(enemy, enemyBase);
             enemy.States.AddState(chasingState);
-            enemy.States.SetActiveState(CharacterStateType.ChasingState);
+            enemy.States.AddState(new IdleState(_characterEvents));
+            
+            enemy.States.SetActiveState(playerType == PlayerType.Enemy ? CharacterStateType.ChasingState : CharacterStateType.Idle);
 
-            _enemyStore.Add(enemy);
+            _playerStore.Add(enemy);
 
             return enemy;
-        }
-
-        public void ApplyDecorator(string name)
-        {
-            _enemyStore.GetAll().ForEach((enemy) => Array.Find(_enemyDecorators, decorator => decorator.Name == name)?.Apply(enemy));
-        }
-
-        public void RemoveDecorator(string name)
-        {
-            _enemyStore.GetAll().ForEach((enemy) => Array.Find(_enemyDecorators, decorator => decorator.Name == name)?.Remove(enemy));
         }
 
         private GameObject GetPrefab(CharacterType characterType)

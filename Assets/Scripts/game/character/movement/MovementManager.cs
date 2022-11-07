@@ -12,8 +12,6 @@ namespace game.character.movement
 {
     public class MovementManager
     {
-        private EnemyStore _enemyStore;
-
         private PlayerStore _playerStore;
 
         private KeyboardPathFinder _keyboardPathFinder;
@@ -28,9 +26,8 @@ namespace game.character.movement
 
         private ICharacter _currentCharacter;
 
-        public MovementManager(CharacterEvents playerEvents, PlayerStore playerStore, EnemyStore enemyStore, KeyboardPathFinder keyboardPathFinder, TargetPathFinder targetPathFinder, LevelStore levelStore, FollowCamera followCamera)
+        public MovementManager(CharacterEvents playerEvents, PlayerStore playerStore, KeyboardPathFinder keyboardPathFinder, TargetPathFinder targetPathFinder, LevelStore levelStore, FollowCamera followCamera)
         {
-            _enemyStore = enemyStore;
             _playerStore = playerStore;
             _keyboardPathFinder = keyboardPathFinder;
             _targetPathFinder = targetPathFinder;
@@ -52,6 +49,8 @@ namespace game.character.movement
 
         private void HandleTargetEnd(object sender, EventArgs args)
         {
+            var node = _levelStore.ActiveLevel.Grid.GetNodeAtWorldPos(_currentCharacter.GetPosition());
+            node.character = _currentCharacter;
             UpdateCurrentCharacter();
 
             //_enemyStore.GetAll().ForEach((enemy) => enemy.Movement.IsPaused = true);
@@ -70,32 +69,31 @@ namespace game.character.movement
             _currentCharacter = remainingCharactersInTurn[0];
             remainingCharactersInTurn.Remove(_currentCharacter);
 
-            if (prevCharacter && prevCharacter.IsEnemy)
+            if (prevCharacter)
             {
                 prevCharacter.Movement.IsPaused = true;
             }
 
-            if (_currentCharacter.IsEnemy)
+            _currentCharacter = _playerStore.SetNextPlayer();
+            
+            if (_currentCharacter.PlayerType == PlayerType.Enemy || _currentCharacter.PlayerType == PlayerType.Neutral)
             {
-                _currentCharacter = _enemyStore.SetNextEnemy();
-                _currentCharacter.Movement.IsPaused = false;
                 _targetPathFinder.SetCharacter(_currentCharacter);
-                _currentCharacter.States.ActiveState.UpdateState();
             }
             else
             {
-                _currentCharacter = _playerStore.SetNextPlayer();
                 _keyboardPathFinder.SetCharacter(_currentCharacter);
                 _keyboardPathFinder.Activate();
             }
-            
+
+            _currentCharacter.Movement.IsPaused = false;
+            _currentCharacter.States.ActiveState.UpdateState();
             _followCamera.SetTarget(_currentCharacter);
         }
 
         private void SetNewTurn()
         {
             remainingCharactersInTurn.AddRange(_playerStore.GetAll());
-            remainingCharactersInTurn.AddRange(_enemyStore.GetAll());
         }
         
         private void HandleTargetStart(object sender, EventArgs args)

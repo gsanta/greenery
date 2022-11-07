@@ -1,4 +1,4 @@
-using System;
+using game.character;
 
 public class PathNode
 {
@@ -17,6 +17,8 @@ public class PathNode
     public bool IsWalkable = true;
     
     public PathNode CameFromNode;
+
+    public ICharacter character;
 
     public PathNode(int x, int y)
     {

@@ -1,6 +1,8 @@
+using game.character.characters.enemy;
 using game.character.player;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace game.character.characters.player
@@ -9,11 +11,11 @@ namespace game.character.characters.player
     {
         public event EventHandler OnActivePlayerChange;
 
-        private readonly List<Player> _players = new();
+        private readonly List<ICharacter> _players = new();
 
         private Dictionary<CharacterType, PlayerStats> _stats = new Dictionary<CharacterType, PlayerStats>();
 
-        private Player _currentPlayer;
+        private ICharacter _currentPlayer;
 
         public PlayerStore()
         {
@@ -28,12 +30,17 @@ namespace game.character.characters.player
             _stats.Add(CharacterType.Player1, catStat);
         }
 
-        public List<Player> GetAll()
+        public List<ICharacter> GetAll()
         {
             return _players;
         }
 
-        public void Add(Player player, bool isActive = false)
+        public List<ICharacter> GetAll(PlayerType playerType)
+        {
+            return _players.FindAll(player => player.PlayerType == playerType).ToList();
+        }
+
+        public void Add(ICharacter player, bool isActive = false)
         {
             _players.Add(player);
 
@@ -43,7 +50,17 @@ namespace game.character.characters.player
             }
         }
 
-        public Player SetNextPlayer()
+        public void Remove(ICharacter character)
+        {
+            _players.Remove(character);
+        }
+
+        public int Count()
+        {
+            return _players.Count;
+        }
+
+        public ICharacter SetNextPlayer()
         {
             if (!_currentPlayer)
             {
@@ -65,25 +82,19 @@ namespace game.character.characters.player
             return _currentPlayer;
         }
 
-        public void SetCurrentPlayer(Player player)
+        public void SetCurrentPlayer(ICharacter player)
         {
             if (player == _currentPlayer)
             {
                 return;
             }
 
-            _players.ForEach((player) =>
-            {
-                player.IsCurrentPlayer = false;
-            });
-
-            player.IsCurrentPlayer = true;
             _currentPlayer = player;
 
             HandleCurrentPlayerChange();
         }
 
-        public Player GetCurrentPlayer()
+        public ICharacter GetCurrentPlayer()
         {
             return _currentPlayer;
         }
@@ -92,13 +103,8 @@ namespace game.character.characters.player
         {
             foreach (var player in _players)
             {
-                DestroyPlayer(player);
+                Destroy(player.gameObject);
             }
-        }
-
-        private void DestroyPlayer(Player player)
-        {
-            Destroy(player.gameObject);
         }
 
         public PlayerStats GetStat(CharacterType type)

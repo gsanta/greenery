@@ -4,6 +4,7 @@ using game.character.ability.health;
 using game.character.movement;
 using game.character.movement.path;
 using game.character.player;
+using game.character.state;
 using game.scene;
 using game.scene.level;
 using game.tool.weapon;
@@ -38,7 +39,7 @@ namespace game.character.characters.player
 
         private InputHandler _inputHandler;
 
-        CharacterEvents _playerEvents;
+        CharacterEvents _characterEvents;
 
         public void Construct(PlayerStore playerStore, HealthPanel healthPanel, BulletPanel bulletPanel, WeaponFactory weaponFactory, FollowCamera camera, InputHandler inputHandler, CharacterEvents playerEvents)
         {
@@ -48,7 +49,7 @@ namespace game.character.characters.player
             _weaponFactory = weaponFactory;
             _camera = camera;
             _inputHandler = inputHandler;
-            _playerEvents = playerEvents;
+            _characterEvents = playerEvents;
         }
 
 
@@ -72,7 +73,7 @@ namespace game.character.characters.player
 
             var gameObject = newPlayer.gameObject;
 
-            var movementPath = new Movement(_playerEvents);
+            var movementPath = new Movement(newPlayer);
 
             newPlayer.Movement = movementPath;
 
@@ -95,7 +96,7 @@ namespace game.character.characters.player
             var movementAnimation = gameObject.AddComponent(typeof(MovementAnimator)) as MovementAnimator;
             movementAnimation.Construct(newPlayer, movementPath);
 
-            newPlayer.Construct(playerType, _playerStore.GetStat(playerType), movementPath);
+            newPlayer.Construct(playerType, _playerStore.GetStat(playerType), movementPath, level.Grid);
 
 
             //var mover = gameObject.AddComponent(typeof(KeyboardMover)) as KeyboardMover;
@@ -110,7 +111,8 @@ namespace game.character.characters.player
             newPlayer.WeaponHolder.AddWeapon(bomb);
             newPlayer.WeaponHolder.ActivateWeapon(gun);
 
-
+            newPlayer.States.AddState(new EmptyState(_characterEvents));
+            newPlayer.States.SetActiveState(CharacterStateType.Empty);
             //if (prevPlayer)
             //{
             //    prevPlayer.Stats.Bullets = prevPlayer.Weapon.Bullets;

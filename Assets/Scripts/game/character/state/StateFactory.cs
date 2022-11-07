@@ -1,6 +1,7 @@
 using game.character.characters.enemy;
 using game.character.characters.player;
 using game.character.movement;
+using game.character.player;
 using game.character.state.chase;
 using game.character.state.roam;
 using UnityEngine;
@@ -13,10 +14,13 @@ namespace game.character.state
 
         private TargetPathFinder _targetPathFinder;
 
-        public void Construct(PlayerStore playerStore, TargetPathFinder targetPathFinder)
+        private CharacterEvents _characterEvents;
+
+        public void Construct(PlayerStore playerStore, TargetPathFinder targetPathFinder, CharacterEvents characterEvents)
         {
             _playerStore = playerStore;
             _targetPathFinder = targetPathFinder;
+            _characterEvents = characterEvents;
         }
 
         public RoamingState CreateRoamingState(ICharacter character, GameObject parent)
@@ -28,7 +32,7 @@ namespace game.character.state
         public ChasingState CreateChasingState(Enemy enemy, GameObject parent)
         {
             var chasingState = enemy.gameObject.AddComponent<ChasingState>();
-            chasingState.Construct(enemy, _targetPathFinder, _playerStore);
+            chasingState.Construct(enemy, _targetPathFinder, _playerStore, _characterEvents);
             return chasingState;
         } 
     }

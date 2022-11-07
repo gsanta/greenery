@@ -65,5 +65,10 @@ namespace game.character.state.roam
                 _character.States.SetActiveState(CharacterStateType.ChasingState);
             }
         }
+
+        public void ActionFinished()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

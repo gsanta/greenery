@@ -62,8 +62,6 @@ public class Injector : MonoBehaviour
 
     // enemy
     
-    [SerializeField] private EnemyStore enemyStore;
-
     [SerializeField] public EnemyFactory enemyFactory;
 
     [SerializeField] private EnemySpawner enemySpawner;
@@ -82,7 +80,7 @@ public class Injector : MonoBehaviour
 
     private PlayerSelector _playerSelector;
 
-    private CharacterEvents _playerEvents = new CharacterEvents();
+    private CharacterEvents _characterEvents = new CharacterEvents();
 
     private MovementManager _movementManager;
 
@@ -134,11 +132,11 @@ public class Injector : MonoBehaviour
 
         followCamera.Constuct(LevelStore);
 
-        stateFactory.Construct(playerStore, targetPathFinder);
+        stateFactory.Construct(playerStore, targetPathFinder, _characterEvents);
 
         _enemyManager = new EnemyManager(enemySpawner);
 
-        _movementManager = new MovementManager(_playerEvents, playerStore, enemyStore, _keyboardPathFinder, targetPathFinder, LevelStore, followCamera);
+        _movementManager = new MovementManager(_characterEvents, playerStore, _keyboardPathFinder, targetPathFinder, LevelStore, followCamera);
 
         // weapon
         weaponFactory.Construct(bulletFactory);
@@ -146,9 +144,9 @@ public class Injector : MonoBehaviour
         _weaponSelector = new WeaponSelector(playerStore, _weaponImageStore);
         weaponHandler.Construct(weaponImageFactory, _weaponSelector);
 
-        enemyFactory.Construct(enemyStore, playerStore, weaponFactory, stateFactory, _playerEvents, new EnemyDecorator[] { fovVisualDecorator, pathVisualDecorator });
-        enemySpawner.Construct(enemyFactory, enemyStore, LevelStore);
-        playerFactory.Construct(playerStore, healthBar, bulletPanel, weaponFactory, followCamera, inputHandler, _playerEvents);
+        enemyFactory.Construct(playerStore, weaponFactory, stateFactory, _characterEvents, new EnemyDecorator[] { fovVisualDecorator, pathVisualDecorator });
+        enemySpawner.Construct(enemyFactory, playerStore, LevelStore);
+        playerFactory.Construct(playerStore, healthBar, bulletPanel, weaponFactory, followCamera, inputHandler, _characterEvents);
 
         _gunHandler = new GunHandler(playerStore, bulletPanel);
 

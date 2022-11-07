@@ -1,32 +1,20 @@
 using game.character.movement.path;
 using game.character.player;
 using game.Item;
+using game.scene.grid;
 using UnityEngine;
 
 namespace game.character.characters.player
 {
     public class Player : ICharacter
     {
-        public CharacterType PlayerType { get; private set; }
-
         public PlayerStats Stats { get; private set; }
 
         public ItemPickup ItemPickup;
 
-        private bool _isCurrentPlayer;
-
-        public bool IsCurrentPlayer {
-            get => _isCurrentPlayer;
-            set
-            {
-                _isCurrentPlayer = value;
-            } 
-        }
-
-        public void Construct(CharacterType playerType, PlayerStats stats, Movement movementPath)
+        public void Construct(CharacterType playerType, PlayerStats stats, Movement movementPath, GridGraph grid)
         {
-            base.Construct();
-            PlayerType = playerType;
+            base.Construct(PlayerType.Friend, grid);
             Stats = stats;
             Movement = movementPath;
         }

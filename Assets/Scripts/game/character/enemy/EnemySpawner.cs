@@ -1,3 +1,4 @@
+using game.character.characters.player;
 using game.scene.level;
 using System.Collections;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace game.character.characters.enemy
     {
         private EnemyFactory _enemyFactory;
 
-        private EnemyStore _enemyStore;
+        private PlayerStore _playerStore;
 
         private LevelStore _levelStore;
 
@@ -25,27 +26,27 @@ namespace game.character.characters.enemy
 
         private bool isSpawning;
 
-        public void Construct(EnemyFactory enemyFactory, EnemyStore enemyStore, LevelStore levelStore)
+        public void Construct(EnemyFactory enemyFactory, PlayerStore playerStore, LevelStore levelStore)
         {
             _enemyFactory = enemyFactory;
-            _enemyStore = enemyStore;
+            _playerStore = playerStore;
             _levelStore = levelStore;
         }
         
         private void Update()
         {
-            if (IsDisabled || _levelStore.ActiveLevel.Grid == null || IsManualSpawning || _enemyStore.Count() > 0 || isSpawning)
+            if (IsDisabled || _levelStore.ActiveLevel.Grid == null || IsManualSpawning || _playerStore.Count() > 0 || isSpawning)
             {
                 return;
             }
 
             isSpawning = true;
-            SpawnRandom();
+            SpawnRandom(PlayerType.Enemy);
         }
 
-        public void SpawnRandom() 
+        public void SpawnRandom(PlayerType playerType) 
         {
-            StartCoroutine(Spawn(GetRandomType(), GetRandomPos()));
+            StartCoroutine(Spawn(playerType, GetRandomType(), GetRandomPos()));
         }
 
         private Vector2 GetRandomPos()
@@ -66,19 +67,19 @@ namespace game.character.characters.enemy
             return types[randomIndex];
         }
 
-        public void SpawnAtManualPosition(CharacterType type)
+        public void SpawnAtManualPosition(PlayerType playerType, CharacterType type)
         {
-            StartCoroutine(Spawn(type, manualSpawnPoint.transform.position));
+            StartCoroutine(Spawn(playerType, type, manualSpawnPoint.transform.position));
         }
 
-        public IEnumerator Spawn(CharacterType type, Vector3 spawnPos)
+        public IEnumerator Spawn(PlayerType playerType, CharacterType type, Vector3 spawnPos)
         {
             var level = _levelStore.ActiveLevel;
 
             var anim = _enemyFactory.CreateSpawnAnimation(spawnPos);
             yield return new WaitForSeconds(2f);
             Destroy(anim.gameObject, 0.1f);
-            _enemyFactory.Create(type, anim.transform.position, level);
+            _enemyFactory.Create(playerType, type, anim.transform.position, level);
             isSpawning = false;
         }
     }
