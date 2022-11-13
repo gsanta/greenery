@@ -46,8 +46,10 @@ namespace game.character.movement
         {
             _currentPathIndex++;
             if (_currentPathIndex >= _pathVectorList.Count)
+
             {
-                FinishMovement();
+                ClearState();
+                _characterEvents.EmitTargetEnd();
             }
             else
             {
@@ -56,20 +58,19 @@ namespace game.character.movement
         }
 
         public void MoveTo(Vector2 targetPosition)
-        {
+        {   
             if (_targetPosition != targetPosition || _pathVectorList == null)
             {
-                FinishMovement();
+                ClearState();
                 SetTargetPosition(targetPosition);
             }
         }
 
-        public void FinishMovement()
+        public void ClearState()
         {
             _isTargetReached = true;
-            _pathVectorList = null;
+            _pathVectorList.Clear();
 
-            _characterEvents.EmitTargetEnd();
         }
 
         private void SetTargetPosition(Vector2 targetPosition)

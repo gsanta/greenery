@@ -86,10 +86,6 @@ public class Injector : MonoBehaviour
 
     private GunHandler _gunHandler;
 
-    // movement
-
-    [SerializeField] TargetMovementHandler targetPathFinder;
-
     // Scene
     [SerializeField] public LevelLoader levelLoader;
 
@@ -130,7 +126,7 @@ public class Injector : MonoBehaviour
 
         followCamera.Constuct(LevelStore);
 
-        stateFactory.Construct(playerStore, targetPathFinder, _characterEvents);
+        stateFactory.Construct(playerStore, _characterEvents);
 
         _enemyManager = new EnemyManager(enemySpawner);
 

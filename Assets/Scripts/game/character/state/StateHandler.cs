@@ -12,14 +12,20 @@ namespace game.character.state
         public void AddState(ICharacterState state)
         {
             _states.Add(state);
+            state.DeActivateState();
         }
 
         public void SetActiveState(CharacterStateType type)
         {
+            if (ActiveState != null)
+            {
+                ActiveState.DeActivateState();
+            } 
+
             var state = _states.Find((element) => element.GetStateType() == type);
 
             ActiveState = state ?? throw new InvalidOperationException("State not found: " + type);
-            ActiveState.StartState();
+            ActiveState.ActivateState();
         }
     }
 }

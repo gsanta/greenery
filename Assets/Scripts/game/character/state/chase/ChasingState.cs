@@ -2,6 +2,7 @@ using game.character.characters.enemy;
 using game.character.characters.player;
 using game.character.movement;
 using game.character.player;
+using game.Common;
 using UnityEngine;
 
 namespace game.character.state.chase
@@ -16,7 +17,7 @@ namespace game.character.state.chase
         
         private Enemy _enemy;
         
-        private TargetMovementHandler _mover;
+        private MovementHandler _mover;
 
         private CharacterEvents _characterEvents;
 
@@ -24,7 +25,7 @@ namespace game.character.state.chase
         
         public float targetTime = TimerMax;
 
-        public void Construct(Enemy enemy, TargetMovementHandler mover, PlayerStore playerStore, CharacterEvents characterEvents)
+        public void Construct(Enemy enemy, MovementHandler mover, PlayerStore playerStore, CharacterEvents characterEvents)
         {
             _enemy = enemy;
             _mover = mover;
@@ -39,7 +40,7 @@ namespace game.character.state.chase
             return StateType;
         }
 
-        public void StartState()
+        public void ActivateState()
         {
             UpdateTarget();
 
@@ -93,11 +94,10 @@ namespace game.character.state.chase
         {
             targetTime = TimerMax;
             _enemy.ShootingBehaviour.IsActive = true;
-            _mover.FinishMovement();
-            _enemy.States.SetActiveState(CharacterStateType.RoamingState);
+            //_enemy.States.SetActiveState(CharacterStateType.RoamingState);
         }
 
-        public void EndState()
+        public void DeActivateState()
         {
         }
     }

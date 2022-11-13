@@ -111,11 +111,11 @@ namespace game.character.characters.player
             newPlayer.WeaponHolder.AddWeapon(bomb);
             newPlayer.WeaponHolder.ActivateWeapon(gun);
 
-            newPlayer.States.AddState(new EmptyState(_characterEvents));
+            newPlayer.States.AddState(new IdleState(_characterEvents));
             var keyboardMovementState = new KeyboardMovementState(newPlayer, level, _characterEvents);
             keyboardMovementState.Register(_inputHandler);
             newPlayer.States.AddState(keyboardMovementState);
-            newPlayer.States.SetActiveState(CharacterStateType.Empty);
+            newPlayer.States.SetActiveState(CharacterStateType.Idle);
             //if (prevPlayer)
             //{
             //    prevPlayer.Stats.Bullets = prevPlayer.Weapon.Bullets;

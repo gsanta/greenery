@@ -32,7 +32,7 @@ namespace game.character.state.roam
             return StateType;
         }
 
-        public void StartState()
+        public void ActivateState()
         {
             _startingPosition = _character.GetPosition();
             _roamPosition = GetRoamingPosition();
@@ -49,12 +49,12 @@ namespace game.character.state.roam
             var player = _playerStore.GetCurrentPlayer();
             if (Vector2.Distance(_character.GetPosition(), player.GetPosition()) < targetRange)
             {
-                _pathMovementMethod.FinishMovement();
+                _pathMovementMethod.ClearState();
                 _character.States.SetActiveState(CharacterStateType.ChasingState);
             }
         }
 
-        public void EndState()
+        public void DeActivateState()
         {
         }
     }

@@ -12,14 +12,11 @@ namespace game.character.state
     {
         private PlayerStore _playerStore;
 
-        private TargetMovementHandler _targetPathFinder;
-
         private CharacterEvents _characterEvents;
 
-        public void Construct(PlayerStore playerStore, TargetMovementHandler targetPathFinder, CharacterEvents characterEvents)
+        public void Construct(PlayerStore playerStore, CharacterEvents characterEvents)
         {
             _playerStore = playerStore;
-            _targetPathFinder = targetPathFinder;
             _characterEvents = characterEvents;
         }
 
@@ -32,7 +29,7 @@ namespace game.character.state
         public ChasingState CreateChasingState(Enemy enemy, GameObject parent)
         {
             var chasingState = enemy.gameObject.AddComponent<ChasingState>();
-            chasingState.Construct(enemy, _targetPathFinder, _playerStore, _characterEvents);
+            //chasingState.Construct(enemy, _targetPathFinder, _playerStore, _characterEvents);
             return chasingState;
         } 
     }

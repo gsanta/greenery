@@ -16,11 +16,11 @@ namespace game.character.state
             return CharacterStateType.Idle;
         }
 
-        public void StartState()
+        public void ActivateState()
         {
         }
 
-        public void EndState()
+        public void DeActivateState()
         {
         }
     }

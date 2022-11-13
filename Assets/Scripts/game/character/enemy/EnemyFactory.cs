@@ -7,6 +7,7 @@ using game.character.movement;
 using game.character.movement.path;
 using game.character.player;
 using game.character.state;
+using game.character.state.chase;
 using game.scene.grid.path;
 using game.scene.level;
 using game.tool.weapon;
@@ -94,11 +95,14 @@ namespace game.character.characters.enemy
 
             //var roamingState = _stateFactory.CreateRoamingState(enemy, enemy.gameObject);
             //enemy.States.AddState(roamingState, true);
-            var chasingState = _stateFactory.CreateChasingState(enemy, enemyBase);
+            var chasingState = enemy.gameObject.AddComponent<ChasingState>();
+            chasingState.Construct(enemy, enemy.MovementHandler, _playerStore, _characterEvents);
+
             enemy.States.AddState(chasingState);
+            enemy.States.AddState(new PassThroughState(_characterEvents));
             enemy.States.AddState(new IdleState(_characterEvents));
             
-            enemy.States.SetActiveState(playerType == PlayerType.Enemy ? CharacterStateType.ChasingState : CharacterStateType.Idle);
+            enemy.States.SetActiveState(CharacterStateType.Idle);
 
             _playerStore.Add(enemy);
 

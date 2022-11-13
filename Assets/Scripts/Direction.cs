@@ -36,19 +36,19 @@ public static class DirectionHelper
         };
     }
     
-    public static IntPosition DirToIntDirection(Direction dir)
+    public static Vector2Int DirToVectorInt(Direction dir)
     {
         return dir switch
         {
-            Direction.Up => IntPosition.Up,
-            Direction.Right => IntPosition.Right,
-            Direction.Down => IntPosition.Down,
-            Direction.Left => IntPosition.Left,
-            Direction.LeftDown => IntPosition.LeftDown,
-            Direction.LeftUp => IntPosition.LeftUp,
-            Direction.RightDown => IntPosition.RightDown,
-            Direction.RightUp => IntPosition.RightUp,
-            _ => IntPosition.Right
+            Direction.Up => Vector2Int.up,
+            Direction.Right => Vector2Int.right,
+            Direction.Down => Vector2Int.down,
+            Direction.Left => Vector2Int.left,
+            Direction.LeftDown => new Vector2Int(-1, -1),
+            Direction.LeftUp => new Vector2Int(-1, 1),
+            Direction.RightDown => new Vector2Int(1, -1),
+            Direction.RightUp => new Vector2Int(1, 1),
+            _ => Vector2Int.right
         };
     }
 }

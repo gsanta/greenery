@@ -103,12 +103,12 @@ namespace game.character.movement.path
             return CharacterStateType.KeyboardMovement;
         }
 
-        public void StartState()
+        public void ActivateState()
         {
             IsListenerDisabled = false;
         }
 
-        public void EndState()
+        public void DeActivateState()
         {
             IsListenerDisabled = true;
         }

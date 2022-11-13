@@ -5,7 +5,7 @@ namespace game.character.state
         ChasingState,
         RoamingState,
         Idle,
-        Empty,
-        KeyboardMovement
+        KeyboardMovement,
+        PassThrough
     }
 }

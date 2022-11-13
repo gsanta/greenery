@@ -4,8 +4,8 @@ namespace game.character.state
     {
         public CharacterStateType GetStateType();
         
-        public void StartState();
+        public void ActivateState();
 
-        public void EndState();
+        public void DeActivateState();
     }
 }

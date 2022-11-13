@@ -45,59 +45,69 @@ namespace game.character.movement
 
         private Stack<MovementAction> actionStack = new();
 
+        private bool _isIdle = false;
+
         public MovementManager(CharacterEvents playerEvents, PlayerStore playerStore, LevelStore levelStore, FollowCamera followCamera)
         {
             _playerStore = playerStore;
             _levelStore = levelStore;
             _followCamera = followCamera;
-            _gridMovementHandler = new GridMovementHandler(playerEvents);
+            _gridMovementHandler = new GridMovementHandler(playerEvents, levelStore, this);
 
             playerEvents.OnTargetEnd += HandleTargetEnd;
             playerEvents.OnTargetStart += HandleTargetStart;
         }
 
-        public void Activate()
+        public void Activate() {
+            UpdateCurrentCharacter();
+        }
+
+        public void AddMovementAction(MovementAction action)
         {
-            HandleNewTurn();
-            UpdateCurrentCharacter(new MovementAction(remainingCharactersInTurn[0], null));
+            actionStack.Push(action);
         }
 
         private void HandleTargetEnd(object sender, EventArgs args)
         {
             var node = _levelStore.ActiveLevel.Grid.GetNodeAtWorldPos(_currentCharacter.GetPosition());
             node.character = _currentCharacter;
-            HandleNewTurn();
-            UpdateCurrentCharacter(new MovementAction(remainingCharactersInTurn[0], null));
-
+            UpdateCurrentCharacter();
             //_enemyStore.GetAll().ForEach((enemy) => enemy.Movement.IsPaused = true);
         }
 
-        private void UpdateCurrentCharacter(MovementAction action)
+        private void UpdateCurrentCharacter()
         {
+            _isIdle = false;
+            if (actionStack.Count == 0)
+            {
+                CreateAction();
+            }
+
+            var action = actionStack.Pop();
 
             var prevCharacter = _currentCharacter;
-            prevCharacter.States.SetActiveState(CharacterStateType.Idle);
             _currentCharacter = action.character;
-            remainingCharactersInTurn.Remove(_currentCharacter);
+
+            _playerStore.SetCurrentPlayer(_currentCharacter);
 
             if (prevCharacter)
             {
+                prevCharacter.States.SetActiveState(CharacterStateType.Idle);
                 prevCharacter.Movement.IsPaused = true;
             }
 
-            _currentCharacter = _playerStore.SetNextPlayer();
-            
             if (action.targetPosition.HasValue)
             {
+                _currentCharacter.MovementHandler.MoveTo(action.targetPosition.Value);
                 //_targetPathFinder.SetCharacter(action.character);
                 //_targetPathFinder.MoveTo(action.targetPosition.Value);
             }
             else if (_currentCharacter.PlayerType == PlayerType.Enemy)
             {
-                _currentCharacter.States.SetActiveState(CharacterStateType.ChasingState);
+                 _currentCharacter.States.SetActiveState(CharacterStateType.ChasingState);
             } else if (_currentCharacter.PlayerType == PlayerType.Neutral)
             {
-                _currentCharacter.States.SetActiveState(CharacterStateType.Idle);
+                _currentCharacter.States.SetActiveState(CharacterStateType.PassThrough);
             }
             else
             {
@@ -106,6 +116,13 @@ namespace game.character.movement
 
             _currentCharacter.Movement.IsPaused = false;
             _followCamera.SetTarget(_currentCharacter);
+        }
+
+        private void CreateAction()
+        {
+            HandleNewTurn();
+            actionStack.Push(new MovementAction(remainingCharactersInTurn[0], null));
+            remainingCharactersInTurn.Remove(remainingCharactersInTurn[0]);
         }
 
         private void HandleNewTurn()

@@ -2,25 +2,26 @@
 
 namespace game.character.state
 {
-    public class EmptyState : ICharacterState
+    public class PassThroughState : ICharacterState
     {
         private CharacterEvents _characterEvents;
 
-        public EmptyState(CharacterEvents characterEvents)
+        public PassThroughState(CharacterEvents characterEvents)
         {
             _characterEvents = characterEvents;
         }
 
         public CharacterStateType GetStateType()
         {
-            return CharacterStateType.Empty;
+            return CharacterStateType.PassThrough;
         }
 
-        public void StartState()
+        public void ActivateState()
         {
+            _characterEvents.EmitTargetEnd();
         }
 
-        public void EndState()
+        public void DeActivateState()
         {
         }
     }
