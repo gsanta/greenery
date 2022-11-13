@@ -1,6 +1,5 @@
 using game.character.characters.player;
 using game.character.movement;
-using game.scene.grid.path;
 using UnityEngine;
 
 namespace game.character.state.roam
@@ -15,11 +14,11 @@ namespace game.character.state.roam
         
         private readonly ICharacter _character;
         
-        private readonly TargetPathFinder _pathMovementMethod;
+        private readonly TargetMovementHandler _pathMovementMethod;
         
         private PlayerStore _playerStore;
 
-        public RoamingState(ICharacter character, TargetPathFinder pathMovementMethod, PlayerStore playerStore)
+        public RoamingState(ICharacter character, TargetMovementHandler pathMovementMethod, PlayerStore playerStore)
         {
             _character = character;
             _pathMovementMethod = pathMovementMethod;
@@ -39,17 +38,6 @@ namespace game.character.state.roam
             _roamPosition = GetRoamingPosition();
         }
 
-        public void UpdateState()
-        {
-            _pathMovementMethod.MoveTo(_roamPosition);
-            if (!_character.Movement.IsTargetReached)
-            {
-                _roamPosition = GetRoamingPosition();
-            }
-
-            CheckTarget();
-        }
-
         private Vector2 GetRoamingPosition()
         {
             return _startingPosition + Utilities.GetRandomDir() * Random.Range(5f, 5f);
@@ -66,9 +54,8 @@ namespace game.character.state.roam
             }
         }
 
-        public void ActionFinished()
+        public void EndState()
         {
-            throw new System.NotImplementedException();
         }
     }
 }

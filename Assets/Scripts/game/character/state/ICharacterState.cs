@@ -5,9 +5,7 @@ namespace game.character.state
         public CharacterStateType GetStateType();
         
         public void StartState();
-        
-        public void UpdateState();
 
-        public void ActionFinished();
+        public void EndState();
     }
 }

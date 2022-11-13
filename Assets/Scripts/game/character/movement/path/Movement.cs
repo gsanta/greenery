@@ -24,7 +24,7 @@ namespace game.character.movement.path
                 _isTargetReached = value;
                 if (_isTargetReached)
                 {
-                    _character.States.ActiveState.ActionFinished();
+                    _character.MovementHandler.MovementFinished();
                 }
             }
         }

@@ -12,11 +12,11 @@ namespace game.character.state
     {
         private PlayerStore _playerStore;
 
-        private TargetPathFinder _targetPathFinder;
+        private TargetMovementHandler _targetPathFinder;
 
         private CharacterEvents _characterEvents;
 
-        public void Construct(PlayerStore playerStore, TargetPathFinder targetPathFinder, CharacterEvents characterEvents)
+        public void Construct(PlayerStore playerStore, TargetMovementHandler targetPathFinder, CharacterEvents characterEvents)
         {
             _playerStore = playerStore;
             _targetPathFinder = targetPathFinder;
@@ -25,7 +25,7 @@ namespace game.character.state
 
         public RoamingState CreateRoamingState(ICharacter character, GameObject parent)
         {
-            var pathMovementMethod = parent.GetComponent<TargetPathFinder>();
+            var pathMovementMethod = parent.GetComponent<TargetMovementHandler>();
             return new RoamingState(character, pathMovementMethod, _playerStore);
         } 
         

@@ -4,10 +4,12 @@ using game.scene.grid.path;
 using UnityEngine;
 using System.Collections.Generic;
 using game.scene.level;
+using game.character.player;
+using game.Common;
 
 namespace game.character.movement
 {
-    public class TargetPathFinder : MonoBehaviour
+    public class TargetMovementHandler : MovementHandler
     {
         private List<Vector2> _pathVectorList = new();
 
@@ -21,16 +23,36 @@ namespace game.character.movement
 
         private ICharacter _character;
 
+        private CharacterEvents _characterEvents;
+
         public bool _isTargetReached { get; private set; } = false;
 
-        public void SetLevel(Level level)
-        {
-            _level = level;
-        }
-
-        public void SetCharacter(ICharacter character)
+        public TargetMovementHandler(ICharacter character, Level level, CharacterEvents characterEvents)
         {
             _character = character;
+            _level = level;
+            _characterEvents = characterEvents;
+        }
+
+        public void Activate()
+        {
+        }
+
+        public void Deactivate()
+        {
+        }
+
+        public void MovementFinished()
+        {
+            _currentPathIndex++;
+            if (_currentPathIndex >= _pathVectorList.Count)
+            {
+                FinishMovement();
+            }
+            else
+            {
+                UpdateTarget();
+            }
         }
 
         public void MoveTo(Vector2 targetPosition)
@@ -42,36 +64,12 @@ namespace game.character.movement
             }
         }
 
-        private void FixedUpdate()
-        {
-            HandleMovement();
-        }
-
-        private void HandleMovement()
-        {
-            if (_pathVectorList == null || _pathVectorList.Count == 0)
-            {
-                FinishMovement();
-                return;
-            }
-
-            if (_character.Movement.IsTargetReached)
-            {
-                _currentPathIndex++;
-                if (_currentPathIndex >= _pathVectorList.Count)
-                {
-                    FinishMovement();
-                } else
-                {
-                    UpdateTarget();
-                }
-            }
-        }
-
         public void FinishMovement()
         {
             _isTargetReached = true;
             _pathVectorList = null;
+
+            _characterEvents.EmitTargetEnd();
         }
 
         private void SetTargetPosition(Vector2 targetPosition)
@@ -96,7 +94,7 @@ namespace game.character.movement
         {
             var movement = _character.Movement;
 
-            var position = (Vector2)transform.position;
+            var position = _character.GetPosition();
             var targetPosition = _pathVectorList[_currentPathIndex];
 
             var _direction = (targetPosition - position).normalized;

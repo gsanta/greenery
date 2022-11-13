@@ -96,7 +96,7 @@ namespace game.character.characters.player
             var movementAnimation = gameObject.AddComponent(typeof(MovementAnimator)) as MovementAnimator;
             movementAnimation.Construct(newPlayer, movementPath);
 
-            newPlayer.Construct(playerType, _playerStore.GetStat(playerType), movementPath, level.Grid);
+            newPlayer.Construct(playerType, _playerStore.GetStat(playerType), movementPath, level.Grid, _characterEvents, new TargetMovementHandler(newPlayer, level, _characterEvents));
 
 
             //var mover = gameObject.AddComponent(typeof(KeyboardMover)) as KeyboardMover;
@@ -112,6 +112,9 @@ namespace game.character.characters.player
             newPlayer.WeaponHolder.ActivateWeapon(gun);
 
             newPlayer.States.AddState(new EmptyState(_characterEvents));
+            var keyboardMovementState = new KeyboardMovementState(newPlayer, level, _characterEvents);
+            keyboardMovementState.Register(_inputHandler);
+            newPlayer.States.AddState(keyboardMovementState);
             newPlayer.States.SetActiveState(CharacterStateType.Empty);
             //if (prevPlayer)
             //{

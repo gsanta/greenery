@@ -2,8 +2,6 @@ using game.character.characters.enemy;
 using game.character.characters.player;
 using game.character.movement;
 using game.character.player;
-using game.scene.grid.path;
-using System.Linq;
 using UnityEngine;
 
 namespace game.character.state.chase
@@ -18,7 +16,7 @@ namespace game.character.state.chase
         
         private Enemy _enemy;
         
-        private TargetPathFinder _mover;
+        private TargetMovementHandler _mover;
 
         private CharacterEvents _characterEvents;
 
@@ -26,7 +24,7 @@ namespace game.character.state.chase
         
         public float targetTime = TimerMax;
 
-        public void Construct(Enemy enemy, TargetPathFinder mover, PlayerStore playerStore, CharacterEvents characterEvents)
+        public void Construct(Enemy enemy, TargetMovementHandler mover, PlayerStore playerStore, CharacterEvents characterEvents)
         {
             _enemy = enemy;
             _mover = mover;
@@ -44,22 +42,13 @@ namespace game.character.state.chase
         public void StartState()
         {
             UpdateTarget();
-        }
-        
-        public void UpdateState()
-        {
+
             if (_enemy.ShootingBehaviour != null && !_enemy.ShootingBehaviour.IsActive)
             {
                 _enemy.ShootingBehaviour.IsActive = true;
             }
 
-            UpdateTarget();
             _mover.MoveTo(_targetPosition);
-            //UpdateTimer();
-            //if (CheckFinishState())
-            //{
-            //    FinishState();
-            //}
         }
 
         private void UpdateTimer()
@@ -108,9 +97,8 @@ namespace game.character.state.chase
             _enemy.States.SetActiveState(CharacterStateType.RoamingState);
         }
 
-        public void ActionFinished()
+        public void EndState()
         {
-            _characterEvents.EmitTargetEnd();
         }
     }
 }

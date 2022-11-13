@@ -88,9 +88,7 @@ public class Injector : MonoBehaviour
 
     // movement
 
-    [SerializeField] TargetPathFinder targetPathFinder;
-
-    private KeyboardPathFinder _keyboardPathFinder = new KeyboardPathFinder();
+    [SerializeField] TargetMovementHandler targetPathFinder;
 
     // Scene
     [SerializeField] public LevelLoader levelLoader;
@@ -136,7 +134,7 @@ public class Injector : MonoBehaviour
 
         _enemyManager = new EnemyManager(enemySpawner);
 
-        _movementManager = new MovementManager(_characterEvents, playerStore, _keyboardPathFinder, targetPathFinder, LevelStore, followCamera);
+        _movementManager = new MovementManager(_characterEvents, playerStore, LevelStore, followCamera);
 
         // weapon
         weaponFactory.Construct(bulletFactory);
@@ -166,7 +164,6 @@ public class Injector : MonoBehaviour
         _playerSelector.Register(inputHandler);
         stageManager.Register(inputHandler);
         _weaponSelector.Register(inputHandler);
-        _keyboardPathFinder.Register(inputHandler);
         //inputHandler.AddHandler(new PlayerCommander(playerStore, LevelStore));
 
 

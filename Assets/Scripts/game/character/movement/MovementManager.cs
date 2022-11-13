@@ -1,22 +1,37 @@
 ﻿
-using game.character.characters.enemy;
 using game.character.characters.player;
 using game.character.movement.path;
 using game.character.player;
+using game.character.state;
 using game.scene;
 using game.scene.level;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace game.character.movement
 {
+    public struct MovementAction
+    {
+        public ICharacter character;
+
+        public Vector2? targetPosition;
+
+        public MovementAction(ICharacter character, Vector2? targetPosition)
+        {
+            this.character = character;
+            this.targetPosition = targetPosition;
+        }
+
+        public void Execute()
+        {
+
+        }
+    }
+
     public class MovementManager
     {
         private PlayerStore _playerStore;
-
-        private KeyboardPathFinder _keyboardPathFinder;
-
-        private TargetPathFinder _targetPathFinder;
 
         private LevelStore _levelStore;
 
@@ -26,13 +41,16 @@ namespace game.character.movement
 
         private ICharacter _currentCharacter;
 
-        public MovementManager(CharacterEvents playerEvents, PlayerStore playerStore, KeyboardPathFinder keyboardPathFinder, TargetPathFinder targetPathFinder, LevelStore levelStore, FollowCamera followCamera)
+        private GridMovementHandler _gridMovementHandler;
+
+        private Stack<MovementAction> actionStack = new();
+
+        public MovementManager(CharacterEvents playerEvents, PlayerStore playerStore, LevelStore levelStore, FollowCamera followCamera)
         {
             _playerStore = playerStore;
-            _keyboardPathFinder = keyboardPathFinder;
-            _targetPathFinder = targetPathFinder;
             _levelStore = levelStore;
             _followCamera = followCamera;
+            _gridMovementHandler = new GridMovementHandler(playerEvents);
 
             playerEvents.OnTargetEnd += HandleTargetEnd;
             playerEvents.OnTargetStart += HandleTargetStart;
@@ -40,33 +58,26 @@ namespace game.character.movement
 
         public void Activate()
         {
-            _keyboardPathFinder.SetLevel(_levelStore.ActiveLevel);
-            _targetPathFinder.SetLevel(_levelStore.ActiveLevel);
-
-            SetNewTurn();
-            UpdateCurrentCharacter();
+            HandleNewTurn();
+            UpdateCurrentCharacter(new MovementAction(remainingCharactersInTurn[0], null));
         }
 
         private void HandleTargetEnd(object sender, EventArgs args)
         {
             var node = _levelStore.ActiveLevel.Grid.GetNodeAtWorldPos(_currentCharacter.GetPosition());
             node.character = _currentCharacter;
-            UpdateCurrentCharacter();
+            HandleNewTurn();
+            UpdateCurrentCharacter(new MovementAction(remainingCharactersInTurn[0], null));
 
             //_enemyStore.GetAll().ForEach((enemy) => enemy.Movement.IsPaused = true);
         }
 
-        private void UpdateCurrentCharacter()
+        private void UpdateCurrentCharacter(MovementAction action)
         {
-            if (remainingCharactersInTurn.Count == 0)
-            {
-                SetNewTurn();
-            }
-
-            _keyboardPathFinder.Deactivate();
 
             var prevCharacter = _currentCharacter;
-            _currentCharacter = remainingCharactersInTurn[0];
+            prevCharacter.States.SetActiveState(CharacterStateType.Idle);
+            _currentCharacter = action.character;
             remainingCharactersInTurn.Remove(_currentCharacter);
 
             if (prevCharacter)
@@ -76,24 +87,33 @@ namespace game.character.movement
 
             _currentCharacter = _playerStore.SetNextPlayer();
             
-            if (_currentCharacter.PlayerType == PlayerType.Enemy || _currentCharacter.PlayerType == PlayerType.Neutral)
+            if (action.targetPosition.HasValue)
             {
-                _targetPathFinder.SetCharacter(_currentCharacter);
+                //_targetPathFinder.SetCharacter(action.character);
+                //_targetPathFinder.MoveTo(action.targetPosition.Value);
+            }
+            else if (_currentCharacter.PlayerType == PlayerType.Enemy)
+            {
+                _currentCharacter.States.SetActiveState(CharacterStateType.ChasingState);
+            } else if (_currentCharacter.PlayerType == PlayerType.Neutral)
+            {
+                _currentCharacter.States.SetActiveState(CharacterStateType.Idle);
             }
             else
             {
-                _keyboardPathFinder.SetCharacter(_currentCharacter);
-                _keyboardPathFinder.Activate();
+                _currentCharacter.States.SetActiveState(CharacterStateType.KeyboardMovement);
             }
 
             _currentCharacter.Movement.IsPaused = false;
-            _currentCharacter.States.ActiveState.UpdateState();
             _followCamera.SetTarget(_currentCharacter);
         }
 
-        private void SetNewTurn()
+        private void HandleNewTurn()
         {
-            remainingCharactersInTurn.AddRange(_playerStore.GetAll());
+            if (remainingCharactersInTurn.Count == 0)
+            {
+                remainingCharactersInTurn.AddRange(_playerStore.GetAll());
+            }
         }
         
         private void HandleTargetStart(object sender, EventArgs args)

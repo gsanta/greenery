@@ -1,9 +1,11 @@
 ﻿namespace game.Common
 {
-    public interface Activateable
+    public interface MovementHandler
     {
         void Activate();
 
         void Deactivate();
+
+        void MovementFinished();
     }
 }

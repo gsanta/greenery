@@ -11,11 +11,6 @@ namespace game.character.state
             _characterEvents = characterEvents;
         }
 
-        public void ActionFinished()
-        {
-            _characterEvents.EmitTargetEnd();
-        }
-
         public CharacterStateType GetStateType()
         {
             return CharacterStateType.Idle;
@@ -25,9 +20,8 @@ namespace game.character.state
         {
         }
 
-        public void UpdateState()
+        public void EndState()
         {
-            ActionFinished();
         }
     }
 }

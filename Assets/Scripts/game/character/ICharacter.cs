@@ -1,10 +1,11 @@
-using game.character.characters.enemy;
-using game.character.characters.player;
 using game.character.movement.path;
+using game.character.player;
 using game.character.state;
+using game.Common;
 using game.scene.grid;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace game.character
 {
@@ -22,13 +23,22 @@ namespace game.character
 
         public GridGraph Grid { get; private set; }
 
+        public MovementHandler MovementHandler;
+        
         private List<GameObject> destroyables = new();
 
-        public void Construct(PlayerType playerType, GridGraph grid)
+        private PathNode _pathNode;
+
+        private CharacterEvents _characterEvents;
+
+        public void Construct(PlayerType playerType, GridGraph grid, CharacterEvents characterEvents, MovementHandler movementHandler)
         {
             Grid = grid;
             PlayerType = playerType;
             States = new StateHandler();
+
+            _characterEvents = characterEvents;
+            MovementHandler = movementHandler;
         }
 
         public virtual void Die() {}
@@ -60,6 +70,16 @@ namespace game.character
             if (Movement.IsPaused)
             {
                 return;
+            }
+
+            var pathNode = Grid.GetNodeAtWorldPos(GetPosition());
+
+            if (_pathNode != pathNode)
+            {
+                var oldPathNode = _pathNode;
+                _pathNode = pathNode;
+
+                _characterEvents.EmitGridChange(this, oldPathNode, _pathNode);
             }
 
             Grid.GetNodeAtWorldPos(GetPosition()).character = this;

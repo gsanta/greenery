@@ -1,15 +1,25 @@
 ﻿using Base.Input;
-using game.Common;
+using game.character.player;
+using game.character.state;
 using game.scene.level;
 using UnityEngine;
 
 namespace game.character.movement.path
 {
-    public class KeyboardPathFinder : InputListener, Activateable
+    public class KeyboardMovementState : InputListener, ICharacterState
     {
         private ICharacter _character;
 
         private Level _level;
+
+        private CharacterEvents _characterEvents;
+
+        public KeyboardMovementState(ICharacter character, Level level, CharacterEvents characterEvents)
+        {
+            _character = character;
+            _level = level;
+            _characterEvents = characterEvents;
+        }
 
         public void SetLevel(Level level)
         {
@@ -83,5 +93,24 @@ namespace game.character.movement.path
 
         }
 
+        public void MovementFinished()
+        {
+            _characterEvents.EmitTargetEnd();
+        }
+
+        public CharacterStateType GetStateType()
+        {
+            return CharacterStateType.KeyboardMovement;
+        }
+
+        public void StartState()
+        {
+            IsListenerDisabled = false;
+        }
+
+        public void EndState()
+        {
+            IsListenerDisabled = true;
+        }
     }
 }

@@ -90,7 +90,7 @@ namespace game.character.characters.enemy
             //var mover = obj.AddComponent(typeof(PathMover)) as PathMover;
             //mover.Construct(movement, level.Grid);
 
-            enemy.Construct(_playerStore, level.Grid, playerType);
+            enemy.Construct(_playerStore, level.Grid, playerType, _characterEvents, new TargetMovementHandler(enemy, level, _characterEvents));
 
             //var roamingState = _stateFactory.CreateRoamingState(enemy, enemy.gameObject);
             //enemy.States.AddState(roamingState, true);
